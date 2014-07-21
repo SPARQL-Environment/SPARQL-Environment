@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8"/>
+		<title>SPARQL Environment</title>
+		<meta name="copyright" content="2014 W.S. Blackwell, W.S. Catron, S. Hill MIT"/>
+		
+		<!-- Online Environment Dependencies -->
+		<!-- jQuery and jQuery UI -->
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js" ></script>
+	    <link rel="stylesheet" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/themes/smoothness/jquery-ui.css" />
+	   	<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
+				
+		<!-- Local Environment Files -->
+		<link rel="stylesheet" href="css/default.css" /> <!-- Default Theme -->
+		<script type="text/javascript" src="js/default.js"> </script>
+		<script type="text/javascript" src="js/jquery.fullscreen.js"> </script>
+		<script type="text/javascript" src="js/jquery.sparql.js"> </script>
+		
+	</head>
+	<body>
+		<div id="menu">
+		<div id="menu-tools">
+			<div id='menu-datasets'><span id="datasets-icon" class="icons">&#xf1c0;</span><span class='name'>Datasets</span></div>
+		</div>
+			<div id="menu-title">SPARQL Environment</div>
+		<div id='menu-window'>
+			<a class='icons selected' id='window-equal' href='javascript:environment.equalizeInputsOutputs()'><div>&#xe602;</div></a>
+			<a class='icons' id='window-output' href='javascript:environment.maximizeOutputs()'><div>&#xe600;</div></a>
+			<a class='icons' id='window-input' href='javascript:environment.maximizeInputs()'><div>&#xe601;</div></a>
+			<a class='icons' id='window-input' href='javascript:environment.rotateDatasetViews()'>&#xf01e;</a>
+			<a class="icons" id='fullScreen'>&#xf065;</a></div></div>
+		<div id="workspace">
+			<div id="datasets">
+				<div class="panel-menu">
+					<span id="datasets-icon" class="icons">&#xf1c0;</span> Datasets
+					<a class="icons panel-menu-tools" title="Export configuration" id="export-config-button">&#xf01b;</a>
+					<a class="icons panel-menu-tools" title="Import configuration" id="import-config-button">&#xf01a;</a>
+				</div>
+				<div class="panel-list">
+					<ul>
+						<li>botcar</li>
+						<li>folio</li>
+						<li>cts</li>
+					</ul>
+					<div id='import-config-file'>Drag Config File Here<a id="import-config-file-hide">Hide</a></div>
+				</div>
+			</div>
+			<div id="data-area">
+				<div id="data-input">
+					<div class="panel-menu">
+						
+						<div class="panel-menu-tabs">
+						</div>
+						<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a>
+						<a class="icons panel-menu-tools" title="Save Query" href="">&#xf0c7;</a>
+					</div>
+					<div id="inputs">
+						
+					</div>
+				</div>
+				<div id="data-output">
+					<div id="data-output-history">
+						<div class="panel-menu">
+							<span id="datasets-icon" class="icons">&#xf1da;</span> History
+							<a href="javascript:environment.clearHistory();" class="icons panel-menu-tools" title="Clear History" href="">&#xf014;</a>
+						</div>
+						<ul>
+						</ul>
+					</div>
+					<div id="data-output-results">
+						<div class="panel-menu">
+							<div class="panel-menu-tabs">
+							</div>
+							<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a>
+						</div>
+						<div id="outputs">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="detail">
+				<div class="panel-menu">
+					<span id="datasets-icon" class="icons">&#xf05a;</span> Detail Panel
+					<a class="icons panel-menu-tools" title="Help" href="">&#xf128;</a>
+				</div>
+				<div class='content'>
+					
+				</div>
+			</div>
+		</div>
+		<div id="config-editor">
+			<div class="panel-menu">
+				<span id="datasets-icon" class="icons">&#xf05a;</span> Edit Configuration
+				<a class="icons panel-menu-tools" title="Help" href="">&#xf128;</a>
+			</div>
+			<input type='text' value='' placeholder="Name of dataset" id='config_editor_name' /><br/>
+			<input type='text' value='' placeholder="Description of dataset" id='config_editor_description' /><br/>
+			<input type='text' value='' placeholder="Source node for dataset" id='config_editor_source' /><br/>
+			<div>
+			<ul id="config_editor_prefixes">
+				<li><input type="text" placeholder="Prefix Key" value="prefix-key" /><input type="text" value="prefix-value" placeholder="Prefix Value"></li>
+			</ul>
+				<div id="config_editor_prefixes_add" class='icons'>&#xf055;</div>
+			</div>
+			<a class='btn' href='javascript:environment.saveDataset();'>Save</a> | <a class='btn' href='javascript:environment.editor.close();'>Cancel</a> | <a class='btn' href='javascript:environment.deleteDataset();'>Delete</a>
+		</div>
+	</body>
+</html>

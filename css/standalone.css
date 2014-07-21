@@ -1,0 +1,16 @@
+#datasets {
+	display: none;
+}
+
+#menu {
+	display: none;
+}
+
+#workspace {
+	top: 0px;
+	height: 100%;
+}
+
+#data-area {
+	width:80%;
+}

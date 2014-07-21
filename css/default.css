@@ -1,0 +1,403 @@
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700);
+@import url(http://fonts.googleapis.com/css?family=Cutive+Mono:400,600);
+
+body {
+	margin:0px;
+	background:#EEEEEE;
+	font-family: 'Open Sans', sans-serif;
+}
+a {
+	text-decoration:none;
+}
+
+a:hover {
+	color:#666;
+	cursor: pointer;
+}
+
+#menu {
+	width:calc(100% - 16px);
+	height:20px;
+	/*background:#C1CFE4;*/
+	background: #F9F9F9; /* Old browsers */
+	margin:0px;
+	padding:8px;
+	border-bottom:1px solid #999;
+	font-size:16px;
+	position:fixed;
+}
+
+#menu-tools {
+	float:left;
+	width:25%;
+}
+
+#menu-tools #menu-datasets .name {
+	font-size:12px;
+	margin-left: 5px;
+}
+
+#menu-title {
+	float:left;
+	width:50%;
+	text-align: center;
+}
+
+#menu-window {
+	float: right;
+	border: 1px solid #CCC;
+	border-radius: 5px;
+	position: fixed;
+	top: 6px;
+	right: 6px;
+	background:#EEE;
+	overflow:hidden;
+}
+
+#menu-window.rotate div {  
+  -webkit-transform:rotate(270deg);
+  -moz-transform:rotate(270deg);
+  -o-transform:rotate(270deg);
+  /* filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=1.5); */
+  -ms-transform:rotate(270deg);   
+}
+
+#menu-window a {
+	border-right:1px solid #CCC;
+	height: 17px;
+	float: left;
+	padding: 2px;
+	color:#555;
+}
+#menu-window a:hover {
+	color:#333;
+}
+
+#menu-window .selected {
+	background:#CCC;
+}
+
+#menu-window a:last-child {
+	border-right:0px;
+}
+
+
+#workspace {
+	width:100%;
+	height: calc( 100% - 37px );
+	position: fixed;
+	top:37px;
+}
+
+#datasets {
+	width:20%;
+	background: #FFF;
+	height: 100%;
+	float: left;
+	overflow: scroll;
+	z-index: 0;
+	background:#F3F5FA;
+	position:absolute;
+	left:0%;
+}
+
+#datasets-icon {
+	color:#999;
+}
+
+#datasets ul {
+	margin: 0px;
+	padding: 0px;
+	font-size: 14px;
+}
+
+#datasets .panel-list li {
+	cursor: pointer;
+}
+
+#datasets .panel-list li .edit {
+	float:right;
+	font-size:12px;
+	font-weight:bold;
+	opacity:0.5;
+	margin-right:5px;
+}
+
+#datasets .panel-list .selected {
+	background:#CCC;
+}
+
+#import-config-file {
+	padding: 10px;
+	margin: 5px;
+	border: 1px dashed #666;
+	border-radius: 5px;
+	font-size: 16px;
+}
+
+#import-config-file-hide {
+	float: right;
+	font-weight: bold;
+	font-size: 12px;
+	opacity: .25;
+	margin-top: -2px;
+	
+}
+
+#config-editor {
+	position: absolute;
+	background: #FFF;
+	border: 1px solid #CCC;
+	border-radius: 5px;
+	top:100%; /* 10% when open */
+	height: 0%; /* 60% when open */
+	left: 28%;
+	width: 40%;
+	padding: 2%;
+	display: none; /* remove this when editing is actually working. This is a hack to make sure it's functional. */
+}
+
+.panel-list li {
+	padding-top:3px;
+	padding-left:4px;
+	padding-bottom: 3px;
+}
+
+#data-area {
+	width: 60%;
+	float: left;
+	height: 100%;
+	border-right: 1px solid #AAA;
+	margin-right:-1px;
+	border-left: 1px solid #AAA;
+	margin-left:-1px;
+	z-index: 1;
+	position:absolute;
+	left:20%;
+	background:#FFF;
+}
+
+#data-input {
+	width: 100%;
+	height: 50%;
+	
+	background:inherit;
+	
+}
+
+#inputs {
+	height: calc(100% - 24px);
+	overflow:hidden;
+}
+
+.plugin-in {
+	height:100%;
+}
+
+#inputs-text {
+	height: 100%;
+}
+
+#data-output {
+	width: 100%;
+	height: 50%;
+	position: absolute;
+	background:inherit;
+}
+#data-output-history {
+	width: calc(25% - 1px);
+	height: 100%;
+	border-right:1px solid #CCC;
+	overflow: scroll;
+	float: left;
+}
+
+#data-output-history ul {
+	height: calc(100% - 25px);
+	overflow: scroll;
+}
+
+#data-output-results {
+	width: 75%;
+	float: right;
+	height:100%;
+}
+
+#detail {
+	width:20%;
+	float: right;
+	z-index: 0;
+}
+
+.panel-menu {
+	width: calc(100% - 8px);
+	height: 16px;
+	border-bottom: 1px solid #BBB;
+	padding:4px;
+	font-size: 12px;
+	font-weight:600;
+}
+
+.panel-menu-title {
+	float:left;
+}
+
+.panel-menu-tabs {
+	margin-left:-4px;
+	float:left;
+}
+
+.panel-menu-tabs a {
+	border-left: 1px solid #CCC;
+	margin-top: -4px;
+	margin-bottom: -4px;
+	padding-bottom: 4px;
+	padding-top: 3px;
+	padding-right: 4px;
+	padding-left: 4px;
+	font-size: 12px;
+	float:left;
+	color:#999;
+}
+
+.panel-menu-tabs .selected {
+	background:#FFF;
+	color:#000;
+}
+
+.panel-menu-tabs a:last-child {
+	border-right: 1px solid #CCC;
+}
+.panel-menu-tabs a:first-child {
+	border-left: none;
+}
+
+#data-output .panel-menu {
+	background:#EEE;
+}
+
+.panel-menu a {
+	color:#000;
+}
+.panel-menu a:hover {
+	color:#999;
+}
+
+#suggestion {
+	position:absolute;
+	width:25%;
+	height:calc(100% - 33px);
+	border-left:1px solid #CCC;
+	background:#DDD;
+	right:0px;
+	top:33px;
+}
+
+#output {
+	background: #DDD;
+	border-top: 1px solid #CCC;
+	height: 50%;
+	overflow: scroll;
+	position: absolute;
+	width:75%;
+	bottom:0px;
+}
+
+#outputs {
+	height: calc(100% - 25px);
+	overflow:hidden;
+}
+
+.plugin-out {
+	height:100%;
+	width:100%;
+}
+
+/* icons */
+
+@font-face {
+  font-family: 'FontAwesome';
+  src: url('fontawesome-webfont.eot');
+  src: url('fontawesome-webfont.eot') format('embedded-opentype'),
+  url('fontawesome-webfont.woff') format('woff'),
+  url('fontawesome-webfont.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'EnvironmentIcons';
+  src: url('icomoon.eot');
+  src: url('icomoon.eot') format('embedded-opentype'),
+  url('icomoon.woff') format('woff'),
+  url('icomoon.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+.icons {
+	font-family: FontAwesome, EnvironmentIcons;
+	font-weight: normal;
+	font-size: 16px;
+}
+
+.panel-menu-tools {	
+	float: right;
+	margin-left:4px;
+	font-weight: normal;
+}
+
+#datasets .panel-list li:before {	
+	font-size: 16px;
+	color: #333;
+	margin-left:4px;
+	margin-right:4px;
+	font-weight: normal;
+	content:'\f085';
+	font-family:FontAwesome;
+}
+
+#import-config-url {
+	width:calc(100% - 75px);
+}
+#import-config-btn {
+	width:40px;
+	float:right;
+}
+
+/* history */
+
+#data-output-history li {
+	border-bottom: 1px solid #CCC;
+	font-size:12px;
+	padding:2px;
+	font-family:"Cutive Mono";
+	word-wrap: break-word;
+}
+
+#data-output-history ul {
+	margin:0px;
+	padding:0px;
+}
+/* Plugin default Elements */
+
+#data-area .plugin-column {
+	height: 100%;
+	overflow: scroll;
+	width: 30%;
+	border-right:1px solid #CCC;
+	float: left;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+#data-area .plugin-column li {
+	display: block;
+	font-size:12px;
+	padding-left: 4px;
+	cursor:pointer;
+}
+
+#data-area .plugin-column .selected {
+	background:#EEE;
+}
