@@ -51,7 +51,7 @@ The right side bar contains the details panel. This bar is currently being figur
 
 ## Plugins
 
-Plugins for SPARQL Environment are called SparqPlugs. Clever, we know. This gives us a namespace from which to operate. File which being with *"sparqplug."* depict plugins for the SPARQL Environment. We hope this allows developers to create and share sparqplugs more effeciently. However so we can sound like normal people we will discribe the as plugins within the context of the SPARQL Environment. 
+Plugins for SPARQL Environment are called SparqPlugs. Clever, we know. This gives us a namespace from which to operate. Files which begin with *"sparqplug."* depict plugins for the SPARQL Environment. We hope this will allow developers to create and share sparqplugs more effeciently. However, so we can sound like normal people we will discribe them as plugins within the context of the SPARQL Environment. 
 
 Plugins are either agnostic (data independent) or specific (data dependent) and should be labeled clearly which they are. Examples of agnostic plugins are the "Text Query Editor" which is a sophisticated query editor and the "JSON Viewer". Both of these plugins will work with any dataset thier given.
 
