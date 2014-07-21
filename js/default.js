@@ -1,53 +1,8 @@
 $(document).ready(function (){
-	
 	environment.load();
 	environment.displayConfigs();
 	environment.setupMinimizing();
-	if (environment.currentDataset != null && environment.currentDataset != "") {
-		environment.loadDataset(environment.currentDataset);
-	}	
-	
-	$('#import-config-button').click(function (){
-	    // Setup the dnd listeners.
-		// Check for the various File API support.
-		if (window.File && window.FileReader && window.FileList && window.Blob) {
-			//New Way
-			$("#import-config-file").show();
-			//$('#datasets .panel-list').prepend("");
-		    var dropZone = document.getElementById('import-config-file');
-		    dropZone.addEventListener('dragover', handleDragOver, false);
-		    dropZone.addEventListener('drop', handleFileSelect, false);
-		  //do your stuff!
-		} else {
-			//Old Way
-			$('#datasets .panel-list ul').append("<li id='import-config'><input id='import-config-url' type='text' placeholder='URL to Config File' /><input id='import-config-btn' type='submit' value='Add'></li>");
-			$('#import-config-btn').click(function () {
-				environment.importConfigFromURL($('#import-config-url').val());
-				$("#import-config").remove();
-			});
-		}
-	});
-	
-	
-	$('#datasets').data('open', false);
-	
-	$('#menu-datasets').click(function () {
-		if ($('#datasets').data('open')) {
-			environment.hideDatasets();
-			$('#datasets').data('open', false);
-		} else {
-			environment.showDatasets();
-			$('#datasets').data('open', true);
-		}
-		
-	});
-	
-	// The plugin sets the $.support.fullscreen flag:
-	if($.support.fullscreen){
-	    $('#fullScreen').click(function(e){
-	        $('body').fullScreen();
-	    });
-	}
+	environment.loadImportMethods();
 });
 
 // Local Storage loading and saving.
@@ -76,6 +31,10 @@ environment.load = function () {
 	
 	environment.latestQuery = "";
 	environment.latestResults = {};
+	
+	if (environment.currentDataset != null && environment.currentDataset != "") {
+		environment.loadDataset(environment.currentDataset);
+	}
 }
 
 environment.save = function () {
@@ -84,6 +43,37 @@ environment.save = function () {
 }
 
 // Import from File
+
+environment.loadImportMethods = function () {
+	if (window.File && window.FileReader && window.FileList && window.Blob) {
+		//New Way
+		$("#import-config-file").hide();
+		//$('#datasets .panel-list').prepend("");
+	    var dropZone = document.getElementById('import-config-file');
+	    dropZone.addEventListener('dragover', handleDragOver, false);
+	    dropZone.addEventListener('drop', handleFileSelect, false);
+	  //do your stuff!
+	}
+	
+	// Old Way
+	if ($('#import-config').length == 0) { 
+		// Create if doesn't exist
+		$('#datasets .panel-list ul').append("<li id='import-config'><input id='import-config-url' type='text' placeholder='URL to Config File' /><input id='import-config-btn' type='submit' value='Add'></li>");
+		$('#import-config-btn').click(function () {
+			environment.importConfigFromURL($('#import-config-url').val());
+			$("#import-config").remove();
+		});
+		$('#import-config').hide();
+	}
+	
+	$('#import-config-button').click(function (){
+	    // Setup the dnd listeners.
+		// Check for the various File API support.
+		
+		$('#import-config').toggle();
+		$("#import-config-file").toggle();
+	});
+}
 
 environment.importConfig = function (file) {
 	var reader = new FileReader();
@@ -515,7 +505,15 @@ environment.setupMinimizing = function () {
 	$("#data-output").jumpToState('horizontal-half-open');
 	$('#data-output').css('border-top','1px solid #999');
 	
-	//Workspace Setup
+	// Datasets
+	
+	$('#datasets').data('open', false);
+	
+	$('#menu-datasets').click(function () {
+		environment.toggleDatasets();
+	});
+	
+	// Workspace Setup
 	
 	$('#datasets').setStylesForState({
 		left:'-20%'
@@ -550,6 +548,14 @@ environment.setupMinimizing = function () {
 	$('#datasets').jumpToState('closed');
 	$('#data-area').jumpToState('full');
 	$('#detail').jumpToState('closed');
+	
+	// Full Screen
+	// The plugin sets the $.support.fullscreen flag:
+	if($.support.fullscreen){
+	    $('#fullScreen').click(function(e){
+	        $('body').fullScreen();
+	    });
+	}
 }
 
 environment.showDetailView = function () {
@@ -558,6 +564,16 @@ environment.showDetailView = function () {
 
 environment.hideDetailView = function () {
 	
+}
+
+environment.toggleDatasets = function () {
+	if ($('#datasets').data('open')) {
+		environment.hideDatasets();
+		$('#datasets').data('open', false);
+	} else {
+		environment.showDatasets();
+		$('#datasets').data('open', true);
+	}
 }
 
 environment.showDatasets = function () {
