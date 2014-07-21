@@ -157,7 +157,7 @@ a:hover {
 	display: none; /* remove this when editing is actually working. This is a hack to make sure it's functional. */
 }
 
-.panel-list li {
+.panel-list li, #import-config {
 	padding-top:3px;
 	padding-left:4px;
 	padding-bottom: 3px;
@@ -347,7 +347,7 @@ a:hover {
 	font-weight: normal;
 }
 
-#datasets .panel-list li:before {	
+#datasets .panel-list li:before, #import-config:before {	
 	font-size: 16px;
 	color: #333;
 	margin-left:4px;
@@ -356,6 +356,7 @@ a:hover {
 	content:'\f085';
 	font-family:FontAwesome;
 }
+
 
 #import-config-url {
 	width:calc(100% - 75px);

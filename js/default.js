@@ -56,15 +56,11 @@ environment.loadImportMethods = function () {
 	}
 	
 	// Old Way
-	if ($('#import-config').length == 0) { 
-		// Create if doesn't exist
-		$('#datasets .panel-list ul').append("<li id='import-config'><input id='import-config-url' type='text' placeholder='URL to Config File' /><input id='import-config-btn' type='submit' value='Add'></li>");
-		$('#import-config-btn').click(function () {
-			environment.importConfigFromURL($('#import-config-url').val());
-			$('#import-config-url').val("");
-		});
-		$('#import-config').hide();
-	}
+	$('#import-config-btn').click(function () {
+		environment.importConfigFromURL($('#import-config-url').val());
+		$('#import-config-url').val("");
+	});
+	$('#import-config').hide();
 	
 	$('#import-config-button').click(function (){
 	    // Setup the dnd listeners.
