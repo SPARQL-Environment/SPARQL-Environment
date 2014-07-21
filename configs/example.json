@@ -14,5 +14,5 @@
 			
 		}
 	},
-	"plugins":["sparqplug-in-text","sparqplug-out-json"]
+	"plugins":["sparqplug-in-text","sparqplug-out-json","sparqplug-out-table"]
 }
