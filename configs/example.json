@@ -1,0 +1,18 @@
+{
+	"name":"example-fufolio",
+	"description":"An example of a dataset using Furman's HMT Project.",
+	"source":"http://folio.furman.edu/fuseki/folio/",
+	"prefixes":{
+		"cts:":"http://www.homermultitext.org/cts/rdf/",
+		"cite:":"http://www.homermultitext.org/cite/rdf/",
+		"rdf:":"http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	},
+	"variables":{
+		"?folio":{
+			
+		},"?image":{
+			
+		}
+	},
+	"plugins":["sparqplug-in-text","sparqplug-out-json"]
+}
