@@ -1,0 +1,136 @@
+#sp-in-text-textarea {
+	font-size:16px;
+	font-family:"Cutive Mono";
+	height:100%;
+	width: 100%;
+	margin: 0px;
+	padding: 0px;
+	border: 0px;
+	outline:0px;
+	resize: none;
+	overflow: scroll;
+    background: transparent;
+    position: absolute;
+    outline: 0;
+}
+
+#sparqplug-in-text {
+	padding: 10px;
+	height: calc(100% - 20px);
+}
+
+#sparqplug-in-text .textoverlay-wrapper {
+	height:100%;
+	width:100%;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+	position:relative;
+}
+
+#sparqplug-in-text .textoverlay {
+	height:100%;
+	width:100%;
+	font-size:16px;
+	font-family:"Cutive Mono";
+    white-space: pre-wrap;
+    word-wrap: 'break-word';
+    overflow: hidden;
+	top:0px;
+	position:absolute;
+	pointer-events:none;
+}
+
+#sp-in-text-run {
+	position:absolute;
+	right:5px;
+	bottom:5px;
+}
+
+.syntax-verb {
+	color:#972426;
+}
+
+.prefix {
+	color: #666;
+}
+
+.kw-main {
+	color: #777;
+}
+
+.kw-submain {
+	color: #AAA;
+}
+/*
+Primary Color:
+FF4C00	9C593D	742300	FF6625	FF7B42
+Secondary Color A:
+FF8C00	9C713D	744000	FF9D25	FFAA42
+Secondary Color B:
+0969A2	2A4E63	012F4A	2484BD	398CBD
+Complementary Color:
+00AE68	296A50	004F2F	1DC581	33C58A*/
+
+.verb-0 {
+	color:#FF4C00;
+}
+.verb-1 {
+	color:#0969A2;
+}
+.verb-2 {
+	color:#FF8C00;
+}
+.verb-3 {
+	color:#00AE68;
+}
+.verb-4 {
+	color:#742300;
+}
+.verb-5 {
+	color:#012F4A;
+}
+.verb-6 {
+	color:#744000;
+}
+.verb-7 {
+	color:#004F2F;
+}
+
+/* Sample */
+
+.dropdown-menu {
+    border: 1px solid #ddd;
+    background-color: white;
+}
+
+.dropdown-menu li {
+    border-top: 1px solid #ddd;
+    padding: 2px 5px;
+}
+
+.dropdown-menu .textcomplete-header {
+	background:#EEE;
+}
+
+.dropdown-menu li:first-child {
+    border-top: none;
+}
+
+.dropdown-menu li:hover,
+.dropdown-menu .active {
+    background-color: rgb(110, 183, 219);
+}
+
+
+/* SHOULD not modify */
+
+.dropdown-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.dropdown-menu a:hover {
+    cursor: pointer;
+}
