@@ -44,62 +44,13 @@ $(document).ready(function (){
 	
 	// The plugin sets the $.support.fullscreen flag:
 	if($.support.fullscreen){
-
-	    // ...
-	    // Show your full screen button here
-	    // ...
-
 	    $('#fullScreen').click(function(e){
-
 	        $('body').fullScreen();
-
-	        // You can also pass a hash with properties:
-	        // $('#content').fullScreen({
-	        //  'background'    : '#111',
-	        //  'callback'      : function(isFullScreen){
-	        //      // ...
-	        //      // Do some cleaning up here
-	        //      // ...
-	        //  }
-	        // });
 	    });
 	}
 });
 
-function requestFullScreen(element) {
-    // Supports most browsers and their versions.
-    var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
-
-    if (requestMethod) { // Native full screen.
-        requestMethod.call(element);
-    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
-        var wscript = new ActiveXObject("WScript.Shell");
-        if (wscript !== null) {
-            wscript.SendKeys("{F11}");
-        }
-    }
-}
-
-function handleFileSelect(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-
-    var files = evt.dataTransfer.files; // FileList object.
-
-    // files is a FileList of File objects.
-    var output = [];
-    for (var i = 0, f; f = files[i]; i++) {
-		environment.importConfig(f);
-    }
-	
-	$("#import-config-file").hide();
-}
-  
-function handleDragOver(evt) {
-    evt.stopPropagation();
-    evt.preventDefault();
-    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
-}
+// Local Storage loading and saving.
 
 var environment = {};
 
@@ -132,6 +83,8 @@ environment.save = function () {
 	localStorage.setItem('sparql.currentDataset', this.currentDataset);
 }
 
+// Import from File
+
 environment.importConfig = function (file) {
 	var reader = new FileReader();
 
@@ -144,6 +97,40 @@ environment.importConfig = function (file) {
 	reader.readAsText(file);
 }
 
+function handleFileSelect(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+
+    var files = evt.dataTransfer.files; // FileList object.
+
+    // files is a FileList of File objects.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+		environment.importConfig(f);
+    }
+	
+	$("#import-config-file").hide();
+}
+  
+function handleDragOver(evt) {
+    evt.stopPropagation();
+    evt.preventDefault();
+    evt.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+}
+
+// Import from URL
+
+environment.importConfigFromURL = function (url) {
+	console.log('importing config from URL: '+url)
+	json = $.getJSON( url ,function( data ) {
+		if (environment.config[data.name] == null) {
+			environment.importConfigJSON(JSON.stringify(data));
+		}
+	});
+}
+
+// Import Global
+
 environment.importConfigJSON = function (json) {
 	console.log('JSON: '+json);
 	new_config = JSON.parse(json);
@@ -154,15 +141,6 @@ environment.importConfigJSON = function (json) {
 	
 	this.displayConfigs();
 	this.loadDataset(this.currentDataset);
-}
-
-environment.importConfigFromURL = function (url) {
-	console.log('importing config from URL: '+url)
-	json = $.getJSON( url ,function( data ) {
-		if (environment.config[data.name] == null) {
-			environment.importConfigJSON(JSON.stringify(data));
-		}
-	});
 }
 
 environment.displayConfigs = function () {
@@ -208,6 +186,8 @@ environment.displayConfigs = function () {
 		$("#import-config-file").hide();
 	});
 }
+
+// Datasets
 
 environment.loadDataset = function (dataset) {
 	
@@ -321,6 +301,8 @@ environment.deleteDataset = function () {
 	
 }
 
+// Dataset Editor
+
 environment.editor = {};
 environment.editor.open = function () {
 	$('#config-editor').css({
@@ -337,6 +319,8 @@ environment.editor.close = function () {
 		'top':'100%'
 	});
 }
+
+// Plugins
 
 environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
 	console.log('Loading SparqPlug: '+plugin);
@@ -395,6 +379,8 @@ environment.viewPlugin = function (plugin) {
 	}
 }
 
+// Plugin Functions for Querying
+
 environment.performQuery = function (query) {
 	console.log('Query: '+query);
 	var results = $(document).query(query,this.config[this.currentDataset]);
@@ -420,7 +406,7 @@ environment.silentQuery = function (query) {
 	return results;
 }
 
-//History
+// History
 
 environment.addToHistory = function (query) {
 	$("#data-output-history ul").prepend(environment.createHistoryli(query,this.config[this.currentDataset].history.length));
@@ -468,7 +454,7 @@ environment.clearHistory = function () {
 	this.loadHistory();
 }
 
-// Minimizing
+// Layout Functionality
 
 environment.setupMinimizing = function () {
 	$("#data-input").setStylesForState({
@@ -699,6 +685,20 @@ environment.rotateDatasetViews = function () {
 		$("#menu-window").removeClass('rotate');
 	}
 	
+}
+
+function requestFullScreen(element) {
+    // Supports most browsers and their versions.
+    var requestMethod = element.requestFullScreen || element.webkitRequestFullScreen || element.mozRequestFullScreen || element.msRequestFullScreen;
+
+    if (requestMethod) { // Native full screen.
+        requestMethod.call(element);
+    } else if (typeof window.ActiveXObject !== "undefined") { // Older IE.
+        var wscript = new ActiveXObject("WScript.Shell");
+        if (wscript !== null) {
+            wscript.SendKeys("{F11}");
+        }
+    }
 }
 
 /* Extender to jQuery for saving minimized states */
