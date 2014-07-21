@@ -61,7 +61,7 @@ environment.loadImportMethods = function () {
 		$('#datasets .panel-list ul').append("<li id='import-config'><input id='import-config-url' type='text' placeholder='URL to Config File' /><input id='import-config-btn' type='submit' value='Add'></li>");
 		$('#import-config-btn').click(function () {
 			environment.importConfigFromURL($('#import-config-url').val());
-			$("#import-config").remove();
+			$('#import-config-url').val("");
 		});
 		$('#import-config').hide();
 	}
