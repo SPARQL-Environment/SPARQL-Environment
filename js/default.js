@@ -94,8 +94,6 @@ function handleFileSelect(evt) {
     for (var i = 0, f; f = files[i]; i++) {
 		environment.importConfig(f);
     }
-	
-	$("#import-config-file").hide();
 }
   
 function handleDragOver(evt) {
@@ -127,6 +125,9 @@ environment.importConfigJSON = function (json) {
 	
 	this.displayConfigs();
 	this.loadDataset(this.currentDataset);
+	
+	$("#import-config").hide();
+	$("#import-config-file").hide();
 }
 
 environment.displayConfigs = function () {
