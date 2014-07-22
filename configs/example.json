@@ -1,7 +1,7 @@
 {
 	"name":"example-fufolio",
 	"description":"An example of a dataset using Furman's HMT Project.",
-	"source":"http://folio.furman.edu/fuseki/folio/",
+	"source":"http://folio.furman.edu/fuseki/folio/query",
 	"prefixes":{
 		"cts:":"http://www.homermultitext.org/cts/rdf/",
 		"cite:":"http://www.homermultitext.org/cite/rdf/",
