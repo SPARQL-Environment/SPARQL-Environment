@@ -8,7 +8,7 @@
 		query = this.prefixesAsString() + query;
 		var json_string = $.ajax(
 		        {
-		           url: $.fn.defaults.source+"query", 
+		           url: $.fn.defaults.source, 
 				   data: {"query":query,"output":"json"},
 				   type: "GET",
 		           async: false, 
