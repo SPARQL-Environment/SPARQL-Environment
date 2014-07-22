@@ -68,3 +68,7 @@ The goal of the output plugin is to present the user with the results of the SPA
 ## Contribute
 
 Create configs for your datasets, create specific plugins for your data and let us know if you're interested in advancing the underlying framework!
+
+Checkout the *plugins/README.md* file for how to create plugins.
+
+Checkout the *configs/README.md* file for how to create configs.
