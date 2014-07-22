@@ -402,3 +402,28 @@ a:hover {
 #data-area .plugin-column .selected {
 	background:#EEE;
 }
+
+/* Detail Styles */
+
+#detail .content .header {
+	font-size: 14px;
+	word-wrap: break-word;
+	padding: 1em;
+	font-weight: bold;
+	border-bottom: 1px solid #CCC;
+	background: #666;
+	color: #FFF;
+}
+
+#detail .content h4 {
+	margin: 1em;
+}
+
+#detail .content .verb-list {
+	margin: 1em;
+}
+
+#detail .content .verb-item {
+	word-break: break-word;
+	margin-bottom: 1em;
+}

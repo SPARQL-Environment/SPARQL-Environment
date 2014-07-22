@@ -3,6 +3,8 @@ $(document).ready(function (){
 	environment.displayConfigs();
 	environment.setupMinimizing();
 	environment.loadImportMethods();
+	
+	environment.setupShortCuts();
 });
 
 // Local Storage loading and saving.
@@ -378,7 +380,7 @@ environment.performQuery = function (query) {
 	this.latestQuery = query;
 	this.latestResults = results;
 	
-	this.addToHistory(query);
+	this.addToHistory(query)
 	
 	plugins[this.currentOutPlugin].updateUI();
 }
@@ -556,11 +558,29 @@ environment.setupMinimizing = function () {
 }
 
 environment.showDetailView = function () {
-	
+	var state = $('#workspace').data('state');
+	switch (state) {
+		case "dataarea":
+			this.setWorkspaceState('dataarea-detail');
+			break;
+		case "datasets-dataarea":
+			this.setWorkspaceState('datasets-dataarea-detail');
+			break;
+		default:
+	}
 }
 
 environment.hideDetailView = function () {
-	
+	var state = $('#workspace').data('state');
+	switch (state) {
+		case "dataarea-detail":
+			this.setWorkspaceState('dataarea');
+			break;
+		case "datasets-dataarea-detail":
+			this.setWorkspaceState('datasets-dataarea');
+			break;
+		default:
+	}
 }
 
 environment.toggleDatasets = function () {
@@ -731,3 +751,64 @@ function requestFullScreen(element) {
 	
 }( jQuery ));
 
+// Shortcuts
+
+environment.setupShortCuts = function () {
+	$(document).keydown(function(e) {
+		console.log('keydown : '+e.keyCode);
+		if (e.keyCode == 18) {
+			$(this).data('alting',true);
+		} else if ($(this).data('alting') == true && e.keyCode == 79) { // alt-o
+			environment.detailObject(environment.getSelectedText());
+		}
+	});
+	$(document).keyup(function(e) {
+		if (e.keyCode == 18) {
+			$(this).data('alting',false);
+		}
+	});
+}
+
+environment.getSelectedText = function () {
+    var text = "";
+    if (window.getSelection) {
+        text = window.getSelection().toString();
+    } else if (document.selection && document.selection.type != "Control") {
+        text = document.selection.createRange().text;
+    }
+    return text;
+}
+
+// Details
+
+environment.detailObject = function (obj) {
+	environment.showDetailView();
+	$detail = $("#detail .content");
+	$detail.empty();
+	
+	$obj_display = $('<div />',{
+		text: obj,
+		class: 'header'
+	});
+	
+	$obj_verbs = $('<div />',{
+		class: 'verb-list'
+	});
+	
+	$.each($(document).verbsForObject('<'+obj+'>'),function (index, verb) {
+		$obj_verbs.append($('<a />',{
+			text: verb.value,
+			class: 'verb-item'
+		}));
+		$obj_verbs.append('<br/>');
+		$obj_verbs.click(function () {
+			environment.performQuery('SELECT ?object WHERE { <'+obj+'> <'+verb.value+'> ?object }');
+			environment.plugins[environment.currentInPlugin].updateUI();
+		});
+	});
+	
+	$detail.append($obj_display);
+	$detail.append("<h4>Verbs</h4>");
+	$detail.append($obj_verbs);
+	
+}
