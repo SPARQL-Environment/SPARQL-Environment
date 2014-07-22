@@ -9,7 +9,7 @@ Built using javascript and jQuery this IQE allows for the querying of SPARQL dat
 
 The SPARQL Environment runs in a browser client-side. To get up and running simply clone this repository and open the index.html file in your browser. 
 
-*Note: Some browsers restrict access to local files due to the security risk that imposes. Don't worry creating a localhost end point can solve this problem. In your command line prompt navigate to the repository and enter:*
+*Note: Some browsers restrict access to local files due to the security risk that imposes. Don't worry, creating a localhost end point can solve this problem. In your command line prompt navigate to the repository and enter:*
 
 `python -m SimpleHTTPServer`
 
@@ -35,7 +35,7 @@ The left side bar lists all your datasets. To import new datasets click the down
 
 #### Workspace
 
-The workspace is the center to panels of your screen. This area is subdivided into two sections Input and Output.
+The workspace is the center to panels of your screen. This area is subdivided into two sections: input and output.
 
 ##### Input
 
