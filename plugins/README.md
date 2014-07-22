@@ -55,20 +55,18 @@ sparqplug.in.*.updateUI = function () {
 	$('#query_box').val(environment.latestQuery);
 }
 ```
+*for output plugins*
+```
+sparqplug.out.*.updateUI = function () {
+	$('#results_box').html(environment.latestResults);
+}
+```
 
 **error** is called whenever there was an error from the last query.
 
 ```
 sparqplug.in.*.error = function () {
 	$('#query_box').css('color':'red');
-}
-```
-
-*for output plugins*
-
-```
-sparqplug.out.*.updateUI = function () {
-	$('#results_box').html(environment.latestResults);
 }
 ```
 
