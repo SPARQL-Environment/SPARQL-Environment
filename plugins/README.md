@@ -10,9 +10,6 @@ Responsibilities of an input SparqPlug are:
 - Create a SPARQL Query object.
 - Take a SPARQL Query and update the UI without changing the original query.
 
-`sparqplug.in.*.load`
-
-
 
 ## Output
 
@@ -20,6 +17,65 @@ Responsibilities of an output SparqPlug are:
 
 - Take query results.
 - Display results.
+
+## Contributing
+
+#### Required Functions
+
+The discription object contains the basic information the SPARQL Environment uses to distinquish and setup your plugin.
+
+`sparqplug.in.* = {
+	"type":"in", // In or Out depending on the type of object.
+	"title": "Text Query", // String used to identify your plugin in plain text.
+	"description":"Basic SPARQL query box.", // String used to describe your plugin in plain text.
+	"icon":"&#xf040;", // Icon used to identify your plugin. Font-Awesome is included.
+	"css":"sparqplug.in.*.css" // The CSS file which goes along with your plugin.
+};
+
+`
+
+*load* is called **once** when the plugin is first created. This is where you setup your plugins DOM structure. The element containing your plugin is always your plugins dashed identifier.
+
+`
+sparqplug.in.*.load = function () {
+	// Create element for plugin
+	$input = $('<input />',{
+		id: 'query_box'
+	}).change(this.queryChanged);
+	
+	// Add it to the plugin element
+	$("#sparqplug-in-*").append($input);
+}
+`
+
+*updateUI* is called whenever the *environemnt.latestQuery* changed. This is rare for input plugins but output plugins use this function to update their UI to reflect the *environment.latestResults*.
+
+`sparqplug.in.*.updateUI = function () {
+	$('#query_box').val(environment.latestQuery);
+}`
+
+*for output plugins*
+
+`sparqplug.out.*.updateUI = function () {
+	$('#results_box').html(environment.latestResults);
+}`
+
+Add your plugin to the plugins array.
+
+`plugins['sparqplug-in-*'] = sparqplug.in.*;`
+
+#### Custom Functions
+
+For your custom functions be sure to stay in your namespace.
+
+To continue with example above we'll create the *queryChanged* function. For input plugins these functions often will submit the query to the environment. 
+
+`
+sparqplug.in.*.queryChanged = function () {
+	var query = $("#query_box").val();
+	environment.performQuery(query);
+}
+`
 
 ## Naming Conventions
 
