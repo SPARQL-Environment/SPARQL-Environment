@@ -28,3 +28,7 @@
 - Currently plugins are not "downloaded" when a config file is imported. Please inform your users which plugins they will need to download and from where.
 - SPARQL Endpoints must be the exact URL from which you can add "?query=SELECT..." if you have fancy mapping or other url redirects, please take that into account.
 - Prefixes need to include the colon.
+
+### In the Future
+
+We would like to create a database of config files and plugins from which users can peruse. If you are an early adopter (and if you're reading this you are) we would love it if you'd check back here to stay up to date.
