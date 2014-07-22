@@ -22,7 +22,7 @@ Responsibilities of an output SparqPlug are:
 
 #### Required Functions
 
-The discription object contains the basic information the SPARQL Environment uses to distinquish and setup your plugin.
+The **discription object** contains the basic information the SPARQL Environment uses to distinquish and setup your plugin.
 
 ```
 sparqplug.in.* = {
@@ -34,7 +34,7 @@ sparqplug.in.* = {
 };
 ```
 
-*load* is called **once** when the plugin is first created. This is where you setup your plugins DOM structure. The element containing your plugin is always your plugins dashed identifier.
+**load** is called *once* when the plugin is first created. This is where you setup your plugins DOM structure. The element containing your plugin is always your plugins dashed identifier.
 
 ```
 sparqplug.in.*.load = function () {
@@ -48,11 +48,19 @@ sparqplug.in.*.load = function () {
 }
 ```
 
-*updateUI* is called whenever the *environemnt.latestQuery* changed. This is rare for input plugins but output plugins use this function to update their UI to reflect the *environment.latestResults*.
+**updateUI** is called whenever the *environemnt.latestQuery* changed. This is rare for input plugins but output plugins use this function to update their UI to reflect the *environment.latestResults*.
 
 ```
 sparqplug.in.*.updateUI = function () {
 	$('#query_box').val(environment.latestQuery);
+}
+```
+
+**error** is called whenever there was an error from the last query.
+
+```
+sparqplug.in.*.error = function () {
+	$('#query_box').css('color':'red');
 }
 ```
 
