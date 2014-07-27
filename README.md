@@ -76,4 +76,5 @@ Checkout the *configs/README.md* file for how to create configs.
 ### Some other configs and plugins
 
 [The Homer Multitext Project](https://github.com/SamuelHill/hmt-sparql)
+
 [Botanica Caroliniana](https://github.com/botcar/botcar-apps/tree/master/sparqplugs-botcar)
