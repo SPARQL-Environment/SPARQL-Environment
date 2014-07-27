@@ -35,7 +35,7 @@ The left side bar lists all your datasets. To import new datasets click the down
 
 #### Workspace
 
-The workspace is the center to panels of your screen. This area is subdivided into two sections: input and output.
+The workspace is the center two panels of your screen. This area is divided into two sections: input and output.
 
 ##### Input
 
