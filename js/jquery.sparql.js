@@ -25,8 +25,20 @@
 		
 	}
 	
+	//This needs to be verbsForSubject and versbForObject then added back to original repository.
+	
 	$.fn.verbsForObject = function (object) {
 		var results = $(this).query('SELECT distinct ?v where {'+object+' ?v ?o.}');
+		var verbs = new Array();
+		
+		for (i = 0; i < results.length; i++) {
+			verbs.push(results[i].v);
+		}
+		return verbs;
+	}
+	
+	$.fn.verbsForDirectObject = function (object) {
+		var results = $(this).query('SELECT distinct ?v where {?o ?v '+ object +'.}');
 		var verbs = new Array();
 		
 		for (i = 0; i < results.length; i++) {

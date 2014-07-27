@@ -829,20 +829,51 @@ environment.detailObject = function (obj) {
 		class: 'verb-list'
 	});
 	
-	$.each($(document).verbsForObject('<'+obj+'>'),function (index, verb) {
-		$obj_verbs.append($('<a />',{
+	obj_string = '<'+obj+'>'; // should check for prefix
+	
+	// TO-DO stop using versbForObject and verbsForDirectObject.
+	// Use custom query that retrieves both at once.
+	
+	$obj_verbs.append("<h4>Verbs as Subject</h4>");
+	
+	$.each($(document).verbsForObject(obj_string),function (index, verb) {
+		$obj_verb = $('<a />',{
 			text: $(document).resolvePrefix(verb.value),
 			class: 'verb-item'
-		}));
-		$obj_verbs.append('<br/>');
-		$obj_verbs.click(function () {
-			environment.performQuery('SELECT ?object WHERE { <'+obj+'> <'+verb.value+'> ?object }');
+		});
+		$obj_verb.data('obj',obj);
+		$obj_verb.data('verb', verb.value);
+		
+		$obj_verb.click(function () {
+			environment.performQuery('SELECT ?object WHERE { <'+$(this).data('obj')+'> <'+$(this).data('verb')+'> ?object }');
 			environment.plugins[environment.currentInPlugin].updateUI();
 		});
+		
+		$obj_verbs.append($obj_verb);
+		$obj_verbs.append('<br/>');
+	});
+	
+	$obj_verbs.append("<h4>Verbs as Object</h4>");
+	
+	$.each($(document).verbsForDirectObject(obj_string),function (index, verb) {
+		$obj_verb = $('<a />',{
+			text: $(document).resolvePrefix(verb.value),
+			class: 'verb-item'
+		});
+		$obj_verb.data('obj',obj);
+		$obj_verb.data('verb', verb.value);
+		
+		$obj_verb.click(function () {
+			environment.performQuery('SELECT ?subject WHERE { ?subject <'+$(this).data('verb')+'> <'+$(this).data('obj')+'> }');
+			environment.plugins[environment.currentInPlugin].updateUI();
+		});
+		
+		$obj_verbs.append($obj_verb);
+		$obj_verbs.append('<br/>');
+		
 	});
 	
 	$detail.append($obj_display);
-	$detail.append("<h4>Verbs</h4>");
 	$detail.append($obj_verbs);
 	
 }
