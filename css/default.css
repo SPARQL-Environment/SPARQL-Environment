@@ -374,6 +374,7 @@ a:hover {
 	padding:2px;
 	font-family:"Cutive Mono";
 	word-wrap: break-word;
+	cursor: pointer;
 }
 
 #data-output-history ul {
