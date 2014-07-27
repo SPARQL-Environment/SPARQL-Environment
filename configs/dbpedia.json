@@ -1,0 +1,16 @@
+{
+	"name":"DBpedia",
+	"description":"A crowd-sourced community effort to extract structured information from Wikipedia.",
+	"source":"http://dbpedia.org/sparql?default-graph-uri=http%3A%2F%2Fdbpedia.org&format=text%2Fjson&timeout=30000&debug=on",
+	"prefixes":{
+		"rdf:":"http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	},
+	"variables":{
+		"?folio":{
+			
+		},"?image":{
+			
+		}
+	},
+	"plugins":["sparqplug-in-text","sparqplug-out-json","sparqplug-out-table"]
+}

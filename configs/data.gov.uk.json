@@ -1,0 +1,11 @@
+{
+	"name":"UK Legislation",
+	"description":"Data on legislation for the UK.",
+	"source":"http://gov.tso.co.uk/legislation/sparql",
+	"prefixes":{
+		"rdf:":"http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	},
+	"variables":{
+	},
+	"plugins":["sparqplug-in-text","sparqplug-out-json","sparqplug-out-table"]
+}
