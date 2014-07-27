@@ -821,7 +821,7 @@ environment.detailObject = function (obj) {
 	$detail.empty();
 	
 	$obj_display = $('<div />',{
-		text: obj,
+		text: $(document).resolvePrefix(obj),
 		class: 'header'
 	});
 	
@@ -831,7 +831,7 @@ environment.detailObject = function (obj) {
 	
 	$.each($(document).verbsForObject('<'+obj+'>'),function (index, verb) {
 		$obj_verbs.append($('<a />',{
-			text: verb.value,
+			text: $(document).resolvePrefix(verb.value),
 			class: 'verb-item'
 		}));
 		$obj_verbs.append('<br/>');

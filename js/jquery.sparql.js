@@ -36,10 +36,10 @@
 	}
 	
 	$.fn.resolvePrefix = function (str) {
-		for (i = 0; i < $.fn.defaults.prefixes.length; i++) {
-			var prefix = $.fn.defaults.prefixes[i];
-			if (str.indexOf(prefix.value) == 0) {
-				return prefix.prefix+str.substr(prefix.value.length);
+		for (var key in $.fn.defaults.prefixes) {
+			var prefix = $.fn.defaults.prefixes[key];
+			if (str.indexOf(prefix) == 0) {
+				return key+str.substr(prefix.length);
 			}
 		}
 		return str;
