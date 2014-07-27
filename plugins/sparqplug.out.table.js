@@ -15,7 +15,7 @@ sparqplug.out.table.updateUI = function () {
 		var tr = $('<tr/>');
 		
 		$.each(row,function (key, values) {
-			tr.append('<td>'+values.value+'</td>');
+			tr.append('<td>'+$(document).resolvePrefix(values.value)+'</td>');
 		});
 		
 		table.append(tr);
