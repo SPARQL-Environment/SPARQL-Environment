@@ -7,6 +7,9 @@
 #sparqplug-out-table table {
   border-collapse: collapse;
 }
+#sparqplug-out-table table td:hover {
+	background-color:#CCC;
+}
 #sparqplug-out-table table td, table th {
   border: 1px solid #EEE;
 }
