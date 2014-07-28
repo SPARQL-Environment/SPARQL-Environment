@@ -339,6 +339,12 @@ environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
 			if (environment.currentOutPlugin == null) {
 				environment.viewPlugin(plugin);
 			}
+		} else if (plugins[plugin].type == "detail") {
+			$('#details').append(new_plugin);			
+			$('#data-detail .panel-menu-tabs').append(new_tab);
+			if (environment.currentOutPlugin == null) {
+				environment.viewPlugin(plugin);
+			}
 		}
 		plugins[plugin].load();
 		
@@ -398,28 +404,14 @@ environment.silentQuery = function (query) {
 // History
 
 environment.addToHistory = function (query) {
-	$("#data-output-history ul").prepend(environment.createHistoryli(query,this.config[this.currentDataset].history.length));
-	
 	this.config[this.currentDataset].history.push(query);
 	this.save();
 }
 
 environment.loadHistory = function () {
 	if (this.currentDataset != "") {
-		$.each(this.config[this.currentDataset].history, function (index, value) {
-			$("#data-output-history ul").prepend(environment.createHistoryli(value,index));
-		});
+		
 	}
-}
-
-environment.createHistoryli = function (query, index) {
-	li = $("<li/>",{
-				text: query
-			}).data('history-index',index).click(function(){
-				query = this.innerHTML;
-				environment.loadFromHistory($(this).data('history-index'));
-			});
-			return li;
 }
 
 environment.loadFromHistory = function (index) {
