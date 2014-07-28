@@ -104,6 +104,10 @@ sparqplug.in.text.updateUI = function () {
 	$('#sp-in-text-textarea').trigger('change');
 }
 
+sparqplug.in.text.sparqit = function () {
+	return $('#sp-in-text-textarea').val();
+}
+
 //Plugin Specific
 
 sparqplug.in.text.queryChanged = function () {
