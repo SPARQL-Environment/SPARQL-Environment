@@ -9,9 +9,7 @@ Built using javascript and jQuery this IQE allows for the querying of SPARQL dat
 
 The SPARQL Environment runs in a browser client-side. To get up and running simply clone this repository and open the index.html file in your browser. 
 
-*Note: Some browsers restrict access to local files due to the security risk that imposes. Don't worry, creating a localhost end point can solve this problem. In your command line prompt navigate to the repository and enter:*
-
-`python -m SimpleHTTPServer`
+*Note: Not all browsers were created equal. Sadly there are compatibility issues, please see below if you run into problems.*
 
 ## Configs
 
@@ -77,3 +75,33 @@ Checkout the *configs/README.md* file for how to create configs.
 
 1. [The Homer Multitext Project](https://github.com/SamuelHill/sparqplugs-hmt)
 1. [Botanica Caroliniana](https://github.com/botcar/botcar-apps/tree/master/sparqplugs-botcar)
+
+## Browser Compatability
+
+#### All
+
+If you are getting any errors associated with "Access-Control-Allow-Origin" then try using python to serve a basic server instance on your localhost.
+
+`python -m SimpleHTTPServer`
+
+#### Safari
+
+No common problems.
+
+#### Chrome
+
+Normally the Access-Control-Allow-Origin problem is the only issue.
+
+#### FireFox
+
+Ensure that you are using the latest version of Firefox.
+
+If you are using the latest version of Firefox and it still does not work then ensure DOM Storage is enabled.
+
+Type about:config in your address bar and hit Enter to view your internal browser settings.
+
+Scroll down to dom.storage.enabled, if it is disabled then right click on it and hit Toggle to enable the DOM Storage.
+
+#### IE
+
+In nice terms... Try a modern browser. Currently we make no claims on this applications ability in IE.
