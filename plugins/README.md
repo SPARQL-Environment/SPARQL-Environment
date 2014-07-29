@@ -29,15 +29,15 @@ Assists input and/or output plugins and has no responsibilities other than to be
 
 To contribue to the SPARQL Environment repository itself plugins must be data agnostic. If you're creating data-specific plugins you should create your own GIT repository and name it *sparqplug-{name}* or if you're creating a suite of plugins for your data *sparqplugs-{namespace}*. Examples are *sparqplugs-hmt* or *sparqplugs-cts*.
 
-#### Required Functions
+### Required Functions
 
 The **discription object** contains the basic information the SPARQL Environment uses to distinquish and setup your plugin.
 
 ```
 sparqplug.in.* = {
-	"type":"in", // In or Out depending on the type of object.
-	"title": "Text Query", // String used to identify your plugin in plain text.
-	"description":"Basic SPARQL query box.", // String used to describe your plugin in plain text.
+	"type":"in", // "in" "out" or "detail" depending on the type of plugin.
+	"title": "Text Query", // String used to identify your plugin in plain text (tab bar).
+	"description":"Basic SPARQL query box.", // String used to describe your plugin in plain text (tooltip).
 	"icon":"&#xf040;", // Icon used to identify your plugin. Font-Awesome is included.
 	"css":"sparqplug.in.*.css" // The CSS file which goes along with your plugin.
 };
@@ -57,7 +57,13 @@ sparqplug.in.*.load = function () {
 }
 ```
 
-**updateUI** is called whenever the *environemnt.latestQuery* changed. This is rare for input plugins but output plugins use this function to update their UI to reflect the *environment.latestResults*.
+**Add** your plugin to the plugins array.
+
+`plugins['sparqplug-in-*'] = sparqplug.in.*;`
+
+#### Input and Output Plugins Only
+
+**updateUI** is called whenever the *environemnt.latestQuery* changes. This is rare for input plugins but output plugins use this function to update their UI to reflect the *environment.latestResults*.
 
 ```
 sparqplug.in.*.updateUI = function () {
@@ -79,11 +85,10 @@ sparqplug.in.*.error = function () {
 }
 ```
 
-Add your plugin to the plugins array.
+#### Add To Plugins
 
-`plugins['sparqplug-in-*'] = sparqplug.in.*;`
 
-#### Custom Functions
+### Custom Functions
 
 For your custom functions be sure to stay in your namespace.
 
@@ -95,6 +100,17 @@ sparqplug.in.*.queryChanged = function () {
 	environment.performQuery(query);
 }
 ```
+
+### Events
+
+If you're creating a detail plugin and you need to know when a query was performed you can bind to an event. This will call your callback function every time the event is triggered. Current global events are:
+
+- *performedQuery* is called whenever results come back. Same time as updateUI.
+- *selectedObject* is called whenever a plugin triggers it and includes the object in the data parameter. (out.table does)
+
+`environment.bindToEvent('performQuery',this.updateHistory);`
+
+You can also register your own events if your suite of plugins wants to communicate additional information. Just be sure to register the event in the plugins *.load* function if that plugin relies on it.
 
 ## Naming Conventions
 

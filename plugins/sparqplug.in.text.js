@@ -1,4 +1,5 @@
 sparqplug.in.text = {type:"in","title":"Text Query","description":"Standard SPARQL query environment.","icon":"&#xf040;","css":"sparqplug.in.text.css"};
+plugins['sparqplug-in-text'] = sparqplug.in.text;
 
 sparqplug.in.text.load = function () {
 	var textarea = $('<textarea />',{
@@ -130,7 +131,7 @@ sparqplug.in.text.loadDetailView = function () {
 	$('#detail.content').append(verb_search);*/
 }
 
-plugins['sparqplug-in-text'] = sparqplug.in.text;
+
 
 /*!
  * jQuery.textoverlay.js

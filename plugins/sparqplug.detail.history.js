@@ -2,11 +2,11 @@ sparqplug.detail.history = {type:"detail","title":"History","description":"View 
 
 sparqplug.detail.history.load = function () {
 	$('#sparqplug-detail-history').append("<ul></ul>")
-	environment.bindToEvent('performedQuery', this.updateUI );
-	this.updateUI();
+	environment.bindToEvent('performedQuery', this.updateHistory );
+	this.updateHistory();
 }
 
-sparqplug.detail.history.updateUI = function () {
+sparqplug.detail.history.updateHistory = function () {
 	$("#sparqplug-detail-history ul").empty();
 	$.each(environment.config[environment.currentDataset].history, function (index, value) {
 		$("#sparqplug-detail-history ul").prepend(sparqplug.detail.history.createHistoryli(value,index));
