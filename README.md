@@ -45,7 +45,7 @@ The output section contains all of the current dataset's output plugins. The obj
 
 #### Details
 
-The right side bar contains the details panel. This bar is currently being figured out. (In-Development)
+The right side bar contains the datasets details plugins. The objective of the section is to assist the input and/or output plugins. They work in tandem with the other plugins and cannot do anything without user input being done in an input or output plugin. Examples include history, saved queries, and object viewer.
 
 ## Plugins
 
@@ -53,7 +53,7 @@ Plugins for SPARQL Environment are called SparqPlugs. Clever, we know. This give
 
 Plugins are either agnostic (data independent) or specific (data dependent) and should be labeled clearly which they are. Examples of agnostic plugins are the "Text Query Editor" which is a sophisticated query editor and the "JSON Viewer". Both of these plugins will work with any dataset thier given.
 
-There are two types of Plugins input and output.
+There are three types of Plugins input, output and detail.
 
 #### Input
 
@@ -62,6 +62,10 @@ The goal of an input plugin is to take user input and create a SPARQL query.
 #### Output
 
 The goal of the output plugin is to present the user with the results of the SPARQL query.
+
+#### Detail
+
+The goal of the detail plugin is to be helpful and informative. Fill the gap of any functionality that doesn't fit as an input or output plugin.
 
 ## Contribute
 

@@ -10,7 +10,6 @@ Responsibilities of an input SparqPlug are:
 - Create a SPARQL Query object.
 - Take a SPARQL Query and update the UI without changing the original query.
 
-
 ## Output
 
 Responsibilities of an output SparqPlug are:
