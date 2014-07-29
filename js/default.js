@@ -14,6 +14,7 @@ var environment = {};
 var sparqplug = {};
 sparqplug.in = {};
 sparqplug.out = {};
+sparqplug.detail = {};
 
 var plugins = {};
 
@@ -187,10 +188,11 @@ environment.loadDataset = function (dataset) {
 	$('#data-input .panel-menu-tabs').children().remove();
 	
 	$('#outputs').children().remove();
-	$('#data-output-results .panel-menu-tabs').children().remove();
+	$('#data-output .panel-menu-tabs').children().remove();
 	
-	$("#data-output-history ul").children().remove();
-	
+	$('#details').children().remove();
+	$('#detail .panel-menu-tabs').children().remove();
+		
 	if (dataset != "") {
 		$.each(environment.config[dataset].plugins,function (index,value) {
 			environment.loadPlugin(value);
@@ -198,7 +200,7 @@ environment.loadDataset = function (dataset) {
 	
 		this.currentConfig = this.config[this.currentDataset];
 		
-		this.loadHistory();
+		//this.loadHistory();
 		
 		$('#menu-datasets .name').html(this.currentDataset);
 	}
@@ -335,13 +337,13 @@ environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
 			}
 		} else if (plugins[plugin].type == "out") {
 			$('#outputs').append(new_plugin);			
-			$('#data-output-results .panel-menu-tabs').append(new_tab);
+			$('#data-output .panel-menu-tabs').append(new_tab);
 			if (environment.currentOutPlugin == null) {
 				environment.viewPlugin(plugin);
 			}
 		} else if (plugins[plugin].type == "detail") {
 			$('#details').append(new_plugin);			
-			$('#data-detail .panel-menu-tabs').append(new_tab);
+			$('#detail .panel-menu-tabs').append(new_tab);
 			if (environment.currentOutPlugin == null) {
 				environment.viewPlugin(plugin);
 			}
@@ -371,6 +373,8 @@ environment.viewPlugin = function (plugin) {
 		this.currentInPlugin = plugin;
 	} else if (plugins[plugin].type == "out") {
 		this.currentOutPlugin = plugin;
+	} else if (plugins[plugin].type == "detail") {
+		this.currentDetailPlugin = plugin;
 	}
 }
 
@@ -386,7 +390,7 @@ environment.performQuery = function (query) {
 	this.latestQuery = query;
 	this.latestResults = results;
 	
-	this.addToHistory(query)
+	this.addToHistory(query);
 	
 	plugins[this.currentOutPlugin].updateUI();
 }
@@ -407,13 +411,7 @@ environment.addToHistory = function (query) {
 	this.config[this.currentDataset].history.push(query);
 	this.save();
 }
-
-environment.loadHistory = function () {
-	if (this.currentDataset != "") {
-		
-	}
-}
-
+/*
 environment.loadFromHistory = function (index) {
 	query = this.config[this.currentDataset].history[index];
 	this.latestQuery = query;
@@ -427,12 +425,12 @@ environment.loadFromHistory = function (index) {
 	plugins[this.currentInPlugin].updateUI();
 	plugins[this.currentOutPlugin].updateUI();
 }
-
+*/
 environment.clearHistory = function () {
 	this.config[this.currentDataset].history = [];
 	this.save();
 	
-	this.loadHistory();
+	//this.loadHistory();
 }
 
 // Layout Functionality
@@ -546,6 +544,29 @@ environment.setupMinimizing = function () {
 	    $('#fullScreen').click(function(e){
 	        $('body').fullScreen();
 	    });
+	}
+	
+	$("#details-toggle").click(function () {
+		environment.toggleDetailView()
+	});
+}
+
+environment.toggleDetailView = function () {
+	var state = $('#workspace').data('state');
+	switch (state) {
+		case "dataarea":
+			this.setWorkspaceState('dataarea-detail');
+			break;
+		case "datasets-dataarea":
+			this.setWorkspaceState('datasets-dataarea-detail');
+			break;
+		case "dataarea-detail":
+			this.setWorkspaceState('dataarea');
+			break;
+		case "datasets-dataarea-detail":
+			this.setWorkspaceState('datasets-dataarea');
+			break;
+		default:
 	}
 }
 

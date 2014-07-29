@@ -1,4 +1,4 @@
-sparqplug.detail.history = {type:"detail","title":"History","description":"View query history.","icon":"&#xf121;","css":"sparqplug.out.json.css"};
+sparqplug.detail.history = {type:"detail","title":"History","description":"View query history.","icon":"&#xf1da;","css":"sparqplug.out.json.css"};
 
 sparqplug.detail.history.load = function () {
 	$('#sparqplug-detail-history').append("<h3>Test History</h3>");

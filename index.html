@@ -24,12 +24,15 @@
 			<div id='menu-datasets'><span id="datasets-icon" class="icons">&#xf1c0;</span><span class='name'>Datasets</span></div>
 		</div>
 			<div id="menu-title">SPARQL Environment</div>
-		<div id='menu-window'>
-			<a class='icons selected' id='window-equal' href='javascript:environment.equalizeInputsOutputs()'><div>&#xe602;</div></a>
-			<a class='icons' id='window-output' href='javascript:environment.maximizeOutputs()'><div>&#xe600;</div></a>
-			<a class='icons' id='window-input' href='javascript:environment.maximizeInputs()'><div>&#xe601;</div></a>
-			<a class='icons' id='window-input' href='javascript:environment.rotateDatasetViews()'>&#xf01e;</a>
-			<a class="icons" id='fullScreen'>&#xf065;</a></div></div>
+			<div id='menu-window'>
+				<a class='icons selected' id='window-equal' href='javascript:environment.equalizeInputsOutputs()'><div>&#xe602;</div></a>
+				<a class='icons' id='window-output' href='javascript:environment.maximizeOutputs()'><div>&#xe600;</div></a>
+				<a class='icons' id='window-input' href='javascript:environment.maximizeInputs()' style="border-right: 1px solid #CCC;"><div>&#xe601;</div></a>
+				<a class='icons' id='window-input' href='javascript:environment.rotateDatasetViews()'>&#xf01e;</a>
+				<a class="icons" id='fullScreen'>&#xf065;</a>
+				<a class="icons" id='details-toggle'>&#xf05a;</a>
+			</div>
+		</div>
 		<div id="workspace">
 			<div id="datasets">
 				<div class="panel-menu">
@@ -58,31 +61,31 @@
 					</div>
 				</div>
 				<div id="data-output">
-					<div id="data-output-history">
+					<!--<div id="data-output-history">
 						<div class="panel-menu">
 							<span id="datasets-icon" class="icons">&#xf1da;</span> History
 							<a href="javascript:environment.clearHistory();" class="icons panel-menu-tools" title="Clear History" href="">&#xf014;</a>
 						</div>
 						<ul>
 						</ul>
+					</div>-->
+					<div class="panel-menu">
+						<div class="panel-menu-tabs">
+						</div>
+						<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a>
 					</div>
-					<div id="data-output-results">
-						<div class="panel-menu">
-							<div class="panel-menu-tabs">
-							</div>
-							<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a>
-						</div>
-						<div id="outputs">
-						</div>
+					<div id="outputs">
 					</div>
 				</div>
 			</div>
 			<div id="detail">
 				<div class="panel-menu">
-					<span id="datasets-icon" class="icons">&#xf05a;</span> Detail Panel
-					<a class="icons panel-menu-tools" title="Help" href="">&#xf128;</a>
+					<div class="panel-menu-tabs">
+					</div>
+					<!--<span id="datasets-icon" class="icons">&#xf05a;</span> Detail Panel-->
+					<!--<a class="icons panel-menu-tools" title="Help" href="">&#xf128;</a>-->
 				</div>
-				<div class='content'>
+				<div id="details">
 					
 				</div>
 			</div>
