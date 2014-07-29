@@ -226,6 +226,9 @@ a:hover {
 	width:20%;
 	float: right;
 	z-index: 0;
+	height:100%;
+	background:#FFF;
+	
 }
 
 .panel-menu {
@@ -235,6 +238,7 @@ a:hover {
 	padding:4px;
 	font-size: 12px;
 	font-weight:600;
+	background:#EEE;
 }
 
 .panel-menu-title {
@@ -269,10 +273,6 @@ a:hover {
 }
 .panel-menu-tabs a:first-child {
 	border-left: none;
-}
-
-#data-output .panel-menu {
-	background:#EEE;
 }
 
 .panel-menu a {
@@ -413,6 +413,15 @@ a:hover {
 	border-bottom: 1px solid #CCC;
 	background: #666;
 	color: #FFF;
+}
+
+#details {
+	height: 100%;
+}
+
+.plugin-detail {
+	height: 100%;
+	overflow:scroll;
 }
 
 #detail .content h4 {

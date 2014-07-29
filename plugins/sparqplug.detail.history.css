@@ -1,0 +1,14 @@
+#sparqplug-detail-history ul {
+	height: calc(100% - 25px);
+	overflow: scroll;
+	margin:0px;
+	padding:0px;
+}
+#sparqplug-detail-history li {
+	border-bottom: 1px solid #CCC;
+	font-size:12px;
+	padding:2px;
+	font-family:"Cutive Mono";
+	word-wrap: break-word;
+	cursor: pointer;
+}

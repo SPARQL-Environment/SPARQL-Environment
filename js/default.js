@@ -44,6 +44,30 @@ environment.save = function () {
 	localStorage.setItem('sparql.config', JSON.stringify(this.config));
 	localStorage.setItem('sparql.currentDataset', this.currentDataset);
 }
+// Environment Event Binding
+
+/*
+  Known events:
+	- performedQuery
+	- selectedObject
+*/
+
+environment.bindingAgents = {};
+environment.bindingAgents.performedQuery = [];
+environment.bindingAgents.selectedObject = [];
+
+environment.bindToEvent = function (event, callback, data) {
+	this.bindingAgents[event].push({
+		"callback": callback,
+		"data": data
+	});
+}
+
+environment.triggerEvent = function (event, data) {
+	$.each(this.bindingAgents[event], function (index, agent) {
+		agent.callback($.extend( agent.data, data ));
+	});
+}
 
 // Import from File
 
@@ -344,7 +368,7 @@ environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
 		} else if (plugins[plugin].type == "detail") {
 			$('#details').append(new_plugin);			
 			$('#detail .panel-menu-tabs').append(new_tab);
-			if (environment.currentOutPlugin == null) {
+			if (environment.currentDetailPlugin == null) {
 				environment.viewPlugin(plugin);
 			}
 		}
@@ -393,6 +417,11 @@ environment.performQuery = function (query) {
 	this.addToHistory(query);
 	
 	plugins[this.currentOutPlugin].updateUI();
+	plugins[this.currentInPlugin].updateUI();
+	
+	environment.triggerEvent('performedQuery');
+	
+	//plugins[this.currentDetailPlugin].updateUI();
 }
 
 environment.silentQuery = function (query) {
