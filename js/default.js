@@ -391,12 +391,12 @@ environment.viewPlugin = function (plugin) {
 	$('#'+plugin+"-tab").parent().children().removeClass('selected');
 	$('#'+plugin+"-tab").addClass('selected');
 	
-	plugins[plugin].updateUI();
-	
 	if (plugins[plugin].type == "in") {
 		this.currentInPlugin = plugin;
+		this.currentInPlugin.updateUI();
 	} else if (plugins[plugin].type == "out") {
 		this.currentOutPlugin = plugin;
+		this.currentOutPlugin.updateUI();
 	} else if (plugins[plugin].type == "detail") {
 		this.currentDetailPlugin = plugin;
 	}
