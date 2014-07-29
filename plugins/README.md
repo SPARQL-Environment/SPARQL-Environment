@@ -18,7 +18,17 @@ Responsibilities of an output SparqPlug are:
 - Take query results.
 - Display results.
 
+## Detail
+
+Assists input and/or output plugins and has no responsibilities other than to be useful. It can:
+
+- Perform queries. *(i.e. History and Saved perform queries when a user clicks on a list item)*
+- Provide extra information about objects or verbs. *(i.e. The objects plugin looks up verbs for an object)*
+- Provide lists of verbs, objects, elements or data specific information.
+
 ## Contributing
+
+To contribue to the SPARQL Environment repository itself plugins must be data agnostic. If you're creating data-specific plugins you should create your own GIT repository and name it *sparqplug-{name}* or if you're creating a suite of plugins for your data *sparqplugs-{namespace}*. Examples are *sparqplugs-hmt* or *sparqplugs-cts*.
 
 #### Required Functions
 

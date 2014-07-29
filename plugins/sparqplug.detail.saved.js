@@ -1,22 +1,29 @@
-sparqplug.detail.saved = {type:"detail","title":"Saved","description":"View save and tag queries.","icon":"&#xf1da;","css":"sparqplug.detail.history.css"};
+sparqplug.detail.saved = {type:"detail","title":"Saved","description":"View save and tag queries.","icon":"&#xf1da;","css":"sparqplug.detail.saved.css"};
 
-sparqplug.detail.history.load = function () {
-	$('#sparqplug-detail-history').append("<h3>Test History</h3>");
-	$('#sparqplug-detail-history').append("<ul></ul>");
-}
-
-sparqplug.detail.history.updateUI = function () {
-	$.each(environment.config[environment.currentDataset].history, function (index, value) {
-		$("#sparqplug-detail-history ul").prepend(sparqplug.detail.history.createHistoryli(value,index));
+sparqplug.detail.saved.load = function () {
+	$('#sparqplug-detail-saved').append("<input type='text' placeholder='tags' />");
+	$('#sparqplug-detail-saved').append("<ul></ul>");
+	
+	// Load Initally saved queries.
+	
+	$.each(this.getSavedQueries, function (index, query_object) {
+		var li = sparqplug.detail.saved.liForSavedQuery(query_object);
+		$
 	});
 }
 
-sparqplug.detail.history.createHistoryli = function (query, index) {
+
+
+sparqplug.detail.saved.getSavedQueries = function () {
+	return environment.config[this.currentDataset].saved;
+}
+
+sparqplug.detail.saved.liForSavedQuery = function(query_object) {
 	li = $("<li/>",{
 				text: query
-			}).data('history-index',index).click(function(){
+			}).click(function(){
 				query = this.innerHTML;
-				environment.loadFromHistory($(this).data('history-index'));
+				environment.performQuery(query);
 			});
 			return li;
 }
