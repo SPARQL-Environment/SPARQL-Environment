@@ -8,7 +8,7 @@ sparqplug.detail.saved.load = function () {
 	
 	$.each(this.getSavedQueries, function (index, query_object) {
 		var li = sparqplug.detail.saved.liForSavedQuery(query_object);
-		$
+		$('#sparqplug-detail-saved ul').append(li);
 	});
 }
 
