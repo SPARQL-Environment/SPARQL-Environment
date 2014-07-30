@@ -18,7 +18,7 @@ sparqplug.out.table.updateUI = function () {
 			td = $('<td />',{
 				text: $(document).resolvePrefix(values.value)
 			}).data('obj',values.value).click(function () {
-				environment.triggerEvent('selectedObject',{'object':$(this).data('obj')});
+				environment.triggerEvent('selectedObject',{'object':values.value});
 				//environment.detailObject($(this).data('obj'));
 			});
 			tr.append(td);

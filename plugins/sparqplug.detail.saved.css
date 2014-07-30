@@ -9,22 +9,56 @@ div.cached {
 	background: #EEE;
 	opacity:0.5;
 	margin-left: -2px;
-	margin-top: -3px;
+	margin-top: -2px;
 	margin-right: 2px;
 	font-size: 10px;
 	padding: 2px;
 }
 
-#sparqplug-detail-history ul {
+#sparqplug-detail-saved ul {
 	height: calc(100% - 50px);
 }
 
+#sparqplug-detail-saved li {
+	font-size:14px;
+}
+
+#sparqplug-detail-saved li .icons {
+	float:right;
+	margin:2px;
+	margin-left: -25px;
+	position:relative;
+	background: #FFF;
+}
+#sparqplug-detail-saved li .edit {
+	margin-left: -50px;
+	right:20px;
+}
+
+#sparqplug-detail-saved div.tags {
+	background: #EEE;
+	padding: 2px;
+	margin: 2px;
+	font-size: 12px;
+	font-family: 'Open Sans', sans-serif;
+	color:#000;
+}
+
+#sparqplug-detail-saved div.tags .grayedOut {
+	color:#999;
+}
+
 #query-save-search {
-	width: 100%;
+	width: calc(100% - 10px);
 	margin: 0px;
 	margin-bottom: -1px;
 	outline: 0px;
 	height: 26px;
 	top:-1px;
 	position: relative;
+	padding: 0px;
+	border:0px;
+	border-bottom: 1px solid #CCC;
+	padding-left: 5px;
+	padding-right: 5px;
 }
