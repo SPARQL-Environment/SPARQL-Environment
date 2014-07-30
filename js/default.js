@@ -146,6 +146,8 @@ environment.importConfigJSON = function (json) {
 	console.log('JSON: '+json);
 	new_config = JSON.parse(json);
 	new_config.history = [];
+	new_config.saved = [];
+	
 	this.config[new_config.name] = new_config;
 	this.currentDataset = new_config.name;
 	this.save();
