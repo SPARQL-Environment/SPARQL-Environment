@@ -393,10 +393,10 @@ environment.viewPlugin = function (plugin) {
 	
 	if (plugins[plugin].type == "in") {
 		this.currentInPlugin = plugin;
-		this.currentInPlugin.updateUI();
+		plugins[plugin].updateUI();
 	} else if (plugins[plugin].type == "out") {
 		this.currentOutPlugin = plugin;
-		this.currentOutPlugin.updateUI();
+		plugins[plugin].updateUI();
 	} else if (plugins[plugin].type == "detail") {
 		this.currentDetailPlugin = plugin;
 	}
@@ -524,9 +524,10 @@ environment.setupMinimizing = function () {
 	},'open');
 	
 	$('#detail').setStylesForState({
-		
+		left: '100%'
 	},'closed');
 	$('#detail').setStylesForState({
+		left: '80%'
 	},'open');
 	
 	$('#data-area').setStylesForState({

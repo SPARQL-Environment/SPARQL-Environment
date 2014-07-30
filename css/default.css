@@ -228,7 +228,7 @@ a:hover {
 	z-index: 0;
 	height:100%;
 	background:#FFF;
-	position:relative;
+	position:absolute;
 }
 
 .panel-menu {
