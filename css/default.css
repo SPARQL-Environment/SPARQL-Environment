@@ -63,10 +63,9 @@ a:hover {
 }
 
 #menu-window a {
-	border-right:1px solid #CCC;
 	height: 17px;
 	float: left;
-	padding: 2px;
+	padding: 2px 4px;
 	color:#555;
 }
 #menu-window a:hover {
@@ -227,6 +226,9 @@ a:hover {
 	width:20%;
 	float: right;
 	z-index: 0;
+	height:100%;
+	background:#FFF;
+	position:absolute;
 }
 
 .panel-menu {
@@ -236,6 +238,7 @@ a:hover {
 	padding:4px;
 	font-size: 12px;
 	font-weight:600;
+	background:#EEE;
 }
 
 .panel-menu-title {
@@ -270,10 +273,6 @@ a:hover {
 }
 .panel-menu-tabs a:first-child {
 	border-left: none;
-}
-
-#data-output .panel-menu {
-	background:#EEE;
 }
 
 .panel-menu a {
@@ -406,7 +405,7 @@ a:hover {
 
 /* Detail Styles */
 
-#detail .content .header {
+#details .header {
 	font-size: 14px;
 	word-wrap: break-word;
 	padding: 1em;
@@ -414,6 +413,34 @@ a:hover {
 	border-bottom: 1px solid #CCC;
 	background: #666;
 	color: #FFF;
+}
+
+#details .header a:hover {
+	color: #CCC;
+}
+
+.plugin-detail ul {
+	overflow: scroll;
+	margin:0px;
+	padding:0px;
+}
+
+.plugin-detail li {
+	border-bottom: 1px solid #CCC;
+	font-size:12px;
+	padding:2px;
+	font-family:"Cutive Mono";
+	word-wrap: break-word;
+	cursor: pointer;
+} 
+
+#details {
+	height: 100%;
+}
+
+.plugin-detail {
+	height: 100%;
+	overflow:scroll;
 }
 
 #detail .content h4 {

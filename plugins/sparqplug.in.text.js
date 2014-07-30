@@ -1,4 +1,5 @@
 sparqplug.in.text = {type:"in","title":"Text Query","description":"Standard SPARQL query environment.","icon":"&#xf040;","css":"sparqplug.in.text.css"};
+plugins['sparqplug-in-text'] = sparqplug.in.text;
 
 sparqplug.in.text.load = function () {
 	var textarea = $('<textarea />',{
@@ -130,7 +131,7 @@ sparqplug.in.text.loadDetailView = function () {
 	$('#detail.content').append(verb_search);*/
 }
 
-plugins['sparqplug-in-text'] = sparqplug.in.text;
+
 
 /*!
  * jQuery.textoverlay.js
@@ -280,33 +281,23 @@ plugins['sparqplug-in-text'] = sparqplug.in.text;
       renderTextOnOverlay: function () {
         var text, i, l, strategy, match, style;
         text = escape(this.$textarea.val());
+		
+		var tokens = text.split(" "); // TO-DO Need a better tokenizer begining of lines with line breaks doesn't work.
 
 		$.each(this.termsAndColors, function (term, color) {
-			console.log('Change: '+term+' '+color);
+			//console.log('Change: '+term+' '+color);
 			var match;
-			if (term.indexOf('?') == 0) {
-				 match = new RegExp('(\\'+term+')','g');
-			} else {
-				 match = new RegExp('('+term+')','g');
+			var token;
+			for (var i = 0; i < tokens.length; i++) {
+				token = tokens[i];
+				if (token == term) {
+					tokens[i] = "<span class='"+color+"'>"+term+"</span>";
+				}
 			}
-			text = text.replace(match,"<span class='"+color+"'>"+term+"</span>");
 		});
-
-        // Apply all strategies
-        /*for (i = 0, l = this.strategies.length; i < l; i++) {
-          strategy = this.strategies[i];
-          match = strategy.match;
-          if ($.isArray(match)) {
-            match = $.map(match, function (str) {
-              return str.replace(/(\(|\)|\|)/g, '\$1');
-            });
-            match = new RegExp('(' + match.join('|') + ')', 'g');
-          }
-
-          text = text.replace(match, function (str) {
-            return '<span class="'+ strategy.class+'">' + str + '</span>';
-          });
-        }*/
+		
+		text = tokens.join(" ");
+		
         this.$el.html(text);
         return this;
       },
