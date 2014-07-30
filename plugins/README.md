@@ -85,9 +85,6 @@ sparqplug.in.*.error = function () {
 }
 ```
 
-#### Add To Plugins
-
-
 ### Custom Functions
 
 For your custom functions be sure to stay in your namespace.
