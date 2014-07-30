@@ -112,6 +112,8 @@ If you're creating a detail plugin and you need to know when a query was perform
 
 You can also register your own events if your suite of plugins wants to communicate additional information. Just be sure to register the event in the plugins *.load* function if that plugin relies on it.
 
+`environment.registerEvent('performQuery');`
+
 ## Naming Conventions
 
 As with other frameworks names are on a first come first serve bases and the internet is the only regulatory device. The convention for naming the files is sparqplug.in.\*.{js,css} or sparqplug.out.\*.{js,css}.

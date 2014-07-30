@@ -524,6 +524,7 @@ environment.setupMinimizing = function () {
 	},'open');
 	
 	$('#detail').setStylesForState({
+		
 	},'closed');
 	$('#detail').setStylesForState({
 	},'open');
