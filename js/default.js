@@ -38,6 +38,8 @@ environment.load = function () {
 	if (environment.currentDataset != null && environment.currentDataset != "") {
 		environment.loadDataset(environment.currentDataset);
 	}
+	
+	this.bindToEvent('performedQuery', this.updateVisiblePlugins);
 }
 
 environment.save = function () {
@@ -211,12 +213,15 @@ environment.loadDataset = function (dataset) {
 	this.currentOutPlugin = null;
 	
 	$('#inputs').children().remove();
+	$("#data-input .panel-menu a").remove();
 	$('#data-input .panel-menu-tabs').children().remove();
 	
 	$('#outputs').children().remove();
+	$("#data-output .panel-menu a").remove();
 	$('#data-output .panel-menu-tabs').children().remove();
 	
 	$('#details').children().remove();
+	
 	$('#detail .panel-menu-tabs').children().remove();
 		
 	if (dataset != "") {
@@ -225,8 +230,6 @@ environment.loadDataset = function (dataset) {
 		});	
 	
 		this.currentConfig = this.config[this.currentDataset];
-		
-		//this.loadHistory();
 		
 		$('#menu-datasets .name').html(this.currentDataset);
 	}
@@ -418,11 +421,12 @@ environment.performQuery = function (query) {
 	
 	this.addToHistory(query);
 	
-	plugins[this.currentOutPlugin].updateUI();
-	plugins[this.currentInPlugin].updateUI();
-	
-	environment.triggerEvent('performedQuery');
-	
+	this.triggerEvent('performedQuery');
+}
+
+environment.updateVisiblePlugins = function () {
+	plugins[environment.currentOutPlugin].updateUI();
+	plugins[environment.currentInPlugin].updateUI();
 }
 
 environment.silentQuery = function (query) {

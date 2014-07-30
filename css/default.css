@@ -405,7 +405,7 @@ a:hover {
 
 /* Detail Styles */
 
-#detail .content .header {
+#details .header {
 	font-size: 14px;
 	word-wrap: break-word;
 	padding: 1em;
@@ -414,6 +414,25 @@ a:hover {
 	background: #666;
 	color: #FFF;
 }
+
+#details .header a:hover {
+	color: #CCC;
+}
+
+.plugin-detail ul {
+	overflow: scroll;
+	margin:0px;
+	padding:0px;
+}
+
+.plugin-detail li {
+	border-bottom: 1px solid #CCC;
+	font-size:12px;
+	padding:2px;
+	font-family:"Cutive Mono";
+	word-wrap: break-word;
+	cursor: pointer;
+} 
 
 #details {
 	height: 100%;
