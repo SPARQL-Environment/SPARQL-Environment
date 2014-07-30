@@ -421,7 +421,6 @@ environment.performQuery = function (query) {
 	
 	environment.triggerEvent('performedQuery');
 	
-	//plugins[this.currentDetailPlugin].updateUI();
 }
 
 environment.silentQuery = function (query) {
@@ -440,26 +439,10 @@ environment.addToHistory = function (query) {
 	this.config[this.currentDataset].history.push(query);
 	this.save();
 }
-/*
-environment.loadFromHistory = function (index) {
-	query = this.config[this.currentDataset].history[index];
-	this.latestQuery = query;
-	var results = $(document).query(query,this.config[environment.currentDataset]);
-	if (results.error) {
-		alert('History Item had Error!');
-		return;
-	}
-	this.latestResults = results;
-	
-	plugins[this.currentInPlugin].updateUI();
-	plugins[this.currentOutPlugin].updateUI();
-}
-*/
+
 environment.clearHistory = function () {
 	this.config[this.currentDataset].history = [];
 	this.save();
-	
-	//this.loadHistory();
 }
 
 // Layout Functionality
