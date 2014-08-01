@@ -96,6 +96,10 @@ A tool for creating and resolving GraphKit URNs. These URNs represent a specific
 								gsl:langVersion "1.1" .
 ```
 
+### CiteKit (Beta)
+
+CITEKit is a collection of scripts that allow easy end-user display of images, data, and textual passages using the CITE/CTS Architecture. This page presents a lengthy list of examples of how to use it to include different kinds of data in an html page. Detailed instructions are available on the help pages: click on the CITEKit Console Show/Hide link at the top of this page to access the menu for help files and tools.
+
 ## Browser Compatability
 
 #### All
