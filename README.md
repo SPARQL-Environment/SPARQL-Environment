@@ -98,7 +98,7 @@ A tool for creating and resolving GraphKit URNs. These URNs represent a specific
 
 ### CiteKit (Beta)
 
-CITEKit is a collection of scripts that allow easy end-user display of images, data, and textual passages using the CITE/CTS Architecture. This page presents a lengthy list of examples of how to use it to include different kinds of data in an html page. Detailed instructions are available on the help pages: click on the CITEKit Console Show/Hide link at the top of this page to access the menu for help files and tools.
+CITEKit is a collection of scripts that allow easy end-user display of images, data, and textual passages using the CITE/CTS Architecture. The goal of CITEKit is to make it as easy to embed in HTML texts and data as it always has been to embed images from different sources on the internet.
 
 ## Browser Compatability
 
