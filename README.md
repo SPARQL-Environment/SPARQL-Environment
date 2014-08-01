@@ -80,6 +80,22 @@ Checkout the *configs/README.md* file for how to create configs.
 1. [The Homer Multitext Project](https://github.com/SamuelHill/sparqplugs-hmt)
 1. [Botanica Caroliniana](https://github.com/botcar/botcar-apps/tree/master/sparqplugs-botcar)
 
+## Built-In Features
+
+### GraphKit (In-Development)
+
+A tool for creating and resolving GraphKit URNs. These URNs represent a specific look at a graph. The GraphKit *detail.graphkit* plugin will save any query called **Graph Selection Logic** (GSL) as RDF. Other data will be filled in as well if set properly. If given a SPARQL endpoint for updating, the RDF can be sent directly to a server.
+
+```
+<urn:cite:gsl:CollectionName.1> gsl:auth "Firstname Lastname @organization" ;
+								gsl:date "2014-08-01T16:30:00" ;
+								gsl:label "My Specific look at the Data" ;
+								gsl:graphId <urn:graph:GraphName> ;
+								gsl:gsl "prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> SELECT ?s ?v ?o WHERE { ?s rdf:type <http://www.your.data/type> }";
+								gsl:lang "SPARQL" ;
+								gsl:langVersion "1.1" .
+```
+
 ## Browser Compatability
 
 #### All
