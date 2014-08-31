@@ -11,7 +11,10 @@ sparqplug.in.text.load = function () {
 	var elements = {"SELECT":{'complete-before':'SELECT ','complete-after':'','class':'kw-main'},"LIMIT":{'complete-before':'LIMIT ','complete-after':'','class':'kw-main'},"WHERE":{'complete-before':'WHERE { \n  ','complete-after':'\n}','class':'kw-main'},"DISTINCT":{'class':'kw-submain','complete-before':'DISTINCT ','complete-after':''},"FILTER":{'complete-before':'FILTER ( ','complete-after':' )','class':'kw-main'},"FILTER-REGEX":{'complete-before':'FILTER regex( ?','complete-after':' , \'^regex\' , \'i\' )','class':'kw-main'}}
 	var terms = ["BASE","SELECT","ORDER BY","FROM","GRAPH","STR","isURI","PREFIX","CONSTRUCT","LIMIT","FROM NAMED","OPTIONAL","LANG","isIRI","DESCRIBE","OFFSET","WHERE","UNION","LANGMATCHES","isLITERAL","ASK","DISTINCT","FILTER","FILTER-REGEX","DATATYPE","REGEX","REDUCED","a","BOUND","true","sameTERM","false"];
 	
-	var variables = ["?subject","?verb","?object"];
+	var variables = Object.keys(environment.currentConfig.variables);
+	variables[] = "?subject";
+	variables[] = "?verb";
+	variables[] = "?object";
 	var prefixes = Object.keys(environment.currentConfig.prefixes);
 	
 	$('#sp-in-text-textarea').textcomplete([
@@ -1083,4 +1086,3 @@ RegExp.escape = function(text) {
   };
 
 })(window.jQuery || window.Zepto);
-
