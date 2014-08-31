@@ -139,8 +139,23 @@ $.fn.highlightTags = function (tags) {
 	});
 }
 
+Date.prototype.toJSON = function (key) {
+  function f(n) {
+    // Format integers to have at least two digits.
+    return n < 10 ? '0' + n : n;
+  }
+  return this.getUTCFullYear()   + '-' +
+       f(this.getUTCMonth() + 1) + '-' +
+       f(this.getUTCDate())      + 'T' +
+       f(this.getUTCHours())     + ':' +
+       f(this.getUTCMinutes())   + ':' +
+       f(this.getUTCSeconds())   + 'Z';
+};
+
+
 sparqplug.detail.saved.liForSavedQuery = function(query_object) {
 	var li = $("<li/>").data('tags',query_object.tags);
+	li.query_object = query_object;
 	
 	if (query_object.cache) {
 		li.append($('<div />',{
@@ -154,10 +169,12 @@ sparqplug.detail.saved.liForSavedQuery = function(query_object) {
 	li.showEditingTools = function () {
 		$(this).find('.delete').show();
 		$(this).find('.edit').show();
+		$(this).find('.download').show();
 	}
 	li.hideEditingTools = function () {
 		$(this).find('.delete').hide();
 		$(this).find('.edit').hide();
+		$(this).find('.download').hide();
 	}
 	li.hover(li.showEditingTools, li.hideEditingTools);
 	
@@ -174,9 +191,17 @@ sparqplug.detail.saved.liForSavedQuery = function(query_object) {
 	}).click(function () {
 		li.delete();
 	}).hide();
+	
+	$a_download = $('<a />',{
+		class: 'download icons',
+		html:'&#xf019;'
+	}).click(function () {
+		li.download();
+	}).hide();
 		
 	li.prepend($a_edit);
 	li.prepend($a_delete);
+	li.prepend($a_download);
 	
 	// Query
 	li.append(query_object.query);
@@ -198,7 +223,7 @@ sparqplug.detail.saved.liForSavedQuery = function(query_object) {
 	li.click(function(){
 		if (query_object.cached) {
 			environment.latestQuery = this.query_object.query;
-			environment.latestResults = query_object.results;
+			environment.latestResults = this.query_object.results;
 			environment.triggerEvent('performedQuery');
 		} else {
 			environment.performQuery(query_object.query);
@@ -215,6 +240,11 @@ sparqplug.detail.saved.liForSavedQuery = function(query_object) {
 	li.edit = function () {
 		sparqplug.detail.saved.loadQuery(query_object);
 		$('#query-save-panel').show();
+	}
+	
+	li.download = function () {
+		var graph = '<urn:cite:gsl:CollectionName.#> gsl:auth "Firstname Lastname @organization" ; gsl:date "'+new Date().toJSON()+'" ; gsl:label "My Specific look at the Data" ; gsl:graphId <urn:graph:GraphName> ; gsl:gsl "'+this.query_object.query+'"; gsl:lang "SPARQL" ; gsl:langVersion "1.1" .';
+		window.open('data:text/ttl;charset=utf-8,' + graph);
 	}
 	
 	return li;

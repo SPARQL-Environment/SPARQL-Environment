@@ -31,8 +31,10 @@ div.cached {
 	background: #FFF;
 }
 #sparqplug-detail-saved li .edit {
-	margin-left: -50px;
 	right:20px;
+}
+#sparqplug-detail-saved li .download {
+	right:45px;
 }
 
 #sparqplug-detail-saved div.tags {
