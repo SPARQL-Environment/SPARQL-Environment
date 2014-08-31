@@ -12,9 +12,9 @@ sparqplug.in.text.load = function () {
 	var terms = ["BASE","SELECT","ORDER BY","FROM","GRAPH","STR","isURI","PREFIX","CONSTRUCT","LIMIT","FROM NAMED","OPTIONAL","LANG","isIRI","DESCRIBE","OFFSET","WHERE","UNION","LANGMATCHES","isLITERAL","ASK","DISTINCT","FILTER","FILTER-REGEX","DATATYPE","REGEX","REDUCED","a","BOUND","true","sameTERM","false"];
 	
 	var variables = Object.keys(environment.currentConfig.variables);
-	variables[] = "?subject";
-	variables[] = "?verb";
-	variables[] = "?object";
+	variables.push("?subject");
+	variables.push("?verb");
+	variables.push("?object");
 	var prefixes = Object.keys(environment.currentConfig.prefixes);
 	
 	$('#sp-in-text-textarea').textcomplete([
