@@ -1,0 +1,8 @@
+# White List Native Plugins
+*
+!.gitignore
+!sparqplug.detail.history.*
+!sparqplug.detail.object.*
+!sparqplug.in.text.*
+!sparqplug.out.json.*
+!sparqplug.out.table.*
