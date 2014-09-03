@@ -7,5 +7,10 @@
 	},
 	"variables":{
 	},
-	"plugins":["sparqplug-in-text","sparqplug-out-json","sparqplug-out-table"]
+	"plugins":["sparqplug-in-text","sparqplug-out-json","sparqplug-out-table"],
+	"graphkit":{
+		"prefix":"",
+		"author":"Weston Catron @Furman University",
+		"graph_urn":""
+	}
 }
