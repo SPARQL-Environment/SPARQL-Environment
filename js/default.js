@@ -176,7 +176,7 @@ environment.createBlankConfig = function () {
 		number++;
 	}
 	blank = {
-		"name":dataset_name,
+		"name":name,
 		"description":"",
 		"source":"",
 		"prefixes":{
