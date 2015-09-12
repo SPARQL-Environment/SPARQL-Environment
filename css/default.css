@@ -172,17 +172,30 @@ a:hover {
 
 #config-editor .name {
 	font-size:18px;
-	width:100%;
+	width:150px;
 }
 
 #config-editor .description {
 	font-size:16px;
-	width:100%;
+	width:200px;
 }
 
 #config-editor .source {
 	font-size:12px;
-	width:100%;
+	width:200px;
+}
+
+#config-editor .prefix_key {
+	width:40px;
+}
+
+#config-editor .prefix_value {
+	width:120px;
+}
+
+#config_editor_prefixes {
+	list-style-type: none;
+	margin:5px;
 }
 
 .panel-list li, #import-config {
