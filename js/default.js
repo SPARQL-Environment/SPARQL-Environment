@@ -86,7 +86,7 @@ environment.loadImportMethods = function () {
 
 	$('#import-config-new').click(function () {
 		environment.createBlankConfig();
-	}
+	});
 
 	// Old Way
 	$('#import-config-btn').click(function () {
