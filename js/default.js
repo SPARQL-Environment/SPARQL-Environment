@@ -162,8 +162,7 @@ environment.importConfigJSON = function (json) {
 	this.displayConfigs();
 	this.loadDataset(this.currentDataset);
 
-	$("#import-config").hide();
-	$("#import-config-file").hide();
+	$('#import-config-button').trigger('click');
 }
 
 // Create Blank
