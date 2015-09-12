@@ -169,7 +169,7 @@ environment.importConfigJSON = function (json) {
 
 environment.createBlankConfig = function () {
 	blank = {
-		"name":"",
+		"name":"New Dataset"
 		"description":"",
 		"source":"",
 		"prefixes":{
@@ -180,6 +180,7 @@ environment.createBlankConfig = function () {
 		"plugins":["sparqplug-in-text","sparqplug-out-json","sparqplug-out-table","sparqplug-detail-history","sparqplug-detail-saved","sparqplug-detail-object"]
 	}
 	this.importConfigJSON(JSON.stringify(blank))
+	environment.editDataset("New Dataset");
 }
 
 environment.displayConfigs = function () {
