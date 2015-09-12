@@ -169,7 +169,7 @@ environment.importConfigJSON = function (json) {
 
 environment.createBlankConfig = function () {
 	blank = {
-		"name":"New Dataset"
+		"name":"New Dataset",
 		"description":"",
 		"source":"",
 		"prefixes":{
