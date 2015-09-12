@@ -137,8 +137,10 @@ a:hover {
 #import-config-new {
 	width:100%;
 	text-align:center;
-	margin: 5px;
+	margin-top: 5px;
+	margin-bottom: 5px;
 	font-size: 12px;
+	cursor: pointer;
 }
 
 #import-config-file-hide {

@@ -227,11 +227,6 @@ environment.displayConfigs = function () {
 		}
 		$("#datasets .panel-list ul").append(li);
 	});
-
-	$("#import-config-file").hide();
-	$("#import-config-file-hide").click(function(){
-		$("#import-config-file").hide();
-	});
 }
 
 // Datasets
