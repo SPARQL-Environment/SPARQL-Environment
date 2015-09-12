@@ -3,7 +3,7 @@ $(document).ready(function (){
 	environment.displayConfigs();
 	environment.setupMinimizing();
 	environment.loadImportMethods();
-	
+
 	environment.setupShortCuts();
 });
 
@@ -31,14 +31,14 @@ environment.load = function () {
 	} else {
 		this.currendDataset = "";
 	}
-	
+
 	environment.latestQuery = "";
 	environment.latestResults = {};
-	
+
 	if (environment.currentDataset != null && environment.currentDataset != "") {
 		environment.loadDataset(environment.currentDataset);
 	}
-	
+
 	this.bindToEvent('performedQuery', this.updateVisiblePlugins);
 }
 
@@ -83,18 +83,18 @@ environment.loadImportMethods = function () {
 	    dropZone.addEventListener('drop', handleFileSelect, false);
 	  //do your stuff!
 	}
-	
+
 	// Old Way
 	$('#import-config-btn').click(function () {
 		environment.importConfigFromURL($('#import-config-url').val());
 		$('#import-config-url').val("");
 	});
 	$('#import-config').hide();
-	
+
 	$('#import-config-button').click(function (){
 	    // Setup the dnd listeners.
 		// Check for the various File API support.
-		
+
 		$('#import-config').toggle();
 		$("#import-config-file").toggle();
 	});
@@ -108,7 +108,7 @@ environment.importConfig = function (file) {
 		var contents = e.target.result;
 		environment.importConfigJSON(contents);
 	});
-	
+
 	reader.readAsText(file);
 }
 
@@ -124,7 +124,7 @@ function handleFileSelect(evt) {
 		environment.importConfig(f);
     }
 }
-  
+
 function handleDragOver(evt) {
     evt.stopPropagation();
     evt.preventDefault();
@@ -149,16 +149,33 @@ environment.importConfigJSON = function (json) {
 	new_config = JSON.parse(json);
 	new_config.history = [];
 	new_config.saved = [];
-	
+
 	this.config[new_config.name] = new_config;
 	this.currentDataset = new_config.name;
 	this.save();
-	
+
 	this.displayConfigs();
 	this.loadDataset(this.currentDataset);
-	
+
 	$("#import-config").hide();
 	$("#import-config-file").hide();
+}
+
+// Create Blank
+
+environment.createBlankConfig = function () {
+	blank = {
+		"name":"",
+		"description":"",
+		"source":"",
+		"prefixes":{
+			"rdf:":"http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+		},
+		"variables":{
+		},
+		"plugins":["sparqplug-in-text","sparqplug-out-json","sparqplug-out-table","sparqplug-detail-history","sparqplug-detail-saved","sparqplug-detail-object"]
+	}
+	this.importConfigJSON(JSON.stringify(blank))
 }
 
 environment.displayConfigs = function () {
@@ -166,7 +183,7 @@ environment.displayConfigs = function () {
 	$("#datasets .panel-list ul").empty();
 	$.each(this.config,function(index,value) {
 		console.log('config: '+value.name);
-		
+
 		li_edit = $('<span/>',{
 			class:'edit',
 			text:'edit'
@@ -174,7 +191,7 @@ environment.displayConfigs = function () {
 			dataset = $(this).parent().data('id');
 			environment.editDataset(dataset);
 		}).hide();
-		
+
 		li = $('<li/>',{
 			text:value.name,
 			title:value.description
@@ -185,20 +202,20 @@ environment.displayConfigs = function () {
 			$('#datasets .panel-list li').removeClass('selected');
 			$(this).addClass('selected');
 			environment.save();
-			
+
 			environment.loadDataset(dataset);
 		}).hover(function () {
 			$(this).find('.edit').show();
 		},function () {
 			$(this).find('.edit').hide();
 		}).append(li_edit);
-				
+
 		if (environment.currentDataset == value.name) {
 			li.addClass('selected');
 		}
 		$("#datasets .panel-list ul").append(li);
 	});
-	
+
 	$("#import-config-file").hide();
 	$("#import-config-file-hide").click(function(){
 		$("#import-config-file").hide();
@@ -208,32 +225,32 @@ environment.displayConfigs = function () {
 // Datasets
 
 environment.loadDataset = function (dataset) {
-	
+
 	this.currentInPlugin = null;
 	this.currentOutPlugin = null;
-	
+
 	$('#inputs').children().remove();
 	$("#data-input .panel-menu a").remove();
 	$('#data-input .panel-menu-tabs').children().remove();
-	
+
 	$('#outputs').children().remove();
 	$("#data-output .panel-menu a").remove();
 	$('#data-output .panel-menu-tabs').children().remove();
-	
+
 	$('#details').children().remove();
-	
+
 	$('#detail .panel-menu-tabs').children().remove();
-		
+
 	if (dataset != "") {
 		$.each(environment.config[dataset].plugins,function (index,value) {
 			environment.loadPlugin(value);
-		});	
-	
+		});
+
 		this.currentConfig = this.config[this.currentDataset];
-		
+
 		$('#menu-datasets .name').html(this.currentDataset);
 	}
-	
+
 }
 
 
@@ -248,13 +265,13 @@ environment.loadStandAloneDataset = function (configURL) {
 
 environment.editDataset = function (dataset) {
 	this.editor.open();
-	
+
 	edit_config = this.config[dataset];
-	
+
 	$('#config_editor_name').val(edit_config.name);
 	$('#config_editor_description').val(edit_config.description);
 	$('#config_editor_source').val(edit_config.source);
-	
+
 	$('#config_editor_prefixes').empty();
 	$.each(edit_config.prefixes, function (key, value) {
 		var li = $('<li />');
@@ -262,30 +279,30 @@ environment.editDataset = function (dataset) {
 		li.append('<input type="text" class="config_editor_prefixes_value" value="'+value+'" />');
 		$('#config_editor_prefixes').append(li);
 	});
-	
+
 	$('#config_editor_prefixes_add').click(function() {
 		var li = $('<li />');
 		li.append('<input type="text" class="config_editor_prefixes_key" value="" placeholder="Key" />');
 		li.append('<input type="text" class="config_editor_prefixes_value" value="" placeholder="Value" />');
 		$('#config_editor_prefixes').append(li);
 	});
-	
+
 	$('#config-editor').data('dataset',dataset);
 }
 
 environment.saveDataset = function () {
 	var dataset = $('#config-editor').data('dataset');
-	
+
 	if (dataset !=  $('#config_editor_name').val()) {
 		this.config[$('#config_editor_name').val()] = this.config[dataset];
 		this.config[$('#config_editor_name').val()].name = $('#config_editor_name').val();
 		delete this.config[dataset];
 		dataset = $('#config_editor_name').val();
 	}
-	
+
 	this.config[dataset].description = $('#config_editor_description').val();
 	this.config[dataset].source = $('#config_editor_source').val();
-	
+
 	var prefixes_new = {};
 	$('#config_editor_prefixes').children().each(function (index,li) {
 		var key = $(li).find('.config_editor_prefixes_key').val();
@@ -294,31 +311,31 @@ environment.saveDataset = function () {
 			prefixes_new[key] = value;
 		}
 	});
-	
+
 	this.config[dataset].prefixes = prefixes_new;
-	
+
 	this.save();
 	this.load();
 	this.displayConfigs();
 	this.loadDataset(dataset);
-	
+
 	this.editor.close();
 }
 
 environment.deleteDataset = function () {
 	var dataset = $('#config-editor').data('dataset');
-	
+
 	delete this.config[dataset];
 	this.currentDataset = "";
-	
-	
+
+
 	this.save();
 	this.load();
 	this.displayConfigs();
 	this.loadDataset("");
-	
+
 	this.editor.close();
-	
+
 }
 
 // Dataset Editor
@@ -344,7 +361,7 @@ environment.editor.close = function () {
 
 environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
 	console.log('Loading SparqPlug: '+plugin);
-	
+
 	$.getScript('plugins/'+plugin.replace(/\-/g,'.')+'.js', function( data, textStatus, jqxhr ) {
 		console.log('Loaded JS for Plugin: '+plugin);
 		new_plugin = $("<div/>",{
@@ -357,28 +374,28 @@ environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
 			href:"javascript:environment.viewPlugin('"+plugin+"')"
 		});
 		new_tab.append('<span class="icons">'+plugins[plugin].icon+'</span> '+plugins[plugin].title);
-		
+
 		if (plugins[plugin].type == "in") {
-			$('#inputs').append(new_plugin);			
+			$('#inputs').append(new_plugin);
 			$('#data-input .panel-menu-tabs').append(new_tab);
 			if (environment.currentInPlugin == null) {
 				environment.viewPlugin(plugin);
 			}
 		} else if (plugins[plugin].type == "out") {
-			$('#outputs').append(new_plugin);			
+			$('#outputs').append(new_plugin);
 			$('#data-output .panel-menu-tabs').append(new_tab);
 			if (environment.currentOutPlugin == null) {
 				environment.viewPlugin(plugin);
 			}
 		} else if (plugins[plugin].type == "detail") {
-			$('#details').append(new_plugin);			
+			$('#details').append(new_plugin);
 			$('#detail .panel-menu-tabs').append(new_tab);
 			if (environment.currentDetailPlugin == null) {
 				environment.viewPlugin(plugin);
 			}
 		}
 		plugins[plugin].load();
-		
+
 		if (plugins[plugin].css) {
 			$('<link/>', {
 			   rel: 'stylesheet',
@@ -392,10 +409,10 @@ environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
 environment.viewPlugin = function (plugin) {
 	//Switch views
 	$('#'+plugin).parent().prepend($('#'+plugin));
-	
+
 	$('#'+plugin+"-tab").parent().children().removeClass('selected');
 	$('#'+plugin+"-tab").addClass('selected');
-	
+
 	if (plugins[plugin].type == "in") {
 		this.currentInPlugin = plugin;
 		plugins[plugin].updateUI();
@@ -418,9 +435,9 @@ environment.performQuery = function (query) {
 	}
 	this.latestQuery = query;
 	this.latestResults = results;
-	
+
 	this.addToHistory(query);
-	
+
 	this.triggerEvent('performedQuery');
 }
 
@@ -470,7 +487,7 @@ environment.setupMinimizing = function () {
 		'height': '100%',
 		'width': '100%',
 	},'vertical-full-open');
-	
+
 	$("#data-output").setStylesForState({
 		'top':'0%',
 		'height':'100%',
@@ -505,37 +522,37 @@ environment.setupMinimizing = function () {
 		'left' : '100%',
 		'border-left': '0px'
 	},'vertical-closed');
-	
-	
+
+
 	$("#data-area").data('horizontal', true);
 	$('#data-input').jumpToState('horizontal-half-open');
 	$("#data-output").jumpToState('horizontal-half-open');
 	$('#data-output').css('border-top','1px solid #999');
-	
+
 	// Datasets
-	
+
 	$('#datasets').data('open', false);
-	
+
 	$('#menu-datasets').click(function () {
 		environment.toggleDatasets();
 	});
-	
+
 	// Workspace Setup
-	
+
 	$('#datasets').setStylesForState({
 		left:'-20%'
 	},'closed');
 	$('#datasets').setStylesForState({
 		left:'0%'
 	},'open');
-	
+
 	$('#detail').setStylesForState({
 		left: '100%'
 	},'closed');
 	$('#detail').setStylesForState({
 		left: '80%'
 	},'open');
-	
+
 	$('#data-area').setStylesForState({
 		width:'100%',
 		left: '0%'
@@ -552,12 +569,12 @@ environment.setupMinimizing = function () {
 		width:'60%',
 		left: '20%'
 	},'half');
-	
+
 	$('#workspace').data('state', "dataarea");
 	$('#datasets').jumpToState('closed');
 	$('#data-area').jumpToState('full');
 	$('#detail').jumpToState('closed');
-	
+
 	// Full Screen
 	// The plugin sets the $.support.fullscreen flag:
 	if($.support.fullscreen){
@@ -565,7 +582,7 @@ environment.setupMinimizing = function () {
 	        $('body').fullScreen();
 	    });
 	}
-	
+
 	$("#details-toggle").click(function () {
 		environment.toggleDetailView()
 	});
@@ -675,19 +692,19 @@ environment.setWorkspaceState = function (state) {
 			$('#data-area').animateToState('half-left');
 			$('#detail').animateToState('open');
 			break;
-			
+
 		default:
-		
+
 	}
 }
 
 environment.equalizeInputsOutputs = function () {
 	$('#menu-window').children().removeClass('selected');
 	$('#window-equal').addClass('selected');
-	
+
 	$('#'+this.currentOutPlugin+"-tab").addClass('selected');
 	$('#'+this.currentInPlugin+"-tab").addClass('selected');
-	
+
 	if ($("#data-area").data('horizontal')) {
 		$('#data-input').animateToState('horizontal-half-open');
 		$('#data-output').animateToState('horizontal-half-open');
@@ -697,16 +714,16 @@ environment.equalizeInputsOutputs = function () {
 		$('#data-output').animateToState('vertical-half-open');
 		$('#data-output').css('border-left','1px solid #999');
 	}
-	
+
 }
 
 environment.maximizeOutputs = function () {
 	$('#menu-window').children().removeClass('selected');
 	$('#window-output').addClass('selected');
-	
+
 	$('#data-input .panel-menu-tabs').children().removeClass('selected');
 	$('#'+this.currentOutPlugin+"-tab").addClass('selected');
-	
+
 	if ($("#data-area").data('horizontal')) {
 		$('#data-input').animateToState('horizontal-half-open');
 		$("#data-output").animateToState('horizontal-full-open');
@@ -719,10 +736,10 @@ environment.maximizeOutputs = function () {
 environment.maximizeInputs = function () {
 	$('#menu-window').children().removeClass('selected');
 	$('#window-input').addClass('selected');
-	
+
 	$('#data-output .panel-menu-tabs').children().removeClass('selected');
 	$('#'+this.currentInPlugin+"-tab").addClass('selected');
-	
+
 	if ($("#data-area").data('horizontal')) {
 		$('#data-input').animateToState('horizontal-full-open');
 		$('#data-output').animateToState('horizontal-closed');
@@ -750,7 +767,7 @@ environment.rotateDatasetViews = function () {
 		$('#data-output').css('margin-left','0px');
 		$("#menu-window").removeClass('rotate');
 	}
-	
+
 }
 
 function requestFullScreen(element) {
@@ -770,18 +787,18 @@ function requestFullScreen(element) {
 /* Extender to jQuery for saving minimized states */
 
 ;(function( $ ) {
-	 
+
     $.fn.setStylesForState = function(styles , state) {
 		$(this).data('style-'+state,styles);
 	}
-	
+
 	$.fn.animateToState = function (state) {
 		$(this).animate($(this).data('style-'+state));
 	}
 	$.fn.jumpToState = function (state) {
 		$(this).css($(this).data('style-'+state));
 	}
-	
+
 }( jQuery ));
 
 // Replace the normal jQuery getScript function with one that supports
@@ -852,23 +869,23 @@ environment.detailObject = function (obj) {
 	environment.showDetailView();
 	$detail = $("#detail .content");
 	$detail.empty();
-	
+
 	$obj_display = $('<div />',{
 		text: $(document).resolvePrefix(obj),
 		class: 'header'
 	});
-	
+
 	$obj_verbs = $('<div />',{
 		class: 'verb-list'
 	});
-	
+
 	obj_string = '<'+obj+'>'; // should check for prefix
-	
+
 	// TO-DO stop using versbForObject and verbsForDirectObject.
 	// Use custom query that retrieves both at once.
-	
+
 	$obj_verbs.append("<h4>Verbs as Subject</h4>");
-	
+
 	$.each($(document).verbsForObject(obj_string),function (index, verb) {
 		$obj_verb = $('<a />',{
 			text: $(document).resolvePrefix(verb.value),
@@ -876,18 +893,18 @@ environment.detailObject = function (obj) {
 		});
 		$obj_verb.data('obj',obj);
 		$obj_verb.data('verb', verb.value);
-		
+
 		$obj_verb.click(function () {
 			environment.performQuery('SELECT ?object WHERE { <'+$(this).data('obj')+'> <'+$(this).data('verb')+'> ?object }');
 			environment.plugins[environment.currentInPlugin].updateUI();
 		});
-		
+
 		$obj_verbs.append($obj_verb);
 		$obj_verbs.append('<br/>');
 	});
-	
+
 	$obj_verbs.append("<h4>Verbs as Object</h4>");
-	
+
 	$.each($(document).verbsForDirectObject(obj_string),function (index, verb) {
 		$obj_verb = $('<a />',{
 			text: $(document).resolvePrefix(verb.value),
@@ -895,18 +912,18 @@ environment.detailObject = function (obj) {
 		});
 		$obj_verb.data('obj',obj);
 		$obj_verb.data('verb', verb.value);
-		
+
 		$obj_verb.click(function () {
 			environment.performQuery('SELECT ?subject WHERE { ?subject <'+$(this).data('verb')+'> <'+$(this).data('obj')+'> }');
 			environment.plugins[environment.currentInPlugin].updateUI();
 		});
-		
+
 		$obj_verbs.append($obj_verb);
 		$obj_verbs.append('<br/>');
-		
+
 	});
-	
+
 	$detail.append($obj_display);
 	$detail.append($obj_verbs);
-	
+
 }
