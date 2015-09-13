@@ -241,14 +241,14 @@ environment.displayConfigs = function () {
 			text:value.name,
 			title:value.description
 		}).data('id',value.name).click(function () {
-			dataset = $(this).data('id');
-			console.log("load dataset: "+dataset);
+			view = $(this).data('id');
+			console.log("load view: "+view);
 			environment.currentView = view;
 			$('#configs .panel-list li').removeClass('selected');
 			$(this).addClass('selected');
 			environment.save();
 
-			environment.loadDataset(dataset);
+			environment.loadView(view);
 		}).hover(function () {
 			$(this).find('.edit').show();
 		},function () {
