@@ -32,7 +32,7 @@ a:hover {
 	width:25%;
 }
 
-#menu-tools #menu-datasets .name {
+#menu-tools #menu-configs .name {
 	font-size:12px;
 	margin-left: 5px;
 }
@@ -88,7 +88,7 @@ a:hover {
 	top:37px;
 }
 
-#datasets {
+#configs {
 	width:20%;
 	background: #FFF;
 	height: 100%;
@@ -100,21 +100,21 @@ a:hover {
 	left:0%;
 }
 
-#datasets-icon {
+#configs-icon {
 	color:#999;
 }
 
-#datasets ul {
+#configs ul {
 	margin: 0px;
 	padding: 0px;
 	font-size: 14px;
 }
 
-#datasets .panel-list li {
+#configs .panel-list li {
 	cursor: pointer;
 }
 
-#datasets .panel-list li .edit {
+#configs .panel-list li .edit {
 	float:right;
 	font-size:12px;
 	font-weight:bold;
@@ -122,7 +122,7 @@ a:hover {
 	margin-right:5px;
 }
 
-#datasets .panel-list .selected {
+#configs .panel-list .selected {
 	background:#CCC;
 }
 
@@ -390,7 +390,7 @@ a:hover {
 	font-weight: normal;
 }
 
-#datasets .panel-list li:before, #import-config:before {
+#configs .panel-list li:before, #import-config:before {
 	font-size: 16px;
 	color: #333;
 	margin-left:4px;
