@@ -63,7 +63,7 @@ sparqplug.in.*.load = function () {
 
 #### Input and Output Plugins Only
 
-**updateUI** is called whenever the *environemnt.latestQuery* changes. This is rare for input plugins but output plugins use this function to update their UI to reflect the *environment.latestResults*.
+**updateUI** is called whenever the *environment.latestQuery* changes. This is rare for input plugins but output plugins use this function to update their UI to reflect the *environment.latestResults*.
 
 ```
 sparqplug.in.*.updateUI = function () {
@@ -103,7 +103,7 @@ sparqplug.in.*.queryChanged = function () {
 If you're creating a detail plugin and you need to know when a query was performed you can bind to an event. This will call your callback function every time the event is triggered. Current global events are:
 
 - *performedQuery* is called whenever results come back. Same time as updateUI.
-- *selectedObject* is called whenever a plugin triggers it and includes the object in the data parameter. (out.table does)
+- *selectedObject* is called whenever a plugin triggers it and includes the object in the data parameter. (out.table does this)
 
 `environment.bindToEvent('performQuery',this.updateHistory);`
 
