@@ -469,7 +469,7 @@ environment.viewPlugin = function (plugin) {
 // Plugin Functions for Querying
 
 environment.currentDataset = function () {
-	return this.config['datasets'][this.config['views'][this.currentView]];
+	return this.config.datasets[this.config.views[this.currentView].dataset];
 }
 
 environment.performQuery = function (query) {
