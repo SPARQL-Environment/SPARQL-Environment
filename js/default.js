@@ -191,7 +191,7 @@ environment.createBlankConfig = function () {
 environment.displayConfigs = function () {
 	console.log('load configs: '+this.config);
 	$("#configs .panel-list ul").empty();
-	$.each(this.config,function(index,value) {
+	$.each(this.config.datasets,function(index,value) {
 		console.log('config: '+value.name);
 
 		li_edit = $('<span/>',{
@@ -223,7 +223,42 @@ environment.displayConfigs = function () {
 		if (environment.currentDataset == value.name) {
 			li.addClass('selected');
 		}
-		$("#configs .panel-list ul").append(li);
+		$("#datasets").append(li);
+	});
+
+	$.each(this.config.views,function(index,value) {
+		console.log('config: '+value.name);
+
+		li_edit = $('<span/>',{
+			class:'edit',
+			text:'edit'
+		}).click(function () {
+			dataset = $(this).parent().data('id');
+			environment.editDataset(dataset);
+		}).hide();
+
+		li = $('<li/>',{
+			text:value.name,
+			title:value.description
+		}).data('id',value.name).click(function () {
+			dataset = $(this).data('id');
+			console.log("load dataset: "+dataset);
+			environment.currentView = view;
+			$('#configs .panel-list li').removeClass('selected');
+			$(this).addClass('selected');
+			environment.save();
+
+			environment.loadDataset(dataset);
+		}).hover(function () {
+			$(this).find('.edit').show();
+		},function () {
+			$(this).find('.edit').hide();
+		}).append(li_edit);
+
+		if (environment.currentDataset == value.name) {
+			li.addClass('selected');
+		}
+		$("#views").append(li);
 	});
 }
 
