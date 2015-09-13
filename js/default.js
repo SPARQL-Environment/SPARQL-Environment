@@ -474,7 +474,7 @@ environment.currentDataset = function () {
 
 environment.performQuery = function (query) {
 	console.log('Query: '+query);
-	var results = $(document).query(query,this.currentDataset);
+	var results = $(document).query(query,this.currentDataset());
 	if (results.error) {
 		plugins[this.currentInPlugin].error(results.response);
 		return;
