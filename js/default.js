@@ -27,7 +27,7 @@ environment.load = function () {
 		this.config = {};
 	}
 	if (localStorage['sparql.currentView'] != null) {
-		this.currentView = localStorage['sparql.currentDataset'];
+		this.currentView = localStorage['sparql.currentView'];
 	} else {
 		this.currentView = "";
 	}
@@ -159,7 +159,7 @@ environment.importConfigJSON = function (json) {
 	this.save();
 
 	this.displayConfigs();
-	this.loadDataset(this.currentDataset);
+	this.loadView(this.currentView);
 
 	$('#import-config-button').trigger('click');
 }
@@ -255,7 +255,7 @@ environment.displayConfigs = function () {
 			$(this).find('.edit').hide();
 		}).append(li_edit);
 
-		if (environment.currentDataset == value.name) {
+		if (environment.currentView == value.name) {
 			li.addClass('selected');
 		}
 		$("#views").append(li);
@@ -494,7 +494,7 @@ environment.updateVisiblePlugins = function () {
 
 environment.silentQuery = function (query) {
 	console.log('Query: '+query);
-	var results = $(document).query(query,this.currentDataset);
+	var results = $(document).query(query,this.currentDataset());
 	if (results.error) {
 		plugins[this.currentInPlugin].error(results.response);
 		return;
