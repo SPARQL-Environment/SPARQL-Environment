@@ -21,20 +21,20 @@
 	<body>
 		<div id="menu">
 		<div id="menu-tools">
-			<div id='menu-datasets'><span id="datasets-icon" class="icons">&#xf1c0;</span><span class='name'>Datasets</span></div>
+			<div id='menu-configs'><span id="configs-icon" class="icons">&#xf1c0;</span><span class='name'>Datasets & Views</span></div>
 		</div>
 			<div id="menu-title">SPARQL Environment</div>
 			<div id='menu-window'>
 				<a class='icons selected' id='window-equal' href='javascript:environment.equalizeInputsOutputs()'><div>&#xe602;</div></a>
 				<a class='icons' id='window-output' href='javascript:environment.maximizeOutputs()'><div>&#xe600;</div></a>
 				<a class='icons' id='window-input' href='javascript:environment.maximizeInputs()' style="border-right: 1px solid #CCC;"><div>&#xe601;</div></a>
-				<a class='icons' id='window-input' href='javascript:environment.rotateDatasetViews()'>&#xf01e;</a>
+				<a class='icons' id='window-input' href='javascript:environment.rotateDataArea()'>&#xf01e;</a>
 				<a class="icons" id='fullScreen'>&#xf065;</a>
 				<a class="icons" id='details-toggle'>&#xf05a;</a>
 			</div>
 		</div>
 		<div id="workspace">
-			<div id="datasets">
+			<div id="configs">
 				<div class="panel-menu">
 					<span id="datasets-icon" class="icons">&#xf1c0;</span> Datasets
 					<a class="icons panel-menu-tools" title="Export configuration" id="export-config-button">&#xf01b;</a>
@@ -46,6 +46,18 @@
 					<div id='import-config'><input id='import-config-url' type='text' placeholder='URL to Config File' /><input id='import-config-btn' type='submit' value='Add'></div>
 					<div id='import-config-file'>Drag Config File Here</div>
 					<div id='import-config-new'>Create New Dataset</div>
+				</div>
+				<div class="panel-menu">
+					<span id="views-icon" class="icons">&#xf1c0;</span> Views
+					<a class="icons panel-menu-tools" title="Export configuration" id="export-view-button">&#xf01b;</a>
+					<a class="icons panel-menu-tools" title="Import configuration" id="import-view-button">&#xf01a;</a>
+				</div>
+				<div class="panel-list">
+					<ul>
+					</ul>
+					<div id='import-view'><input id='import-view-url' type='text' placeholder='URL to View Config File' /><input id='import-view-btn' type='submit' value='Add'></div>
+					<div id='import-view-file'>Drag Config File Here</div>
+					<div id='import-view-new'>Create New Dataset</div>
 				</div>
 			</div>
 			<div id="data-area">
@@ -62,14 +74,6 @@
 					</div>
 				</div>
 				<div id="data-output">
-					<!--<div id="data-output-history">
-						<div class="panel-menu">
-							<span id="datasets-icon" class="icons">&#xf1da;</span> History
-							<a href="javascript:environment.clearHistory();" class="icons panel-menu-tools" title="Clear History" href="">&#xf014;</a>
-						</div>
-						<ul>
-						</ul>
-					</div>-->
 					<div class="panel-menu">
 						<div class="panel-menu-tabs">
 						</div>
@@ -83,8 +87,6 @@
 				<div class="panel-menu">
 					<div class="panel-menu-tabs">
 					</div>
-					<!--<span id="datasets-icon" class="icons">&#xf05a;</span> Detail Panel-->
-					<!--<a class="icons panel-menu-tools" title="Help" href="">&#xf128;</a>-->
 				</div>
 				<div id="details">
 

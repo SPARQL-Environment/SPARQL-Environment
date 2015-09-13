@@ -26,17 +26,17 @@ environment.load = function () {
 	} else {
 		this.config = {};
 	}
-	if (localStorage['sparql.currentDataset'] != null) {
-		this.currentDataset = localStorage['sparql.currentDataset'];
+	if (localStorage['sparql.currentView'] != null) {
+		this.currentView = localStorage['sparql.currentDataset'];
 	} else {
-		this.currendDataset = "";
+		this.currentView = "";
 	}
 
 	environment.latestQuery = "";
 	environment.latestResults = {};
 
-	if (environment.currentDataset != null && environment.currentDataset != "") {
-		environment.loadDataset(environment.currentDataset);
+	if (this.currentView != null && this.currentView != "") {
+		this.loadView(this.currentView);
 	}
 
 	this.bindToEvent('performedQuery', this.updateVisiblePlugins);
@@ -44,7 +44,7 @@ environment.load = function () {
 
 environment.save = function () {
 	localStorage.setItem('sparql.config', JSON.stringify(this.config));
-	localStorage.setItem('sparql.currentDataset', this.currentDataset);
+	localStorage.setItem('sparql.currentView', this.currentView);
 }
 // Environment Event Binding
 
@@ -77,7 +77,6 @@ environment.loadImportMethods = function () {
 	if (window.File && window.FileReader && window.FileList && window.Blob) {
 		//New Way
 		$("#import-config-file").hide();
-		//$('#datasets .panel-list').prepend("");
 	    var dropZone = document.getElementById('import-config-file');
 	    dropZone.addEventListener('dragover', handleDragOver, false);
 	    dropZone.addEventListener('drop', handleFileSelect, false);
@@ -156,7 +155,7 @@ environment.importConfigJSON = function (json) {
 	new_config.saved = [];
 
 	this.config[new_config.name] = new_config;
-	this.currentDataset = new_config.name;
+	this.currentView = new_config.name;
 	this.save();
 
 	this.displayConfigs();
@@ -191,7 +190,7 @@ environment.createBlankConfig = function () {
 
 environment.displayConfigs = function () {
 	console.log('load configs: '+this.config);
-	$("#datasets .panel-list ul").empty();
+	$("#configs .panel-list ul").empty();
 	$.each(this.config,function(index,value) {
 		console.log('config: '+value.name);
 
@@ -210,7 +209,7 @@ environment.displayConfigs = function () {
 			dataset = $(this).data('id');
 			console.log("load dataset: "+dataset);
 			environment.currentDataset = dataset;
-			$('#datasets .panel-list li').removeClass('selected');
+			$('#configs .panel-list li').removeClass('selected');
 			$(this).addClass('selected');
 			environment.save();
 
@@ -224,13 +223,13 @@ environment.displayConfigs = function () {
 		if (environment.currentDataset == value.name) {
 			li.addClass('selected');
 		}
-		$("#datasets .panel-list ul").append(li);
+		$("#configs .panel-list ul").append(li);
 	});
 }
 
-// Datasets
+// Configs
 
-environment.loadDataset = function (dataset) {
+environment.loadView = function (view) {
 
 	this.currentInPlugin = null;
 	this.currentOutPlugin = null;
@@ -247,14 +246,14 @@ environment.loadDataset = function (dataset) {
 
 	$('#detail .panel-menu-tabs').children().remove();
 
-	if (dataset != "") {
-		$.each(environment.config[dataset].plugins,function (index,value) {
+	if (view != "") {
+		$.each(environment.config['views'][view].plugins,function (index,value) {
 			environment.loadPlugin(value);
 		});
 
-		this.currentConfig = this.config[this.currentDataset];
+		this.currentView = view;
 
-		$('#menu-datasets .name').html(this.currentDataset);
+		$('#menu-configs .name').html(this.currentView);
 	}
 
 }
@@ -432,9 +431,13 @@ environment.viewPlugin = function (plugin) {
 
 // Plugin Functions for Querying
 
+environment.currentDataset = function () {
+	return this.config['datasets'][this.config['views'][this.currentView]];
+}
+
 environment.performQuery = function (query) {
 	console.log('Query: '+query);
-	var results = $(document).query(query,this.config[this.currentDataset]);
+	var results = $(document).query(query,this.currentDataset);
 	if (results.error) {
 		plugins[this.currentInPlugin].error(results.response);
 		return;
@@ -454,7 +457,7 @@ environment.updateVisiblePlugins = function () {
 
 environment.silentQuery = function (query) {
 	console.log('Query: '+query);
-	var results = $(document).query(query,this.config[environment.currentDataset]);
+	var results = $(document).query(query,this.currentDataset);
 	if (results.error) {
 		plugins[this.currentInPlugin].error(results.response);
 		return;
@@ -465,12 +468,12 @@ environment.silentQuery = function (query) {
 // History
 
 environment.addToHistory = function (query) {
-	this.config[this.currentDataset].history.push(query);
+	this.config['views'][this.currentView].history.push(query);
 	this.save();
 }
 
 environment.clearHistory = function () {
-	this.config[this.currentDataset].history = [];
+	tthis.config['views'][this.currentView].history = [];
 	this.save();
 }
 
@@ -535,20 +538,20 @@ environment.setupMinimizing = function () {
 	$("#data-output").jumpToState('horizontal-half-open');
 	$('#data-output').css('border-top','1px solid #999');
 
-	// Datasets
+	// Configs
 
-	$('#datasets').data('open', false);
+	$('#configs').data('open', false);
 
-	$('#menu-datasets').click(function () {
-		environment.toggleDatasets();
+	$('#menu-configs').click(function () {
+		environment.toggleConfigs();
 	});
 
 	// Workspace Setup
 
-	$('#datasets').setStylesForState({
+	$('#configs').setStylesForState({
 		left:'-20%'
 	},'closed');
-	$('#datasets').setStylesForState({
+	$('#configs').setStylesForState({
 		left:'0%'
 	},'open');
 
@@ -577,7 +580,7 @@ environment.setupMinimizing = function () {
 	},'half');
 
 	$('#workspace').data('state', "dataarea");
-	$('#datasets').jumpToState('closed');
+	$('#configs').jumpToState('closed');
 	$('#data-area').jumpToState('full');
 	$('#detail').jumpToState('closed');
 
@@ -600,14 +603,14 @@ environment.toggleDetailView = function () {
 		case "dataarea":
 			this.setWorkspaceState('dataarea-detail');
 			break;
-		case "datasets-dataarea":
-			this.setWorkspaceState('datasets-dataarea-detail');
+		case "configs-dataarea":
+			this.setWorkspaceState('configs-dataarea-detail');
 			break;
 		case "dataarea-detail":
 			this.setWorkspaceState('dataarea');
 			break;
-		case "datasets-dataarea-detail":
-			this.setWorkspaceState('datasets-dataarea');
+		case "configs-dataarea-detail":
+			this.setWorkspaceState('configs-dataarea');
 			break;
 		default:
 	}
@@ -619,8 +622,8 @@ environment.showDetailView = function () {
 		case "dataarea":
 			this.setWorkspaceState('dataarea-detail');
 			break;
-		case "datasets-dataarea":
-			this.setWorkspaceState('datasets-dataarea-detail');
+		case "configs-dataarea":
+			this.setWorkspaceState('configs-dataarea-detail');
 			break;
 		default:
 	}
@@ -632,43 +635,43 @@ environment.hideDetailView = function () {
 		case "dataarea-detail":
 			this.setWorkspaceState('dataarea');
 			break;
-		case "datasets-dataarea-detail":
-			this.setWorkspaceState('datasets-dataarea');
+		case "configs-dataarea-detail":
+			this.setWorkspaceState('configs-dataarea');
 			break;
 		default:
 	}
 }
 
-environment.toggleDatasets = function () {
-	if ($('#datasets').data('open')) {
-		environment.hideDatasets();
-		$('#datasets').data('open', false);
+environment.toggleConfigs = function () {
+	if ($('#configs').data('open')) {
+		environment.hideConfigs();
+		$('#configs').data('open', false);
 	} else {
-		environment.showDatasets();
-		$('#datasets').data('open', true);
+		environment.showConfigs();
+		$('#configs').data('open', true);
 	}
 }
 
-environment.showDatasets = function () {
+environment.showConfigs = function () {
 	var state = $('#workspace').data('state');
 	switch (state) {
 		case "dataarea":
-			this.setWorkspaceState('datasets-dataarea');
+			this.setWorkspaceState('configs-dataarea');
 			break;
 		case "dataarea-detail":
-			this.setWorkspaceState('datasets-dataarea-detail');
+			this.setWorkspaceState('configs-dataarea-detail');
 			break;
 		default:
 	}
 }
 
-environment.hideDatasets = function () {
+environment.hideConfigs = function () {
 	var state = $('#workspace').data('state');
 	switch (state) {
-		case "datasets-dataarea":
+		case "configs-dataarea":
 			this.setWorkspaceState('dataarea');
 			break;
-		case "datasets-dataarea-detail":
+		case "configs-dataarea-detail":
 			this.setWorkspaceState('dataarea-detail');
 			break;
 		default:
@@ -679,22 +682,22 @@ environment.setWorkspaceState = function (state) {
 	$('#workspace').data('state',state);
 	switch (state) {
 		case "dataarea":
-			$('#datasets').animateToState('closed');
+			$('#configs').animateToState('closed');
 			$('#data-area').animateToState('full');
 			$('#detail').animateToState('closed');
 			break;
-		case "datasets-dataarea":
-			$('#datasets').animateToState('open');
+		case "configs-dataarea":
+			$('#configs').animateToState('open');
 			$('#data-area').animateToState('half-right');
 			$('#detail').animateToState('closed');
 			break;
-		case "datasets-dataarea-detail":
-			$('#datasets').animateToState('open');
+		case "configs-dataarea-detail":
+			$('#configs').animateToState('open');
 			$('#data-area').animateToState('half');
 			$('#detail').animateToState('open');
 			break;
 		case "dataarea-detail":
-			$('#datasets').animateToState('closed');
+			$('#configs').animateToState('closed');
 			$('#data-area').animateToState('half-left');
 			$('#detail').animateToState('open');
 			break;
@@ -755,7 +758,7 @@ environment.maximizeInputs = function () {
 	}
 }
 
-environment.rotateDatasetViews = function () {
+environment.rotateDataArea = function () {
 	if ($("#data-area").data('horizontal')) {
 		$("#data-area").data('horizontal', false);
 		$('#data-input').jumpToState('vertical-half-open');

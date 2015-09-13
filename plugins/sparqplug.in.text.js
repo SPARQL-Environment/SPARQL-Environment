@@ -5,18 +5,18 @@ sparqplug.in.text.load = function () {
 	var textarea = $('<textarea />',{
 		id: 'sp-in-text-textarea'
 	});//.change(sparqplug.in.text.queryChanged);
-	
+
 	$("#sparqplug-in-text").append(textarea);
-	
+
 	var elements = {"SELECT":{'complete-before':'SELECT ','complete-after':'','class':'kw-main'},"LIMIT":{'complete-before':'LIMIT ','complete-after':'','class':'kw-main'},"WHERE":{'complete-before':'WHERE { \n  ','complete-after':'\n}','class':'kw-main'},"DISTINCT":{'class':'kw-submain','complete-before':'DISTINCT ','complete-after':''},"FILTER":{'complete-before':'FILTER ( ','complete-after':' )','class':'kw-main'},"FILTER-REGEX":{'complete-before':'FILTER regex( ?','complete-after':' , \'^regex\' , \'i\' )','class':'kw-main'}}
 	var terms = ["BASE","SELECT","ORDER BY","FROM","GRAPH","STR","isURI","PREFIX","CONSTRUCT","LIMIT","FROM NAMED","OPTIONAL","LANG","isIRI","DESCRIBE","OFFSET","WHERE","UNION","LANGMATCHES","isLITERAL","ASK","DISTINCT","FILTER","FILTER-REGEX","DATATYPE","REGEX","REDUCED","a","BOUND","true","sameTERM","false"];
-	
-	var variables = Object.keys(environment.currentConfig.variables);
+
+	var variables = Object.keys(environment.currentDataset().variables);
 	variables.push("?subject");
 	variables.push("?verb");
 	variables.push("?object");
-	var prefixes = Object.keys(environment.currentConfig.prefixes);
-	
+	var prefixes = Object.keys(environment.currentDataset().prefixes);
+
 	$('#sp-in-text-textarea').textcomplete([
 		{ // Prefixes
 	        match: /(?:^|\s)(\w+)$/im,
@@ -63,7 +63,7 @@ sparqplug.in.text.load = function () {
 			 header: "Variables"
 		}
 	]);
-	
+
 	$.each(variables, function(index, value) {
 		$('#sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'verb');
 	});
@@ -87,14 +87,14 @@ sparqplug.in.text.load = function () {
 			$(this).data('alting',false);
 		}
 	});
-	
+
 	var run_button = $('<a />',{
 		id: 'sp-in-text-run',
 		class:'icons'
 	}).append("&#xf04b;").click(function () {sparqplug.in.text.queryChanged()});
-	
+
 	$('#sp-in-text-textarea').parent().append(run_button);
-	
+
 	//self.loadDetailView();
 }
 
@@ -125,12 +125,12 @@ sparqplug.in.text.loadDetailView = function () {
 		type:'text'
 	}).change(function () {
 		var urn = $(this).val();
-		
+
 		environment.silentQuery("SELECT distinct ?v WHERE { <"+urn+"> ?v ?o }")
-		
+
 		$('#detail-verb-search-results').append();
 	})
-	
+
 	$('#detail.content').append(verb_search);*/
 }
 
@@ -213,13 +213,13 @@ sparqplug.in.text.loadDetailView = function () {
 
     css = {
       wrapper: {
-        
+
       },
       overlay: {
-        
+
       },
       textarea: {
-        
+
       }
     };
 
@@ -284,7 +284,7 @@ sparqplug.in.text.loadDetailView = function () {
       renderTextOnOverlay: function () {
         var text, i, l, strategy, match, style;
         text = escape(this.$textarea.val());
-		
+
 		var tokens = text.split(" "); // TO-DO Need a better tokenizer begining of lines with line breaks doesn't work.
 
 		$.each(this.termsAndColors, function (term, color) {
@@ -298,9 +298,9 @@ sparqplug.in.text.loadDetailView = function () {
 				}
 			}
 		});
-		
+
 		text = tokens.join(" ");
-		
+
         this.$el.html(text);
         return this;
       },
@@ -642,7 +642,7 @@ RegExp.escape = function(text) {
             return true;
         }
       },
-	  
+
       onSelect: function (data_obj) {
         var pre, post, newSubStr, sel, range, selection, match, value;
 		value = data_obj['val'];
@@ -659,23 +659,23 @@ RegExp.escape = function(text) {
         } else {
           post = this.el.value.substring(this.el.selectionEnd);
         }
-        
+
         newSubStr = this.strategy.replace(value);
-        
+
         if ($.isArray(newSubStr)) {
           post = newSubStr[1] + post;
           newSubStr = newSubStr[0];
         }
 
        	match = this.getMatch(pre, this.strategy.match, this.strategy.index);
-		
+
 		if (this.strategy.match_replace) {
 			pre = pre.replace(this.strategy.match_replace, newSubStr);
 		} else {
 			pre = pre.replace(new RegExp(RegExp.escape(match)+"$"), newSubStr);
 		}
-       
-        
+
+
         if (this.el.contentEditable == 'true') {
           range.selectNodeContents(range.startContainer);
           range.deleteContents();
@@ -687,7 +687,7 @@ RegExp.escape = function(text) {
           sel.addRange(range);
         } else {
           this.$el.val(pre + post);
-          this.el.selectionStart = this.el.selectionEnd = pre.length; 
+          this.el.selectionStart = this.el.selectionEnd = pre.length;
         }
 
         this.$el.trigger('change')
@@ -791,7 +791,7 @@ RegExp.escape = function(text) {
         var text, selectionEnd, range;
         if (this.el.contentEditable == 'true') {
           if (window.getSelection) {
-            // IE9+ and non-IE            
+            // IE9+ and non-IE
             var range = window.getSelection().getRangeAt(0);
             var selection = range.cloneRange();
             selection.selectNodeContents(range.startContainer);
@@ -820,16 +820,16 @@ RegExp.escape = function(text) {
         for (i = 0, l = this.strategies.length; i < l; i++) {
           strategy = this.strategies[i];
           match = this.getMatch(text, strategy.match, strategy.index);
-		  
+
           if (match) {
 			  	strategies.push(match);
 		  		strategies.push(strategy);
 		  }
-		  
+
 	  	 }
         return strategies; // 0 - term 1 - strategy... n - term n-1 - strategy
       },
-	  
+
 	  getMatch: function(string, regex, index) {
 		  if(!(regex instanceof RegExp)) {
 	          return "ERROR";
@@ -898,7 +898,7 @@ RegExp.escape = function(text) {
         var html, i, l, index, val, str;
 
         html = '';
-        
+
         if(this.strategy.header) {
           if ($.isFunction(this.strategy.header)) {
             str = this.strategy.header(data);
