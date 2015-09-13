@@ -399,10 +399,12 @@ environment.editor.close = function () {
 
 // Plugins
 
+environment.pluginBaseURL = '';
+
 environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
 	console.log('Loading SparqPlug: '+plugin);
 
-	$.getScript('plugins/'+plugin.replace(/\-/g,'.')+'.js', function( data, textStatus, jqxhr ) {
+	$.getScript(this.pluginBaseURL+'plugins/'+plugin.replace(/\-/g,'.')+'.js', function( data, textStatus, jqxhr ) {
 		console.log('Loaded JS for Plugin: '+plugin);
 		new_plugin = $("<div/>",{
 			id: plugin,
@@ -440,7 +442,7 @@ environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
 			$('<link/>', {
 			   rel: 'stylesheet',
 			   type: 'text/css',
-			   href: 'plugins/'+plugins[plugin].css
+			   href: environment.pluginBaseURL+'plugins/'+plugins[plugin].css
 			}).appendTo('head');
 		}
 	});
