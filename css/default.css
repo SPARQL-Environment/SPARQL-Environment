@@ -126,7 +126,7 @@ a:hover {
 	background:#CCC;
 }
 
-#import-config-file {
+.file-drop-zone {
 	padding: 10px;
 	margin: 5px;
 	border: 1px dashed #666;
