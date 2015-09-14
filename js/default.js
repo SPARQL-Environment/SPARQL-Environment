@@ -201,6 +201,7 @@ environment.createBlankConfig = function () {
 environment.displayConfigs = function () {
 	console.log('load configs: '+this.config);
 	$("#configs .panel-list ul").empty();
+
 	$.each(this.config.datasets,function(index,value) {
 		console.log('config: '+value.name);
 
@@ -233,7 +234,7 @@ environment.displayConfigs = function () {
 		if (environment.currentDataset == value.name) {
 			li.addClass('selected');
 		}
-		$("#datasets").append(li);
+		$("#datasets ul").append(li);
 	});
 
 	$.each(this.config.views,function(index,value) {
@@ -268,7 +269,7 @@ environment.displayConfigs = function () {
 		if (environment.currentView == value.name) {
 			li.addClass('selected');
 		}
-		$("#views").append(li);
+		$("#views ul").append(li);
 	});
 }
 
