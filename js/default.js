@@ -92,15 +92,25 @@ environment.loadImportMethods = function () {
 		environment.importConfigFromURL($('#import-config-url').val());
 		$('#import-config-url').val("");
 	});
-	$('#import-config').hide();
 
-	$('#import-config-button').click(function (){
+	// Datasets
+	$('#import-dataset-methods').hide();
+
+	$('#import-dataset-button').click(function (){
 	    // Setup the dnd listeners.
 		// Check for the various File API support.
 
-		$('#import-config').toggle();
-		$("#import-config-file").toggle();
-		$('#import-config-new').toggle();
+		$('#import-dataset-methods').toggle();
+	});
+
+	// Views
+	$('#import-view-methods').hide();
+
+	$('#import-view-button').click(function (){
+	    // Setup the dnd listeners.
+		// Check for the various File API support.
+
+		$('#import-view-methods').toggle();
 	});
 }
 
