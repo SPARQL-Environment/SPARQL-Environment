@@ -7,16 +7,16 @@ Built using javascript and jQuery this IQE allows for the querying of SPARQL dat
 
 ## Setup and Installation
 
-The SPARQL Environment runs in a browser client-side. To get up and running simply clone this repository and open the index.html file in your browser. 
+The SPARQL Environment runs in a browser client-side. To get up and running simply clone this repository and open the index.html file in your browser.
 
 *Note: Not all browsers were created equal. Sadly there are compatibility issues, please see below if you run into problems.*
 
 ## Configs
 
-The config files contain the nessesary information to start querying a dataset. 
+The config files contain the nessesary information to start querying a dataset.
 
 - Name & Description: These fields identify the dataset and should explain something about the data.
-- Source: URL for the SPARQL Node. 
+- Source: URL for the SPARQL Node.
 - Prefixes: Define your prefixes to make querying much easier.
 - Variables: Define common variables used with your database to make queries make more sense. (In-Development)
 - Plugins: List the plugins this dataset will display.
@@ -49,9 +49,9 @@ The right side bar contains the datasets details plugins. The objective of the s
 
 ## Plugins
 
-Plugins for SPARQL Environment are called SparqPlugs. Clever, we know. This gives us a namespace from which to operate. Files which begin with *"sparqplug."* depict plugins for the SPARQL Environment. We hope this will allow developers to create and share sparqplugs more effeciently. However, so we can sound like normal people we will discribe them as plugins within the context of the SPARQL Environment. 
+Plugins for SPARQL Environment are called SparqPlugs. Clever, we know. This gives us a namespace from which to operate. Files which begin with *"sparqplug."* depict plugins for the SPARQL Environment. We hope this will allow developers to create and share sparqplugs more efficiently. However, so we can sound like normal people we will describe them as plugins within the context of the SPARQL Environment.
 
-Plugins are either agnostic (data independent) or specific (data dependent) and should be labeled clearly which they are. Examples of agnostic plugins are the "Text Query Editor" which is a sophisticated query editor and the "JSON Viewer". Both of these plugins will work with any dataset thier given.
+Plugins are either agnostic (data independent) or specific (data dependent) and should be labeled clearly which they are. Examples of agnostic plugins are the "Text Query Editor" which is a sophisticated query editor and the "JSON Viewer". Both of these plugins will work with any dataset they're given.
 
 There are three types of Plugins input, output and detail.
 
@@ -66,6 +66,12 @@ The goal of the output plugin is to present the user with the results of the SPA
 #### Detail
 
 The goal of the detail plugin is to be helpful and informative. Fill the gap of any functionality that doesn't fit as an input or output plugin.
+
+### Plugin URN specifications
+
+Plugins have their own URN specifications and can be 
+
+### Plugin URN Resolvers
 
 ## Contribute
 
