@@ -24,7 +24,10 @@ environment.load = function () {
 	if (localStorage['sparql.config'] != null) {
 		this.config = JSON.parse(localStorage['sparql.config']);
 	} else {
-		this.config = {};
+		this.config = {
+			datasets:[],
+			views:[]
+		};
 	}
 	if (localStorage['sparql.currentView'] != null) {
 		this.currentView = localStorage['sparql.currentView'];
