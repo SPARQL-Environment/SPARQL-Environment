@@ -27,8 +27,8 @@ environment.load = function () {
 		this.config = JSON.parse(localStorage[this.configKey]);
 	} else {
 		this.config = {
-			datasets:[],
-			views:[]
+			datasets:{},
+			views:{}
 		};
 	}
 	if (localStorage[this.currentViewKey] != null) {
@@ -187,7 +187,7 @@ environment.importConfigJSON = function (json) {
 environment.createBlankDataset = function () {
 	name = "New Dataset";
 	number = 1;
-	while (this.config[name] != null) {
+	while (this.config.datasets[name] != null) {
 		name = "New Dataset "+number;
 		number++;
 	}
@@ -199,10 +199,25 @@ environment.createBlankDataset = function () {
 			"rdf:":"http://www.w3.org/1999/02/22-rdf-syntax-ns#"
 		},
 		"variables":{
-		},
+		}
+	}
+	this.importDatasetJSON(JSON.stringify(blank))
+	environment.editDataset("New Dataset");
+}
+
+environment.createBlankView = function () {
+	name = "New View";
+	number = 1;
+	while (this.config.views[name] != null) {
+		name = "New View "+number;
+		number++;
+	}
+	blank = {
+		"name":name,
+		"dataset":null,
 		"plugins":["sparqplug-in-text","sparqplug-out-json","sparqplug-out-table","sparqplug-detail-history","sparqplug-detail-saved","sparqplug-detail-object"]
 	}
-	this.importConfigJSON(JSON.stringify(blank))
+	this.importDatasetJSON(JSON.stringify(blank))
 	environment.editDataset("New Dataset");
 }
 
