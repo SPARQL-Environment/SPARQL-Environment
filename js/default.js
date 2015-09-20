@@ -143,7 +143,7 @@ function handleFileSelect(evt) {
     // files is a FileList of File objects.
     var output = [];
     for (var i = 0, f; f = files[i]; i++) {
-		environment.importConfig(f);
+			environment.importConfig(f);
     }
 }
 
@@ -158,28 +158,51 @@ function handleDragOver(evt) {
 environment.importConfigFromURL = function (url) {
 	console.log('importing config from URL: '+url)
 	json = $.getJSON( url ,function( data ) {
-		if (environment.config[data.name] == null) {
-			environment.importConfigJSON(JSON.stringify(data));
+		if (data.type == "dataset") {
+			if (environment.config.datasets[data.name] == null) {
+				environment.importDatasetJSON(JSON.stringify(data));
+			}
+		} else if (data.type == "view") {
+			if (environment.config.views[data.name] == null) {
+				environment.importViewJSON(JSON.stringify(data));
+			}
 		}
+
 	});
 }
 
 // Import Global
 
-environment.importConfigJSON = function (json) {
+environment.importDatasetJSON = function (json) {
 	console.log('JSON: '+json);
 	new_config = JSON.parse(json);
 	new_config.history = [];
 	new_config.saved = [];
 
-	this.config[new_config.name] = new_config;
+	this.config.datasets[new_config.name] = new_config;
 	this.currentView = new_config.name;
 	this.save();
 
 	this.displayConfigs();
 	this.loadView(this.currentView);
 
-	$('#import-config-button').trigger('click');
+	$('#import-dataset-button').trigger('click');
+}
+
+environment.importViewJSON = function (json) {
+	console.log('JSON: '+json);
+	new_config = JSON.parse(json);
+	new_config.history = [];
+	new_config.saved = [];
+
+	this.config.views[new_config.name] = new_config;
+	this.currentView = new_config.name;
+	this.save();
+
+	this.displayConfigs();
+	this.loadView(this.currentView);
+
+	$('#import-view-button').trigger('click');
 }
 
 // Create Blank

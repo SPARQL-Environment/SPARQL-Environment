@@ -1,4 +1,5 @@
 {
+  "type":"dataset",
   "name": "fu-folio",
   "source": "http://folio.furman.edu/fuseki/folio/query",
   "description": "Furman University Classics Dataset",
