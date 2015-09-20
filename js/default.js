@@ -80,12 +80,10 @@ environment.triggerEvent = function (event, data) {
 
 environment.loadImportMethods = function () {
 	if (window.File && window.FileReader && window.FileList && window.Blob) {
-		$("#import-dataset-file").hide();
 		var dropZone = document.getElementById('import-dataset-file');
 		dropZone.addEventListener('dragover', handleDragOver, false);
 		dropZone.addEventListener('drop', handleFileSelect, false);
 
-		$("#import-view-file").hide();
 		var dropZone = document.getElementById('import-view-file');
 		dropZone.addEventListener('dragover', handleDragOver, false);
 		dropZone.addEventListener('drop', handleFileSelect, false);
