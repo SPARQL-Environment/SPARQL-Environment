@@ -126,7 +126,8 @@ environment.importConfig = function (file) {
 	// Closure to capture the file information.
 	reader.onload = (function(e) {
 		var contents = e.target.result;
-		environment.importConfigJSON(contents);
+		var data = JSON.parse(contents);
+		environment.importConfigFromObject(data);
 	});
 
 	reader.readAsText(file);
@@ -156,17 +157,20 @@ function handleDragOver(evt) {
 environment.importConfigFromURL = function (url) {
 	console.log('importing config from URL: '+url)
 	json = $.getJSON( url ,function( data ) {
-		if (data.type == "dataset") {
-			if (environment.config.datasets[data.name] == null) {
-				environment.importDatasetJSON(JSON.stringify(data));
-			}
-		} else if (data.type == "view") {
-			if (environment.config.views[data.name] == null) {
-				environment.importViewJSON(JSON.stringify(data));
-			}
-		}
-
+		this.importConfigFromObject(data);
 	});
+}
+
+environment.importConfigFromObject = function (data) {
+	if (data.type == "dataset") {
+		if (environment.config.datasets[data.name] == null) {
+			environment.importDatasetJSON(JSON.stringify(data));
+		}
+	} else if (data.type == "view") {
+		if (environment.config.views[data.name] == null) {
+			environment.importViewJSON(JSON.stringify(data));
+		}
+	}
 }
 
 // Import Global
