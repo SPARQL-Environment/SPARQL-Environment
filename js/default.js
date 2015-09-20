@@ -12,6 +12,8 @@ $(document).ready(function (){
 var environment = {};
 
 var sparqplug = {};
+sparqplug.configKey = 'sparql.config';
+sparqplug.currentViewKey = 'sparql.currentView';
 sparqplug.in = {};
 sparqplug.out = {};
 sparqplug.detail = {};
@@ -21,16 +23,16 @@ var plugins = {};
 var localStorage = window.localStorage;
 
 environment.load = function () {
-	if (localStorage['sparql.config'] != null) {
-		this.config = JSON.parse(localStorage['sparql.config']);
+	if (localStorage[this.configKey] != null) {
+		this.config = JSON.parse(localStorage[this.configKey]);
 	} else {
 		this.config = {
 			datasets:[],
 			views:[]
 		};
 	}
-	if (localStorage['sparql.currentView'] != null) {
-		this.currentView = localStorage['sparql.currentView'];
+	if (localStorage[this.currentViewKey] != null) {
+		this.currentView = localStorage[this.currentViewKey];
 	} else {
 		this.currentView = "";
 	}
@@ -46,8 +48,8 @@ environment.load = function () {
 }
 
 environment.save = function () {
-	localStorage.setItem('sparql.config', JSON.stringify(this.config));
-	localStorage.setItem('sparql.currentView', this.currentView);
+	localStorage.setItem(this.configKey, JSON.stringify(this.config));
+	localStorage.setItem(this.currentViewKey, this.currentView);
 }
 // Environment Event Binding
 
@@ -78,23 +80,26 @@ environment.triggerEvent = function (event, data) {
 
 environment.loadImportMethods = function () {
 	if (window.File && window.FileReader && window.FileList && window.Blob) {
-		//New Way
-		$("#import-config-file").hide();
-	    var dropZone = document.getElementById('import-config-file');
-	    dropZone.addEventListener('dragover', handleDragOver, false);
-	    dropZone.addEventListener('drop', handleFileSelect, false);
-	  //do your stuff!
+		$("#import-dataset-file").hide();
+		var dropZone = document.getElementById('import-dataset-file');
+		dropZone.addEventListener('dragover', handleDragOver, false);
+		dropZone.addEventListener('drop', handleFileSelect, false);
+
+		$("#import-view-file").hide();
+		var dropZone = document.getElementById('import-view-file');
+		dropZone.addEventListener('dragover', handleDragOver, false);
+		dropZone.addEventListener('drop', handleFileSelect, false);
+	} else {
+		// TO-DO: Implement all way of uploading via URL. Not nesseary if all modern browsers can jsut do a drag and drop file.
 	}
 
-	$('#import-config-new').click(function () {
-		environment.createBlankConfig();
+	$('#import-dataset-new').click(function () {
+		environment.createBlankDataset();
 	}).hide();
 
-	// Old Way
-	$('#import-config-btn').click(function () {
-		environment.importConfigFromURL($('#import-config-url').val());
-		$('#import-config-url').val("");
-	});
+	$('#import-view-new').click(function () {
+		environment.createBlankView();
+	}).hide();
 
 	// Datasets
 	$('#import-dataset-methods').hide();
@@ -179,7 +184,7 @@ environment.importConfigJSON = function (json) {
 
 // Create Blank
 
-environment.createBlankConfig = function () {
+environment.createBlankDataset = function () {
 	name = "New Dataset";
 	number = 1;
 	while (this.config[name] != null) {

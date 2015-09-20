@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Basic",
+    "dataset": "fu-folio",
+    "plugins": [
+      "sparqplug-in-text",
+      "sparqplug-out-json",
+      "sparqplug-out-citekit",
+      "sparqplug-in-cts-browser",
+      "sparqplug-out-table"
+    ]
+  }
+]
