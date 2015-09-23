@@ -3,7 +3,6 @@
   "name": "fu-folio",
   "source": "http://folio.furman.edu/fuseki/folio/query",
   "description": "Furman University Classics Dataset",
-  "citekitSRC": "svc-folio-cts",
   "prefixes": {
     "cts:": "http://www.homermultitext.org/cts/rdf/",
     "cite:": "http://www.homermultitext.org/cite/rdf/",
@@ -21,15 +20,5 @@
     "?image": [
 
     ]
-  },
-  "cts": {
-    "types": {
-      "Editions": "cts:Edition",
-      "Collections": "cite:CiteCollection",
-      "Works": "cts:Work",
-      "Text Groups": "cts:TextGroup",
-      "Translations": "cts:Translation",
-      "Image Collections": "cite:ImageArchive"
-    }
   }
 }
