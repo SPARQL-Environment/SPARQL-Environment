@@ -367,7 +367,7 @@ environment.loadView = function (view) {
 		var viewConfig = environment.getViewObject(view);
 
 		// Input panels
-		var number_of_panels = viewConfig.plugins.input;
+		var number_of_panels = viewConfig.plugins.input.length;
 		$.each(viewConfig.plugins.input,function (index,panel_config) {
 			panelID = 'input-panel-'+index;
 			$panel = $('<div />',{
