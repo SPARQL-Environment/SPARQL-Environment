@@ -402,11 +402,11 @@ environment.clearWorkspace = function () {
  * @param {string} view Unique name of the view being retrieved.
  */
 environment.getViewObject = function (view) {
-	$.each(this.config.views,function (index, viewObject) {
+	for (var viewObject in this.config.views) {
 		if (viewObject.name == view) {
 			return viewObject;
 		}
-	});
+	}
 }
 
 environment.loadStandAloneDataset = function (configURL) {
