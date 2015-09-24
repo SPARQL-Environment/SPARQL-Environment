@@ -587,7 +587,7 @@ environment.viewPlugin = function (plugin) {
 // Plugin Functions for Querying
 
 environment.currentDatasets = function (selector) {
-	var panel_index = $(selector).parent('.panel').data('index');
+	var panel_index = $(selector).parents('.panel').data('index');
 	return this.configs.plugins.inputs[panel_index].datasets;
 }
 
