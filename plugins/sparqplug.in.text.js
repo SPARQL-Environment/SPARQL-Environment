@@ -60,7 +60,7 @@ sparqplug.in.text.load = function (selector) {
 	        },
 	        index: 0,
 	        replace: function (element) {
-				$('#sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'verb');
+				$('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'verb');
 				return element + " ";
 	        },
 			 header: "Variables"
@@ -106,14 +106,14 @@ sparqplug.in.text.error = function (error,selector) {
 	//alert('There was an Error!');
 }
 
-sparqplug.in.text.updateUI = function () {
+sparqplug.in.text.updateUI = function (selector) {
 	console.log("updateUI in.text");
-	$('#sp-in-text-textarea').val(environment.latestQuery);
-	$('#sp-in-text-textarea').trigger('change');
+	$(selector+' .sp-in-text-textarea').val(environment.latestQuery);
+	$(selector+' .sp-in-text-textarea').trigger('change');
 }
 
-sparqplug.in.text.sparqit = function () {
-	return $('#sp-in-text-textarea').val();
+sparqplug.in.text.sparqit = function (selector) {
+	return $(selector+' .sp-in-text-textarea').val();
 }
 
 //Plugin Specific
