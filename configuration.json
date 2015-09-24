@@ -35,14 +35,14 @@
       "plugins": {
         "input":[
           {
-            "plugins":["urn:sparqplug:sparqlenvironment.in.text:0.1","sparqplug-in-cts-browser"],
+            "plugins":["urn:sparqplug:sparqlenvironment.in.text:0.1"],
             "datasets":["fu-folio"]
           },{
-            "plugins":["sparqplug-in-text","sparqplug-in-cts-browser"],
+            "plugins":["urn:sparqplug:sparqlenvironment.in.text:0.1"],
             "datasets":["fu-folio"]
           }
         ],
-        "output":["sparqplug-out-json","sparqplug-out-citekit","sparqplug-out-table"],
+        "output":["urn:sparqplug:sparqlenvironment.out.table:0.1","urn:sparqplug:sparqlenvironment.out.json:0.1","sparqplug-out-table"],
         "detail":[],
         "update":[]
       },

@@ -35,7 +35,7 @@ environment.resolver.resolvePluginURN = function (urn,callback) {
     success:true,
     loadedResource:function (url) {
       this.loaded++;
-      if (this.loaded == total) {
+      if (this.loaded == this.total) {
         this.status = 'loaded';
         this.callbackFunction(success);
       }
