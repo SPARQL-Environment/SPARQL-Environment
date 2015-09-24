@@ -235,6 +235,10 @@ a:hover {
 .plugin-in {
 	height:100%;
 }
+.plugin {
+	height:100%;
+	overflow:scroll;
+}
 
 #inputs-text {
 	height: 100%;

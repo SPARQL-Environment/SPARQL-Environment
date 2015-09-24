@@ -546,7 +546,7 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 		var pluginClass = environment.sanitizeURNForClassName(plugin);
 
 		new_plugin = $("<div/>",{
-			class: plugin+' plugin-'+plugins[plugin].type
+			class: plugin+' plugin plugin-'+plugins[plugin].type
 		}).data('urn',plugin);
 		new_tab = $("<a/>",{
 			class: plugin+'-tab',
