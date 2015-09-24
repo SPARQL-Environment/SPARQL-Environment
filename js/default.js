@@ -366,19 +366,18 @@ environment.loadView = function (view) {
 	if (view != "") {
 		var viewConfig = environment.getViewObject(view);
 
-
 		// Input panels
 		$.each(viewConfig.plugins.input,function (index,panel_config) {
 			panelID = 'input-panel-'+index;
 			$panel = $('<div />',{
 				'class':'input-panel',
 				'id':panelID
-			});
+			}).data('index',index);
 			$('#data-input').append($panel);
 			$('#'+panelID).html('<div class="panel-menu"><div class="panel-menu-tabs"></div>'+
 				'<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a><a class="icons panel-menu-tools" title="Save Query" href="">&#xf0c7;</a>'+
 			'</div><div class="panel-plugins"></div>');
-			$.each(panel_config, function (index, pluginURN) {
+			$.each(panel_config.plugins, function (index, pluginURN) {
 				environment.loadPlugin(pluginURN,'#'+panelID);
 			});
 		});
