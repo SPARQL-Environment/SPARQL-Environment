@@ -3,9 +3,8 @@ plugins['urn:sparqplug:sparqlenvironment.in.text:0.1'] = sparqplug.in.text;
 
 sparqplug.in.text.load = function (selector) {
 	var textarea = $('<textarea />',{
-		id: 'sp-in-text-textarea'
+		class: 'sp-in-text-textarea'
 	});//.change(sparqplug.in.text.queryChanged);
-
 	$(selector).append(textarea);
 
 	var elements = {"SELECT":{'complete-before':'SELECT ','complete-after':'','class':'kw-main'},"LIMIT":{'complete-before':'LIMIT ','complete-after':'','class':'kw-main'},"WHERE":{'complete-before':'WHERE { \n  ','complete-after':'\n}','class':'kw-main'},"DISTINCT":{'class':'kw-submain','complete-before':'DISTINCT ','complete-after':''},"FILTER":{'complete-before':'FILTER ( ','complete-after':' )','class':'kw-main'},"FILTER-REGEX":{'complete-before':'FILTER regex( ?','complete-after':' , \'^regex\' , \'i\' )','class':'kw-main'}}
@@ -17,7 +16,7 @@ sparqplug.in.text.load = function (selector) {
 	variables.push("?object");
 	var prefixes = Object.keys(environment.currentDataset().prefixes);
 
-	$(selector+' #sp-in-text-textarea').textcomplete([
+	$(selector+' .sp-in-text-textarea').textcomplete([
 		{ // Prefixes
 	        match: /(?:^|\s)(\w+)$/im,
 	        search: function (term, callback) {
@@ -27,7 +26,7 @@ sparqplug.in.text.load = function (selector) {
 	        },
 	        index: 0,
 	        replace: function (element) {
-				$('#sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'prefix');
+				$('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'prefix');
 				return element;
 	        },
 			 header: "Prefixes"
@@ -65,24 +64,25 @@ sparqplug.in.text.load = function (selector) {
 	]);
 
 	$.each(variables, function(index, value) {
-		$(selector+' #sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'verb');
+		$(selector+' .sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'verb');
 	});
 	$.each(prefixes, function(index, value) {
-		$(selector+' #sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'prefix');
+		$(selector+' .sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'prefix');
 	});
 	$.each(elements, function(key, value) {
-		$('#sp-in-text-textarea').overlay().data('overlay').addTermAndColor(key,value.class);
+		$(selector+' .sp-in-text-textarea').overlay().data('overlay').addTermAndColor(key,value.class);
 	});
-	$(selector+' #sp-in-text-textarea').data('alting',false);
-	$(selector+' #sp-in-text-textarea').keydown(function(e) {
+	$(selector+' .sp-in-text-textarea').data('alting',false);
+	$(selector+' .sp-in-text-textarea').data('selector',selector);
+	$(selector+' .sp-in-text-textarea').keydown(function(e) {
 		console.log('keydown : '+e.keyCode);
 		if (e.keyCode == 18) {
 			$(this).data('alting',true);
 		} else if ($(this).data('alting') == true && e.keyCode == 13) { //R?
-			sparqplug.in.text.queryChanged();
+			sparqplug.in.text.queryChanged($(this).data('selector'));
 		}
 	});
-	$(selector+' #sp-in-text-textarea').keyup(function(e) {
+	$(selector+' .sp-in-text-textarea').keyup(function(e) {
 		if (e.keyCode == 18) {
 			$(this).data('alting',false);
 		}
@@ -93,7 +93,7 @@ sparqplug.in.text.load = function (selector) {
 		class:'icons'
 	}).append("&#xf04b;").click(function () {sparqplug.in.text.queryChanged()});
 
-	$(selector+' #sp-in-text-textarea').parent().append(run_button);
+	$(selector).append(run_button);
 
 	//self.loadDetailView();
 }
@@ -114,9 +114,9 @@ sparqplug.in.text.sparqit = function () {
 
 //Plugin Specific
 
-sparqplug.in.text.queryChanged = function () {
-	var query = $('#sp-in-text-textarea').val();
-	environment.performQuery(query);
+sparqplug.in.text.queryChanged = function (selector) {
+	var query = $(selector+' .sp-in-text-textarea').val();
+	environment.performQuery(query, selector);
 }
 
 sparqplug.in.text.loadDetailView = function () {
