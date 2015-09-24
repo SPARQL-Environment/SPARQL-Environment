@@ -385,6 +385,12 @@ environment.loadView = function (view) {
 			});
 		});
 
+		// Output panels
+		var number_of_panels = viewConfig.plugins.output.length;
+		$.each(viewConfig.plugins.ouput,function (index,pluginURN) {
+			environment.loadPlugin(pluginURN,'#output-panel');
+		});
+
 		this.currentView = view;
 
 		$('#menu-configs .name').html(this.currentView);
