@@ -618,7 +618,7 @@ environment.performQuery = function (query, selector) {
 	console.log('Query: '+query);
 
 	$.each(this.currentDatasets(selector), function (index, dataset) {
-		var results = $.query(query,this.getDatasetObject(dataset));
+		var results = $.query(query,environment.getDatasetObject(dataset));
 		if (results.error) {
 			plugins[$(selector).data('urn')].error(results,selector);
 			return;
