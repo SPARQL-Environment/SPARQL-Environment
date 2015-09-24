@@ -1,0 +1,62 @@
+{
+  "name":"Environment Name",
+  "description":"Example Configuration file that uses Furman Folio project as an example datasets.",
+  "datasets":[
+    {
+      "type":"dataset",
+      "name": "fu-folio",
+      "source": "http://folio.furman.edu/fuseki/folio/query",
+      "description": "Furman University Classics Dataset",
+      "prefixes": {
+        "cts:": "http://www.homermultitext.org/cts/rdf/",
+        "cite:": "http://www.homermultitext.org/cite/rdf/",
+        "hmt:": "http://www.homermultitext.org/hmt/rdf/",
+        "citedata:": "http://www.homermultitext.org/hmt/citedata/",
+        "dcterms:": "http://purl.org/dc/terms/",
+        "rdf:": "http://www.w3.org/1999/02/22-rdf-syntax-ns#",
+        "xsd:": "http://www.w3.org/2001/XMLSchema#",
+        "olo:": "http://purl.org/ontology/olo/core#"
+      },
+      "variables": {
+        "?folio": [
+
+        ],
+        "?image": [
+
+        ]
+      }
+    }
+  ],
+  "views":[
+    {
+      "type":"view",
+      "name": "Basic",
+      "datasets": ["fu-folio"],
+      "plugins": {
+        "input":[
+          {
+            "plugins":["sparqplug-in-text","sparqplug-in-cts-browser"],
+            "datasets":["fu-folio"]
+          },{
+            "plugins":["sparqplug-in-text","sparqplug-in-cts-browser"],
+            "datasets":["fu-folio"]
+          }
+        ],
+        "output":["sparqplug-out-json","sparqplug-out-citekit","sparqplug-out-table"],
+        "detail":[],
+        "update":[]
+      },
+      "citekitSRC": "svc-folio-cts",
+      "cts": {
+        "types": {
+          "Editions": "cts:Edition",
+          "Collections": "cite:CiteCollection",
+          "Works": "cts:Work",
+          "Text Groups": "cts:TextGroup",
+          "Translations": "cts:Translation",
+          "Image Collections": "cite:ImageArchive"
+        }
+      }
+    }
+  ]
+}

@@ -1,15 +1,21 @@
+// Documentation generated with jsdoc https://github.com/jsdoc3/jsdoc
+
 $(document).ready(function (){
 	environment.load();
-	environment.displayConfigs();
+
 	environment.setupMinimizing();
 	environment.loadImportMethods();
-
 	environment.setupShortCuts();
 });
 
 // Local Storage loading and saving.
 
 var environment = {};
+
+// Defaults
+environment.latestQuery = "";
+environment.latestResults = {};
+environment.currentView = "";
 
 var sparqplug = {};
 sparqplug.configKey = 'sparql.config';
@@ -22,28 +28,54 @@ var plugins = {};
 
 var localStorage = window.localStorage;
 
+/**
+ * Does the following:
+ * - Calls loadConfigurations then display configurations.
+ * - Sets up default current view from localStorage.
+ * - Calls bindEvents
+ */
 environment.load = function () {
-	if (localStorage[this.configKey] != null) {
-		this.config = JSON.parse(localStorage[this.configKey]);
-	} else {
-		this.config = {
-			datasets:{},
-			views:{}
-		};
-	}
+
+	environment.loadConfigurations();
+
 	if (localStorage[this.currentViewKey] != null) {
 		this.currentView = localStorage[this.currentViewKey];
+	}
+
+	environment.bindEvents();
+}
+
+/**
+ * Loads configurations for the environment from a configuration json file on the file system. *Overwrite this function to take advantage of a REST API or implement a custom configuration storage protocol.*
+ * In order handle asynchronous loading the function must call didLoadConfiguration() for success or failure.
+ */
+environment.loadConfigurations = function () {
+	$.ajax({
+		'url':'configuration.json',
+		'method':'GET',
+		success:function (data) {
+			environment.config = data;
+			environment.didLoadConfigurations(true);
+		},
+		failure: function (event) {
+			environment.didLoadConfigurations(false);
+		}
+	})
+}
+
+/**
+ * Called upon completion of setting environment.config or called upon failure.
+ * @param {Bool} success Was loading the configurations successful.
+ */
+environment.didLoadConfigurations = function (success) {
+	if (success) {
+		environment.displayConfigurations();
 	} else {
-		this.currentView = "";
+		alert('Could not load the configurations for this environment.');
 	}
+}
 
-	environment.latestQuery = "";
-	environment.latestResults = {};
-
-	if (this.currentView != null && this.currentView != "") {
-		this.loadView(this.currentView);
-	}
-
+environment.bindEvents = function () {
 	this.bindToEvent('performedQuery', this.updateVisiblePlugins);
 }
 
@@ -185,7 +217,7 @@ environment.importDatasetJSON = function (json) {
 	this.currentView = new_config.name;
 	this.save();
 
-	this.displayConfigs();
+	this.displayConfigurations();
 	this.loadView(this.currentView);
 
 	$('#import-dataset-button').trigger('click');
@@ -201,7 +233,7 @@ environment.importViewJSON = function (json) {
 	this.currentView = new_config.name;
 	this.save();
 
-	this.displayConfigs();
+	this.displayConfigurations();
 	this.loadView(this.currentView);
 
 	$('#import-view-button').trigger('click');
@@ -246,7 +278,7 @@ environment.createBlankView = function () {
 	environment.editDataset("New Dataset");
 }
 
-environment.displayConfigs = function () {
+environment.displayConfigurations = function () {
 	console.log('load configs: '+this.config);
 	$("#configs .panel-list ul").empty();
 
@@ -413,7 +445,7 @@ environment.saveDataset = function () {
 
 	this.save();
 	this.load();
-	this.displayConfigs();
+	this.displayConfigurations();
 	this.loadDataset(dataset);
 
 	this.editor.close();
@@ -428,7 +460,7 @@ environment.deleteDataset = function () {
 
 	this.save();
 	this.load();
-	this.displayConfigs();
+	this.displayConfigurations();
 	this.loadDataset("");
 
 	this.editor.close();
