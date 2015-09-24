@@ -34,6 +34,7 @@ environment.resolver.resolvePluginURN = function (urn,callback) {
     } else {
       this.resolved[urn].callbackFunctions.push(callback);
     }
+    return;
   } else {
     this.resolved[urn] = {
       status:'loading',
