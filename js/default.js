@@ -572,17 +572,20 @@ environment.viewPlugin = function (plugin) {
 
 // Plugin Functions for Querying
 
-environment.currentDataset = function () {
-	return this.config.datasets[this.config.views[this.currentView].dataset];
+environment.currentDatasets = function (selector) {
+	var panel_index = $(selector).parent('.panel').data('index');
+	return this.configs.plugins.inputs[panel_index].datasets;
+}
+
+environment.getDataset = function (dataset) {
+	return this.config.datasets[dataset];
 }
 
 environment.performQuery = function (query, selector) {
 	console.log('Query: '+query);
 
-	var panel_index = $(selector).parent('.panel').data('index');
-
-	$.each(this.configs.plugins.inputs[panel_index].datasets, function (index, dataset) {
-		var results = $(document).query(query,this.currentDataset());
+	$.each(this.currentDatasets(selector), function (index, dataset) {
+		var results = $.query(query,this.getDataset(dataset));
 		if (results.error) {
 			plugins[$(selector).data('urn')].error(results,selector);
 			return;

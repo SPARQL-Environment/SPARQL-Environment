@@ -10,11 +10,15 @@ sparqplug.in.text.load = function (selector) {
 	var elements = {"SELECT":{'complete-before':'SELECT ','complete-after':'','class':'kw-main'},"LIMIT":{'complete-before':'LIMIT ','complete-after':'','class':'kw-main'},"WHERE":{'complete-before':'WHERE { \n  ','complete-after':'\n}','class':'kw-main'},"DISTINCT":{'class':'kw-submain','complete-before':'DISTINCT ','complete-after':''},"FILTER":{'complete-before':'FILTER ( ','complete-after':' )','class':'kw-main'},"FILTER-REGEX":{'complete-before':'FILTER regex( ?','complete-after':' , \'^regex\' , \'i\' )','class':'kw-main'}}
 	var terms = ["BASE","SELECT","ORDER BY","FROM","GRAPH","STR","isURI","PREFIX","CONSTRUCT","LIMIT","FROM NAMED","OPTIONAL","LANG","isIRI","DESCRIBE","OFFSET","WHERE","UNION","LANGMATCHES","isLITERAL","ASK","DISTINCT","FILTER","FILTER-REGEX","DATATYPE","REGEX","REDUCED","a","BOUND","true","sameTERM","false"];
 
-	var variables = Object.keys(environment.currentDataset().variables);
+	var variables = [];
+	var prefixes = [];
+	$.each(environment.currentDatasets(selector),function (index, dataset) {
+		variables.push(Object.keys(environment.getDataset(dataset).variables));
+		prefixes.push(Object.keys(environment.currentDataset(selector).prefixes));
+	});
 	variables.push("?subject");
 	variables.push("?verb");
 	variables.push("?object");
-	var prefixes = Object.keys(environment.currentDataset().prefixes);
 
 	$(selector+' .sp-in-text-textarea').textcomplete([
 		{ // Prefixes
@@ -98,7 +102,7 @@ sparqplug.in.text.load = function (selector) {
 	//self.loadDetailView();
 }
 
-sparqplug.in.text.error = function (error) {
+sparqplug.in.text.error = function (error,selector) {
 	//alert('There was an Error!');
 }
 
