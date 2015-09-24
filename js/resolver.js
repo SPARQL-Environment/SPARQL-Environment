@@ -12,14 +12,14 @@ environment.resolver = {
  */
 
 environment.resolver.getLibrary = function() {
-  if (library == null) {
+  if (this.library == null) {
     this.library = $.ajax({
       url: "library.json",
       async: false,
       dataType:'json'
     });
   }
-  return library;
+  return this.library;
 }
 
 environment.resolver.resolvePluginURN = function (urn,callback) {
