@@ -386,8 +386,7 @@ environment.loadView = function (view) {
 		});
 
 		// Output panels
-		var number_of_panels = viewConfig.plugins.output.length;
-		$.each(viewConfig.plugins.ouput,function (index,pluginURN) {
+		$.each(viewConfig.plugins.output,function (index,pluginURN) {
 			environment.loadPlugin(pluginURN,'#output-panel');
 		});
 
