@@ -96,10 +96,10 @@ sparqplug.in.text.load = function (selector) {
 	var run_button = $('<a />',{
 		id: 'sp-in-text-run',
 		class:'icons'
-	}).append("&#xf04b;").click(function () {sparqplug.in.text.queryChanged()});
+	}).append("&#xf04b;").click(function () {sparqplug.in.text.queryChanged($(this).parent().data('selector'))});
 
 	$(selector).append(run_button);
-
+	$(selector).data('selector',selector);
 	//self.loadDetailView();
 }
 
