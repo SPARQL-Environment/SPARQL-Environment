@@ -8,5 +8,16 @@
     "sparqplug-out-citekit",
     "sparqplug-in-cts-browser",
     "sparqplug-out-table"
-  ]
+  ],
+  "citekitSRC": "svc-folio-cts",
+  "cts": {
+    "types": {
+      "Editions": "cts:Edition",
+      "Collections": "cite:CiteCollection",
+      "Works": "cts:Work",
+      "Text Groups": "cts:TextGroup",
+      "Translations": "cts:Translation",
+      "Image Collections": "cite:ImageArchive"
+    }
+  }
 }
