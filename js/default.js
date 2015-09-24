@@ -538,7 +538,7 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 		var pluginClass = environment.sanatizeURNForClassName(plugin);
 
 		new_plugin = $("<div/>",{
-			class: pluginClass+' plugin-'+plugins[plugin].type
+			class: plugin+' plugin-'+plugins[plugin].type
 		}).data('urn',plugin);
 		new_tab = $("<a/>",{
 			class: pluginClass+'-tab',
@@ -563,7 +563,7 @@ environment.sanatizeURNForClassName = function (urn) {
  // - 0-9 (U+0061 - U+007A)
  // - ISO 10646 characters U+00A1 and higher
  // We strip out any character not in the above list.
- return urn.replace(/./g,"\\.");
+ return urn.replace(/./g,"\\\.");
 }
 
 environment.viewPlugin = function (plugin) {
