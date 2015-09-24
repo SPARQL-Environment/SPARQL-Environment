@@ -402,8 +402,8 @@ environment.clearWorkspace = function () {
  * @param {string} view Unique name of the view being retrieved.
  */
 environment.getViewObject = function (view) {
-	for (var viewObject in this.config.views) {
-		if (viewObject.name == view) {
+	for (var index in this.config.views) {
+		if (this.config.views[index].name == view) {
 			return viewObject;
 		}
 	}
