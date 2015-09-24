@@ -13,10 +13,13 @@ environment.resolver = {
 
 environment.resolver.getLibrary = function() {
   if (this.library == null) {
-    this.library = $.ajax({
+    $.ajax({
       url: "library.json",
       async: false,
-      dataType:'json'
+      dataType:'json',
+      success:function (data){
+        this.library = data;
+      }
     });
   }
   return this.library;
