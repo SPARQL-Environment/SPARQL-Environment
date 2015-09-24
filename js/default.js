@@ -618,15 +618,18 @@ environment.performQuery = function (query, selector) {
 	console.log('Query: '+query);
 	var panel_index = $(selector).parents('.panel').data('index');
 
+	var panel_results = [];
 	$.each(this.currentDatasets(selector), function (index, dataset) {
 		var results = $.query(query,environment.getDatasetObject(dataset));
 		if (results.error) {
 			plugins[$(selector).data('urn')].error(results,selector);
 			return;
 		}
-		environment.latestResults[panel_index] = results;
-		environment.latestQuery[panel_index] = results;
+		panel_results.push({'results':results,'dataset':dataset});
 	});
+
+	environment.latestResults[panel_index] = panel_results;
+	environment.latestQuery[panel_index] = query;
 
 	this.addToHistory(query);
 
