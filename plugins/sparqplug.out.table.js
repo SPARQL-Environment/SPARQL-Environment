@@ -11,10 +11,11 @@ sparqplug.out.table.updateUI = function (selector) {
 
 	$.each(environment.latestResults,function (index, panelResults) {
 		$.each(panelResults,function (index, resultObject) {
-			$.each(resultObject.results,function (index, row) {
-				var table = $('<table/>');
+			var table = $('<table/>');
 
-				var keys = Object.keys(results[0]);
+			var keys = Object.keys(resultObject.results[0]);
+
+			$.each(resultObject.results,function (index, row) {
 
 				var tr = $('<tr/>');
 
@@ -30,17 +31,16 @@ sparqplug.out.table.updateUI = function (selector) {
 
 				table.append(tr);
 
-				var th = $('<tr/>');
-
-				$.each(keys, function (index, key) {
-					th.append('<th>'+key+'</th>');
-				});
-
-				table.prepend(th);
-
-				$(selector).append(table);
-
 			});
+			var th = $('<tr/>');
+
+			$.each(keys, function (index, key) {
+				th.append('<th>'+key+'</th>');
+			});
+
+			table.prepend(th);
+
+			$(selector).append(table);
 		});
 	});
 
