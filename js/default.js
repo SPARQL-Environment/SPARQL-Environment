@@ -393,7 +393,7 @@ environment.loadView = function (view) {
 }
 
 environment.clearWorkspace = function () {
-	this.currentInPlugin = null;
+	this.currentInPlugins = null;
 	this.currentOutPlugin = null;
 
 	$('#inputs').children().remove();
@@ -544,9 +544,9 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 			class: plugin+' plugin-'+plugins[plugin].type
 		}).data('urn',plugin);
 		new_tab = $("<a/>",{
-			class: pluginClass+'-tab',
+			class: plugin+'-tab',
 			title: plugins[plugin].description,
-			href:"javascript:environment.viewPlugin('"+plugin+"')"
+			href:"javascript:environment.viewPlugin('"+panel+' .'+pluginClass+"')"
 		});
 		new_tab.append('<span class="icons">'+plugins[plugin].icon+'</span> '+plugins[plugin].title);
 
@@ -569,15 +569,16 @@ environment.sanitizeURNForClassName = function (urn) {
  return urn.replace(/\./g,"\\.").replace(/\:/g,"\\:");
 }
 
-environment.viewPlugin = function (plugin) {
+environment.viewPlugin = function (selector) {
 	//Switch views
-	$('#'+plugin).parent().prepend($('#'+plugin));
+	var panel_index = $(selector).parents('.panel').data('index');
+	$(selector).parent().prepend($(selector));
 
-	$('#'+plugin+"-tab").parent().children().removeClass('selected');
-	$('#'+plugin+"-tab").addClass('selected');
+	$(selector+"-tab").parent().children().removeClass('selected');
+	$(selector+"-tab").addClass('selected');
 
 	if (plugins[plugin].type == "in") {
-		this.currentInPlugin = plugin;
+		this.currentInPlugins[panel_index] = plugin;
 		plugins[plugin].updateUI();
 	} else if (plugins[plugin].type == "out") {
 		this.currentOutPlugin = plugin;
