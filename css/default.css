@@ -274,6 +274,11 @@ a:hover {
 	position:absolute;
 }
 
+.panel {
+	float: left;
+	height: 100%;
+}
+
 .panel-menu {
 	width: calc(100% - 8px);
 	height: 16px;
