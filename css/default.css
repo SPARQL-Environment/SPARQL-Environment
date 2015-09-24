@@ -246,6 +246,9 @@ a:hover {
 	position: absolute;
 	background:inherit;
 }
+#output-panel {
+	width:100%;
+}
 #data-output-history {
 	width: calc(25% - 1px);
 	height: 100%;
