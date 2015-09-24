@@ -367,12 +367,15 @@ environment.loadView = function (view) {
 		var viewConfig = environment.getViewObject(view);
 
 		// Input panels
+		var number_of_panels = viewConfig.plugins.input;
 		$.each(viewConfig.plugins.input,function (index,panel_config) {
 			panelID = 'input-panel-'+index;
 			$panel = $('<div />',{
 				'class':'input-panel panel',
 				'id':panelID
 			}).data('index',index);
+			$panel.css('width',(100/number_of_panels)+'%');
+
 			$('#data-input').append($panel);
 			$('#'+panelID).html('<div class="panel-menu"><div class="panel-menu-tabs"></div>'+
 				'<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a><a class="icons panel-menu-tools" title="Save Query" href="">&#xf0c7;</a>'+
