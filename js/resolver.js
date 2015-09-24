@@ -47,9 +47,13 @@ environment.resolver.resolvePluginURN = function (urn,callback) {
     var re = /(?:\.([^.]+))?$/;
     var extension = re.exec(url)[1];
     if (extension == "js") {
-      $.getScript(url, function( data, textStatus, jqxhr ) {
-    		console.log('Loaded JS for Plugin: '+urn);
-        that.resolved[urn].loadedResource(url);
+      $.ajax({
+        url: url,
+        dataType: 'script',
+        success: function (data) {
+          console.log('Loaded JS for Plugin: '+urn);
+          that.resolved[urn].loadedResource(url);
+        }
       });
     } else if (extension == "css") {
       $('<link/>', {
