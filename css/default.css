@@ -279,6 +279,10 @@ a:hover {
 	height: 100%;
 }
 
+.panel-plugins {
+	height: calc(100% - 24px);
+}
+
 .panel-menu {
 	width: calc(100% - 8px);
 	height: 16px;
