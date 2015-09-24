@@ -1,14 +1,13 @@
 sparqplug.out.json = {type:"out","title":"JSON Viewer","description":"View results in a JSON tree.","icon":"&#xf121;","css":"sparqplug.out.json.css"};
+plugins['urn:sparqplug:sparqlenvironment.out.json:0.1'] = sparqplug.out.json;
 
-sparqplug.out.json.load = function () {
-	
+sparqplug.out.json.load = function (selector) {
+
 }
 
-sparqplug.out.json.updateUI = function () {
-	$('#sparqplug-out-json').JSONView(environment.latestResults);	
+sparqplug.out.json.updateUI = function (selector) {
+	$(selector).JSONView(environment.latestResults);
 }
-
-plugins['sparqplug-out-json'] = sparqplug.out.json;
 
 //JSONView Plugin By: yesmeck @ https://github.com/yesmeck/jquery-jsonview
 (function(jQuery) {

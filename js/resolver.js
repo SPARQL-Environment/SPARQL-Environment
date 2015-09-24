@@ -62,6 +62,7 @@ environment.resolver.resolvePluginURN = function (urn,callback) {
       $.ajax({
         url: url,
         dataType: 'script',
+        async:false,
         success: function (data) {
           console.log('Loaded JS for Plugin: '+urn);
           that.resolved[urn].loadedResource(url);
