@@ -577,14 +577,16 @@ environment.viewPlugin = function (selector) {
 	$(selector+"-tab").parent().children().removeClass('selected');
 	$(selector+"-tab").addClass('selected');
 
-	if (plugins[plugin].type == "in") {
-		this.currentInPlugins[panel_index] = plugin;
-		plugins[plugin].updateUI();
-	} else if (plugins[plugin].type == "out") {
-		this.currentOutPlugin = plugin;
-		plugins[plugin].updateUI();
-	} else if (plugins[plugin].type == "detail") {
-		this.currentDetailPlugin = plugin;
+	urn = $(selector).data('urn');
+
+	if (plugins[urn].type == "in") {
+		this.currentInPlugins[panel_index] = urn;
+		plugins[urn].updateUI(selector);
+	} else if (plugins[urn].type == "out") {
+		this.currentOutPlugin = urn;
+		plugins[urn].updateUI(selector);
+	} else if (plugins[urn].type == "detail") {
+		this.currentDetailPlugin = urn;
 	}
 }
 
