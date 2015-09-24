@@ -76,10 +76,6 @@ environment.didLoadConfigurations = function (success) {
 	}
 }
 
-environment.bindEvents = function () {
-	this.bindToEvent('performedQuery', this.updateVisiblePlugins);
-}
-
 environment.save = function () {
 	localStorage.setItem(this.configKey, JSON.stringify(this.config));
 	localStorage.setItem(this.currentViewKey, this.currentView);
@@ -95,6 +91,10 @@ environment.save = function () {
 environment.bindingAgents = {};
 environment.bindingAgents.performedQuery = [];
 environment.bindingAgents.selectedObject = [];
+
+environment.bindEvents = function () {
+	this.bindToEvent('performedQuery', this.updateVisiblePlugins);
+}
 
 environment.bindToEvent = function (event, callback, data) {
 	this.bindingAgents[event].push({
@@ -393,7 +393,7 @@ environment.loadView = function (view) {
 }
 
 environment.clearWorkspace = function () {
-	this.currentInPlugins = null;
+	this.currentInPlugins = [];
 	this.currentOutPlugin = null;
 
 	$('#inputs').children().remove();
@@ -546,12 +546,16 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 		new_tab = $("<a/>",{
 			class: plugin+'-tab',
 			title: plugins[plugin].description,
-			href:"javascript:environment.viewPlugin('"+panel+' .'+pluginClass+"')"
-		});
+			click:function () {
+				var pluginClass = environment.sanitizeURNForClassName($(this).data('urn'));
+				environment.viewPlugin($(this).parent().data('panel')+' .'+pluginClass);
+			}
+		}).data('urn',plugin);
 		new_tab.append('<span class="icons">'+plugins[plugin].icon+'</span> '+plugins[plugin].title);
 
 		$(panel+' .panel-plugins').append(new_plugin);
 		$(panel+' .panel-menu-tabs').append(new_tab);
+		$(panel+' .panel-menu-tabs').data('panel',panel);
 
 		plugins[plugin].load(panel+' .'+pluginClass);
 	});
