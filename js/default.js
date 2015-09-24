@@ -535,11 +535,13 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 	console.log('Loading SparqPlug: '+plugin);
 
 	this.resolver.resolvePluginURN(plugin,function (success) {
+		var pluginClass = this.sanatizeURNForClassName(plugin);
+
 		new_plugin = $("<div/>",{
-			class: plugin+' plugin-'+plugins[plugin].type
+			class: pluginClass+' plugin-'+plugins[plugin].type
 		}).data('urn',plugin);
 		new_tab = $("<a/>",{
-			id: plugin+'-tab',
+			class: pluginClass+'-tab',
 			title: plugins[plugin].description,
 			href:"javascript:environment.viewPlugin('"+plugin+"')"
 		});
@@ -548,8 +550,20 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 		$(panel+' .panel-plugins').append(new_plugin);
 		$(panel+' .panel-menu-tabs').append(new_tab);
 
-		plugins[plugin].load(panel+' .'+plugin);
+		plugins[plugin].load(panel+' .'+pluginClass);
 	});
+}
+
+environment.sanatizeURNForClassName = function (urn) {
+	// Valid characters in a CSS identifier are:
+ // - the hyphen (U+002D)
+ // - a-z (U+0030 - U+0039)
+ // - A-Z (U+0041 - U+005A)
+ // - the underscore (U+005F)
+ // - 0-9 (U+0061 - U+007A)
+ // - ISO 10646 characters U+00A1 and higher
+ // We strip out any character not in the above list.
+ return urn.replace(".","\.");
 }
 
 environment.viewPlugin = function (plugin) {
