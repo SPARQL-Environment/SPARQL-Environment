@@ -651,13 +651,13 @@ environment.silentQuery = function (query) {
 // History
 
 environment.addToHistory = function (query) {
-	this.config['views'][this.currentView].history.push(query);
-	this.save();
+	//this.config['views'][this.currentView].history.push(query);
+	//this.save();
 }
 
 environment.clearHistory = function () {
-	tthis.config['views'][this.currentView].history = [];
-	this.save();
+	//this.config['views'][this.currentView].history = [];
+	//this.save();
 }
 
 // Layout Functionality
