@@ -368,7 +368,7 @@ environment.loadView = function (view) {
 
 
 		// Input panels
-		$.each(viewConfig.input,function (index,config) {
+		$.each(viewConfig.plugins.input,function (index,config) {
 
 			environment.loadPlugin(value);
 		});
