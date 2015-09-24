@@ -563,7 +563,7 @@ environment.sanatizeURNForClassName = function (urn) {
  // - 0-9 (U+0061 - U+007A)
  // - ISO 10646 characters U+00A1 and higher
  // We strip out any character not in the above list.
- return urn.replace(/./g,"\\\.");
+ return urn.replace(/\./g,"\\\.");
 }
 
 environment.viewPlugin = function (plugin) {
