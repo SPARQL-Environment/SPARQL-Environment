@@ -28,20 +28,31 @@ environment.resolver.getLibrary = function() {
 }
 
 environment.resolver.resolvePluginURN = function (urn,callback) {
-  this.resolved[urn] = {
-    status:'loading',
-    loaded:0,
-    total: this.getLibrary()[urn].length,
-    success:true,
-    loadedResource:function (url) {
-      this.loaded++;
-      if (this.loaded == this.total) {
-        this.status = 'loaded';
-        this.callbackFunction(this.success);
-      }
-    },
-    callbackFunction:callback
+  if (this.resolved[urn]) {
+    if (this.resolved[urn].status == "loaded") {
+      callback();
+    } else {
+      this.resolved[urn].callbackFunctions.push(callback);
+    }
+  } else {
+    this.resolved[urn] = {
+      status:'loading',
+      loaded:0,
+      total: this.getLibrary()[urn].length,
+      success:true,
+      loadedResource:function (url) {
+        this.loaded++;
+        if (this.loaded == this.total) {
+          this.status = 'loaded';
+          for (var index in this.callbackFunctions) {
+            this.callbackFunctions[index](this.success);
+          }
+        }
+      },
+      callbackFunctions:[callback]
+    }
   }
+
   that = this;
   $.each(this.getLibrary()[urn],function(index, url) {
     var re = /(?:\.([^.]+))?$/;
