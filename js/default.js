@@ -368,9 +368,19 @@ environment.loadView = function (view) {
 
 
 		// Input panels
-		$.each(viewConfig.plugins.input,function (index,config) {
-
-			environment.loadPlugin(value);
+		$.each(viewConfig.plugins.input,function (index,panel_config) {
+			panelID = 'input-panel-'+index;
+			$panel = $('<div />',{
+				'class':'input-panel',
+				'id':panelID
+			});
+			$('#data-input').append($panel);
+			$('#'+panelID).html('<div class="panel-menu"><div class="panel-menu-tabs"></div>'+
+				'<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a><a class="icons panel-menu-tools" title="Save Query" href="">&#xf0c7;</a>'+
+			'</div><div class="panel-plugins"></div>');
+			$.each(panel_config, function (index, pluginURN) {
+				environment.loadPlugin(pluginURN,'#'+panelID);
+			});
 		});
 
 		this.currentView = view;
@@ -537,32 +547,10 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 		});
 		new_tab.append('<span class="icons">'+plugins[plugin].icon+'</span> '+plugins[plugin].title);
 
-		if (plugins[plugin].type == "in") {
-			$('#inputs').append(new_plugin);
-			$('#data-input .panel-menu-tabs').append(new_tab);
-			if (environment.currentInPlugin == null) {
-				environment.viewPlugin(plugin);
-			}
-		} else if (plugins[plugin].type == "out") {
-			$('#outputs').append(new_plugin);
-			$('#data-output .panel-menu-tabs').append(new_tab);
-			if (environment.currentOutPlugin == null) {
-				environment.viewPlugin(plugin);
-			}
-		} else if (plugins[plugin].type == "detail") {
-			$('#details').append(new_plugin);
-			$('#detail .panel-menu-tabs').append(new_tab);
-			if (environment.currentDetailPlugin == null) {
-				environment.viewPlugin(plugin);
-			}
-		}
+		$(panel+' .panel-plugins').append(new_plugin);
+		$(panel+' .panel-menu-tabs').append(new_tab);
 
 		plugins[plugin].load();
-	});
-
-	$.getScript(this.pluginBaseURL+'plugins/'+plugin.replace(/\-/g,'.')+'.js', function( data, textStatus, jqxhr ) {
-		console.log('Loaded JS for Plugin: '+plugin);
-
 	});
 }
 
