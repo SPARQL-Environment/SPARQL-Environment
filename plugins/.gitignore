@@ -6,3 +6,4 @@
 !sparqplug.in.text.*
 !sparqplug.out.json.*
 !sparqplug.out.table.*
+!jquery-jsonview.js

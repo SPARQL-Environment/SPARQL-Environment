@@ -9,6 +9,7 @@
   ],
   "urn:sparqplug:sparqlenvironment.out.json:0.1":[
     "plugins/sparqplug.out.json.js",
+    "plugins/jquery-jsonview.js",
     "plugins/sparqplug.out.json.css"
   ]
 }
