@@ -8,42 +8,32 @@ sparqplug.out.table.load = function (selector) {
 sparqplug.out.table.updateUI = function (selector) {
 	$(selector).empty();
 
-
 	$.each(environment.latestResults,function (index, panelResults) {
 		$.each(panelResults,function (index, resultObject) {
 			var table = $('<table/>');
-
 			var keys = Object.keys(resultObject.results[0]);
-
+			var dataset = environment.getDatasetObject(resultObject.dataset);
 			$.each(resultObject.results,function (index, row) {
-
+				// Start Row
 				var tr = $('<tr/>');
-
 				$.each(row,function (key, values) {
+					// Each Column
 					td = $('<td />',{
-						text: values.value//$.resolvePrefix(,dataset)
+						text: $.resolvePrefix(values.value,dataset)
 					}).data('obj',values.value).click(function () {
 						environment.triggerEvent('selectedObject',{'object':values.value});
 						//environment.detailObject($(this).data('obj'));
 					});
 					tr.append(td);
 				});
-
 				table.append(tr);
-
 			});
 			var th = $('<tr/>');
-
 			$.each(keys, function (index, key) {
 				th.append('<th>'+key+'</th>');
 			});
-
 			table.prepend(th);
-
 			$(selector).append(table);
 		});
 	});
-
-
-
 }

@@ -38,9 +38,9 @@
 			}
 			return verbs;
 		},
-		resolvePrefix: function (str) {
-			for (var key in $.fn.defaults.prefixes) {
-				var prefix = $.fn.defaults.prefixes[key];
+		resolvePrefix: function (str, options) {
+			for (var key in options.prefixes) {
+				var prefix = options.prefixes[key];
 				if (str.indexOf(prefix) == 0) {
 					return key+str.substr(prefix.length);
 				}
