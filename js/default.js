@@ -370,7 +370,7 @@ environment.loadView = function (view) {
 		$.each(viewConfig.plugins.input,function (index,panel_config) {
 			panelID = 'input-panel-'+index;
 			$panel = $('<div />',{
-				'class':'input-panel',
+				'class':'input-panel panel',
 				'id':panelID
 			}).data('index',index);
 			$('#data-input').append($panel);
@@ -536,9 +536,8 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 
 	this.resolver.resolvePluginURN(plugin,function (success) {
 		new_plugin = $("<div/>",{
-			id: plugin,
-			class: 'plugin-'+plugins[plugin].type
-		});
+			class: plugin+' plugin-'+plugins[plugin].type
+		}).data('urn',plugin);
 		new_tab = $("<a/>",{
 			id: plugin+'-tab',
 			title: plugins[plugin].description,
@@ -549,7 +548,7 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 		$(panel+' .panel-plugins').append(new_plugin);
 		$(panel+' .panel-menu-tabs').append(new_tab);
 
-		plugins[plugin].load(panel+' #'+plugin);
+		plugins[plugin].load(panel+' .'+plugin);
 	});
 }
 
@@ -577,13 +576,21 @@ environment.currentDataset = function () {
 	return this.config.datasets[this.config.views[this.currentView].dataset];
 }
 
-environment.performQuery = function (query) {
+environment.performQuery = function (query, selector) {
 	console.log('Query: '+query);
-	var results = $(document).query(query,this.currentDataset());
-	if (results.error) {
-		plugins[this.currentInPlugin].error(results.response);
-		return;
-	}
+
+	var panel_index = $(selector).parent('.panel').data('index');
+
+	$.each(this.configs.plugins.inputs[panel_index].datasets, function (index, dataset) {
+		var results = $(document).query(query,this.currentDataset());
+		if (results.error) {
+			plugins[$(selector).data('urn')].error(results,selector);
+			return;
+		}
+		environment.results[panel_index].push(results)
+	});
+
+
 	this.latestQuery = query;
 	this.latestResults = results;
 
