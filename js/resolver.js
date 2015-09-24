@@ -22,7 +22,7 @@ environment.resolver.getLibrary = function() {
         temp_library = data;
       }
     });
-    this.libarary = temp_library;
+    this.library = temp_library;
   }
   return this.library;
 }
