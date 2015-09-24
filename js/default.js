@@ -404,7 +404,7 @@ environment.clearWorkspace = function () {
 environment.getViewObject = function (view) {
 	for (var index in this.config.views) {
 		if (this.config.views[index].name == view) {
-			return viewObject;
+			return this.config.views[index];
 		}
 	}
 }
