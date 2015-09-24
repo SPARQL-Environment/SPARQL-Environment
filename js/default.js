@@ -10,8 +10,8 @@ $(document).ready(function (){
 var environment = {};
 
 // Defaults
-environment.latestQuery = "";
-environment.latestResults = {};
+environment.latestQuery = [];
+environment.latestResults = [];
 environment.currentView = "";
 
 var sparqplug = {};
@@ -616,6 +616,7 @@ environment.getDatasetObject = function (dataset) {
 
 environment.performQuery = function (query, selector) {
 	console.log('Query: '+query);
+	var panel_index = $(selector).parents('.panel').data('index');
 
 	$.each(this.currentDatasets(selector), function (index, dataset) {
 		var results = $.query(query,environment.getDatasetObject(dataset));
@@ -623,12 +624,9 @@ environment.performQuery = function (query, selector) {
 			plugins[$(selector).data('urn')].error(results,selector);
 			return;
 		}
-		environment.results[panel_index].push(results)
+		environment.latestResults[panel_index] = results;
+		environment.latestQuery[panel_index] = results;
 	});
-
-
-	this.latestQuery = query;
-	this.latestResults = results;
 
 	this.addToHistory(query);
 
