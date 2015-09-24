@@ -13,8 +13,8 @@ sparqplug.in.text.load = function (selector) {
 	var variables = [];
 	var prefixes = [];
 	$.each(environment.currentDatasets(selector),function (index, dataset) {
-		variables.push(Object.keys(environment.getDataset(dataset).variables));
-		prefixes.push(Object.keys(environment.getDataset(dataset).prefixes));
+		variables.push(Object.keys(environment.getDatasetObject(dataset).variables));
+		prefixes.push(Object.keys(environment.getDatasetObject(dataset).prefixes));
 	});
 	variables.push("?subject");
 	variables.push("?verb");

@@ -591,15 +591,19 @@ environment.currentDatasets = function (selector) {
 	return this.getViewObject(this.currentView).plugins.input[panel_index].datasets;
 }
 
-environment.getDataset = function (dataset) {
-	return this.config.datasets[dataset];
+environment.getDatasetObject = function (dataset) {
+	for (var index in this.config.datasets) {
+		if (this.config.datasets[index].name == dataset) {
+			return this.config.datasets[index];
+		}
+	}
 }
 
 environment.performQuery = function (query, selector) {
 	console.log('Query: '+query);
 
 	$.each(this.currentDatasets(selector), function (index, dataset) {
-		var results = $.query(query,this.getDataset(dataset));
+		var results = $.query(query,this.getDatasetObject(dataset));
 		if (results.error) {
 			plugins[$(selector).data('urn')].error(results,selector);
 			return;
