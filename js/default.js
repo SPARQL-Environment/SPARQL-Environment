@@ -53,6 +53,7 @@ environment.loadConfigurations = function () {
 	$.ajax({
 		'url':'configuration.json',
 		'method':'GET',
+		'type':'json',
 		success:function (data) {
 			environment.config = data;
 			environment.didLoadConfigurations(true);
