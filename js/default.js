@@ -324,7 +324,6 @@ environment.displayConfigs = function () {
 // Configs
 
 environment.loadView = function (view) {
-
 	this.currentInPlugin = null;
 	this.currentOutPlugin = null;
 
@@ -351,7 +350,6 @@ environment.loadView = function (view) {
 	}
 
 }
-
 
 environment.loadStandAloneDataset = function (configURL) {
 	this.importConfigFromURL(configURL);
