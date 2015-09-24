@@ -26,7 +26,7 @@ environment.resolver.resolvePluginURN = function (urn,callback) {
   this.resolved[urn] = {
     status:'loading',
     loaded:0,
-    total: this.getLibrary()[urn].count,
+    total: this.getLibrary()[urn].length,
     success:true,
     loadedResource:function (url) {
       this.loaded++;
