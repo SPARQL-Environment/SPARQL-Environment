@@ -535,7 +535,7 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 	console.log('Loading SparqPlug: '+plugin);
 
 	this.resolver.resolvePluginURN(plugin,function (success) {
-		var pluginClass = environment.sanatizeURNForClassName(plugin);
+		var pluginClass = environment.sanitizeURNForClassName(plugin);
 
 		new_plugin = $("<div/>",{
 			class: plugin+' plugin-'+plugins[plugin].type
@@ -554,7 +554,7 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 	});
 }
 
-environment.sanatizeURNForClassName = function (urn) {
+environment.sanitizeURNForClassName = function (urn) {
 	// Valid characters in a CSS identifier are:
  // - the hyphen (U+002D)
  // - a-z (U+0030 - U+0039)
@@ -563,7 +563,7 @@ environment.sanatizeURNForClassName = function (urn) {
  // - 0-9 (U+0061 - U+007A)
  // - ISO 10646 characters U+00A1 and higher
  // We strip out any character not in the above list.
- return urn.replace(/\./g,"\\\\.");
+ return urn.replace(/\./g,"\\\\.").replace(/\:/,"\\\\:");
 }
 
 environment.viewPlugin = function (plugin) {
