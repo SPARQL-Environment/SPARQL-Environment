@@ -549,7 +549,7 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 		$(panel+' .panel-plugins').append(new_plugin);
 		$(panel+' .panel-menu-tabs').append(new_tab);
 
-		plugins[plugin].load();
+		plugins[plugin].load(panel+' #'+plugin);
 	});
 }
 
