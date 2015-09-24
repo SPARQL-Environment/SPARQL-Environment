@@ -1,4 +1,4 @@
-#sp-in-text-textarea {
+.sp-in-text-textarea {
 	font-size:16px;
 	font-family:"Cutive Mono";
 	height:100%;
@@ -14,12 +14,12 @@
     outline: 0;
 }
 
-#sparqplug-in-text {
+.sparqplug-in-text {
 	padding: 10px;
 	height: calc(100% - 20px);
 }
 
-#sparqplug-in-text .textoverlay-wrapper {
+.sparqplug-in-text .textoverlay-wrapper {
 	height:100%;
 	width:100%;
     margin: 0;
@@ -28,7 +28,7 @@
 	position:relative;
 }
 
-#sparqplug-in-text .textoverlay {
+.sparqplug-in-text .textoverlay {
 	height:100%;
 	width:100%;
 	font-size:16px;
@@ -41,7 +41,7 @@
 	pointer-events:none;
 }
 
-#sp-in-text-run {
+.sp-in-text-run {
 	position:absolute;
 	right:5px;
 	bottom:5px;
