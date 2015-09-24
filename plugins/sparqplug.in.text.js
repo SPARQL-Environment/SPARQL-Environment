@@ -2,6 +2,7 @@ sparqplug.in.text = {type:"in","title":"Text Query","description":"Standard SPAR
 plugins['urn:sparqplug:sparqlenvironment.in.text:0.1'] = sparqplug.in.text;
 
 sparqplug.in.text.load = function (selector) {
+	$(selector).addClass('sparqplug-in-text');
 	var textarea = $('<textarea />',{
 		class: 'sp-in-text-textarea'
 	});//.change(sparqplug.in.text.queryChanged);
