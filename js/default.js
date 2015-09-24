@@ -535,7 +535,7 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 	console.log('Loading SparqPlug: '+plugin);
 
 	this.resolver.resolvePluginURN(plugin,function (success) {
-		var pluginClass = this.sanatizeURNForClassName(plugin);
+		var pluginClass = environment.sanatizeURNForClassName(plugin);
 
 		new_plugin = $("<div/>",{
 			class: pluginClass+' plugin-'+plugins[plugin].type
