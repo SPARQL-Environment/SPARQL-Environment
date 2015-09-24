@@ -3,9 +3,6 @@
 $(document).ready(function (){
 	environment.load();
 
-	environment.setupMinimizing();
-	environment.loadImportMethods();
-	environment.setupShortCuts();
 });
 
 // Local Storage loading and saving.
@@ -32,7 +29,7 @@ var localStorage = window.localStorage;
  * Does the following:
  * - Calls loadConfigurations then display configurations.
  * - Sets up default current view from localStorage.
- * - Calls bindEvents
+ * - Calls bindEvents, setupMinimizing, loadImportMethods, setupShortCuts in that order.
  */
 environment.load = function () {
 
@@ -43,6 +40,9 @@ environment.load = function () {
 	}
 
 	environment.bindEvents();
+	environment.setupMinimizing();
+	environment.loadImportMethods();
+	environment.setupShortCuts();
 }
 
 /**
