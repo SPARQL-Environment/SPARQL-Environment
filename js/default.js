@@ -355,8 +355,32 @@ environment.displayConfigurations = function () {
 }
 
 // Configs
-
+/**
+ * First the function clears the workspace, then it loads the view's plugins to the workspace.
+ * @param {string} view Unique name of the view to be loaded.
+ */
 environment.loadView = function (view) {
+
+	this.clearWorkspace();
+
+	if (view != "") {
+		var viewConfig = environment.getViewObject(view);
+
+
+		// Input panels
+		$.each(viewConfig.input,function (index,config) {
+
+			environment.loadPlugin(value);
+		});
+
+		this.currentView = view;
+
+		$('#menu-configs .name').html(this.currentView);
+	}
+
+}
+
+environment.clearWorkspace = function () {
 	this.currentInPlugin = null;
 	this.currentOutPlugin = null;
 
@@ -371,17 +395,18 @@ environment.loadView = function (view) {
 	$('#details').children().remove();
 
 	$('#detail .panel-menu-tabs').children().remove();
+}
 
-	if (view != "") {
-		$.each(environment.config['views'][view].plugins,function (index,value) {
-			environment.loadPlugin(value);
-		});
-
-		this.currentView = view;
-
-		$('#menu-configs .name').html(this.currentView);
-	}
-
+/**
+ * Gets view the object from ```environment.config```.
+ * @param {string} view Unique name of the view being retrieved.
+ */
+environment.getViewObject = function (view) {
+	$.each(this.config.views,function (index, viewObject) {
+		if (viewObject.name == view) {
+			return viewObject;
+		}
+	});
 }
 
 environment.loadStandAloneDataset = function (configURL) {
@@ -491,11 +516,16 @@ environment.editor.close = function () {
 
 environment.pluginBaseURL = '';
 
-environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
+/**
+ * First it loads the resources needed for the plugin *(calling environment.resolver.resolvePluginURN(urn))*. Loads the plugin into a panel in the workspace.
+ * @param {string} URN for the plugin.
+ * @param {string} ID of the panel where the plugin should be loaded into.
+ */
+
+environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 	console.log('Loading SparqPlug: '+plugin);
 
-	$.getScript(this.pluginBaseURL+'plugins/'+plugin.replace(/\-/g,'.')+'.js', function( data, textStatus, jqxhr ) {
-		console.log('Loaded JS for Plugin: '+plugin);
+	this.resolver.resolvePluginURN(plugin,function (success) {
 		new_plugin = $("<div/>",{
 			id: plugin,
 			class: 'plugin-'+plugins[plugin].type
@@ -526,15 +556,13 @@ environment.loadPlugin = function (plugin) { // sparqplug.in.objectbased
 				environment.viewPlugin(plugin);
 			}
 		}
-		plugins[plugin].load();
 
-		if (plugins[plugin].css) {
-			$('<link/>', {
-			   rel: 'stylesheet',
-			   type: 'text/css',
-			   href: environment.pluginBaseURL+'plugins/'+plugins[plugin].css
-			}).appendTo('head');
-		}
+		plugins[plugin].load();
+	});
+
+	$.getScript(this.pluginBaseURL+'plugins/'+plugin.replace(/\-/g,'.')+'.js', function( data, textStatus, jqxhr ) {
+		console.log('Loaded JS for Plugin: '+plugin);
+
 	});
 }
 

@@ -35,7 +35,7 @@
       "plugins": {
         "input":[
           {
-            "plugins":["sparqplug-in-text","sparqplug-in-cts-browser"],
+            "plugins":["urn:sparqplug:sparqlenvironment.in.text:0.1","sparqplug-in-cts-browser"],
             "datasets":["fu-folio"]
           },{
             "plugins":["sparqplug-in-text","sparqplug-in-cts-browser"],

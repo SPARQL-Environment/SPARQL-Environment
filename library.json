@@ -1,0 +1,6 @@
+{
+  "urn:sparqplug:sparqlenvironment.in.text:0.1":[
+    "plugins/sparqplug.in.text.js",
+    "plugins/sparqplug.in.text.css"
+  ]
+}
