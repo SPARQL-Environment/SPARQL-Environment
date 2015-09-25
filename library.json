@@ -10,5 +10,9 @@
     "plugins/sparqplug.out.json.js",
     "plugins/jquery-jsonview.js",
     "plugins/sparqplug.out.json.css"
+  ],
+  "urn:sparqplug:sparqlenvironment.detail.object:0.1":[
+    "plugins/sparqplug.detail.object.js",
+    "plugins/sparqplug.detail.object.css"
   ]
 }

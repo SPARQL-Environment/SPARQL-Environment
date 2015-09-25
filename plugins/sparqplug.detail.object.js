@@ -1,18 +1,20 @@
 sparqplug.detail.object = {type:"detail","title":"Object","description":"View query history.","icon":"&#xf0e8;","css":"sparqplug.detail.object.css"};
+plugins['urn:sparqplug:sparqlenvironment.detail.object:0.1'] = sparqplug.detail.object;
 
 sparqplug.detail.object.load = function () {
 	$('#sparqplug-detail-object').append("<ul></ul>")
 	environment.bindToEvent('selectedObject', this.selected );
 }
 
-sparqplug.detail.object.selected = function (data) {
+sparqplug.detail.object.selected = function (data,dataset) {
 	obj = data.object;
-	
+	datasetObject = environment.getDatasetObject(dataset);
+
 	$detail = $("#sparqplug-detail-object");
 	$detail.empty();
 
 	$obj_display = $('<div />',{
-		text: $(document).resolvePrefix(obj),
+		text: $.resolvePrefix(obj,datasetObject),
 		class: 'header'
 	});
 
@@ -27,16 +29,16 @@ sparqplug.detail.object.selected = function (data) {
 
 	$obj_verbs.append("<h4>Verbs as Subject</h4>");
 
-	$.each($(document).verbsForObject(obj_string),function (index, verb) {
+	$.each($.verbsForObject(obj_string,datasetObject),function (index, verb) {
 		$obj_verb = $('<a />',{
-			text: $(document).resolvePrefix(verb.value),
+			text: $.resolvePrefix(verb.value,datasetObject),
 			class: 'verb-item'
 		});
 		$obj_verb.data('obj',obj);
 		$obj_verb.data('verb', verb.value);
 
 		$obj_verb.click(function () {
-			environment.performQuery('SELECT ?object WHERE { <'+$(this).data('obj')+'> <'+$(this).data('verb')+'> ?object }');
+			environment.performQuery('SELECT ?object WHERE { <'+$(this).data('obj')+'> <'+$(this).data('verb')+'> ?object }',datasetObject);
 		});
 
 		$obj_verbs.append($obj_verb);
@@ -45,9 +47,9 @@ sparqplug.detail.object.selected = function (data) {
 
 	$obj_verbs.append("<h4>Verbs as Object</h4>");
 
-	$.each($(document).verbsForDirectObject(obj_string),function (index, verb) {
+	$.each($.verbsForDirectObject(obj_string,datasetObject),function (index, verb) {
 		$obj_verb = $('<a />',{
-			text: $(document).resolvePrefix(verb.value),
+			text: $.resolvePrefix(verb.value,datasetObject),
 			class: 'verb-item'
 		});
 		$obj_verb.data('obj',obj);
@@ -75,5 +77,3 @@ sparqplug.detail.object.createHistoryli = function (query, index) {
 			});
 			return li;
 }
-
-plugins['sparqplug-detail-object'] = sparqplug.detail.object;

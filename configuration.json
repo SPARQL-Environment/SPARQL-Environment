@@ -40,7 +40,7 @@
           }
         ],
         "output":["urn:sparqplug:sparqlenvironment.out.json:0.1","urn:sparqplug:sparqlenvironment.out.table:0.1"],
-        "detail":[],
+        "detail":["urn:sparqplug:sparqlenvironment.detail.object:0.1"],
         "update":[]
       },
       "citekitSRC": "svc-folio-cts",
@@ -70,7 +70,7 @@
           }
         ],
         "output":["urn:sparqplug:sparqlenvironment.out.json:0.1","urn:sparqplug:sparqlenvironment.out.table:0.1"],
-        "detail":[],
+        "detail":["urn:sparqplug:sparqlenvironment.detail.object:0.1"],
         "update":[]
       },
       "citekitSRC": "svc-folio-cts",
