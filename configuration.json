@@ -37,7 +37,31 @@
           {
             "plugins":["urn:sparqplug:sparqlenvironment.in.text:0.1"],
             "datasets":["fu-folio"]
-          },{
+          }
+        ],
+        "output":["urn:sparqplug:sparqlenvironment.out.json:0.1","urn:sparqplug:sparqlenvironment.out.table:0.1"],
+        "detail":[],
+        "update":[]
+      },
+      "citekitSRC": "svc-folio-cts",
+      "cts": {
+        "types": {
+          "Editions": "cts:Edition",
+          "Collections": "cite:CiteCollection",
+          "Works": "cts:Work",
+          "Text Groups": "cts:TextGroup",
+          "Translations": "cts:Translation",
+          "Image Collections": "cite:ImageArchive"
+        }
+      }
+    },
+    {
+      "type":"view",
+      "name": "Comparison",
+      "datasets": ["fu-folio"],
+      "plugins": {
+        "input":[
+          {
             "plugins":["urn:sparqplug:sparqlenvironment.in.text:0.1"],
             "datasets":["fu-folio"]
           },{
