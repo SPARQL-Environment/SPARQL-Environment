@@ -28,7 +28,6 @@ sparqplug.detail.object.selected = function (data) {
 	// Use custom query that retrieves both at once.
 
 	$obj_verbs.append("<h4>Verbs as Subject</h4>");
-	return;
 
 	$.each($.verbsForObject(obj_string,datasetObject),function (index, verb) {
 		$obj_verb = $('<a />',{
@@ -45,6 +44,8 @@ sparqplug.detail.object.selected = function (data) {
 		$obj_verbs.append($obj_verb);
 		$obj_verbs.append('<br/>');
 	});
+
+	return;
 
 	$obj_verbs.append("<h4>Verbs as Object</h4>");
 
