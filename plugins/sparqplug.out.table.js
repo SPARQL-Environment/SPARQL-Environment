@@ -92,15 +92,17 @@ sparqplug.out.table.updateUI = function (selector) {
 	for (var key in commonKeys) {
 		for (var resultSet = 0; resultSet < commonKeys[key].length - 1;resultSet++) {
 			var columnIndex = -1;
-			var keyIndex = $(selector+' #sparql-out-table-'+resultSet+' th').each(function () {
-				columnIndex++;
+			$(selector+' #sparql-out-table-'+resultSet+' th').each(function (index) {
+				if ($(this).html() == key) {
+					columnIndex = index-1;
+				}
 			});
 			for (var compareSet = 1; compareSet < commonKeys[key].length;compareSet++) {
 				for (var index = 0; index < commonKeys[key][resultSet].length; index++) {
-					if (commonKeys[key][compareSet].binaryIndexOf(commonKeys[key][compareSet][index]) < 0) {
+					if (commonKeys[key][compareSet].binaryIndexOf(commonKeys[key][resultSet][index]) < 0) {
 						// Doesn't exist
-						$(selector+' #sparql-out-table-'+resultSet+' tr > td:nth-child('+columnIndex+')').each(function () {
-							if ($(this).val() == commonKeys[key][compareSet][index]) {
+						$(selector+' #sparql-out-table-'+resultSet+' tr td:nth-child('+(columnIndex+1)+')').each(function () {
+							if ($(this).html() == commonKeys[key][resultSet][index]) {
 								$(this).addClass('subtraction');
 							}
 							console.log(commonKeys[key][compareSet][index]+' does not exist in another table '+$(this).val());
