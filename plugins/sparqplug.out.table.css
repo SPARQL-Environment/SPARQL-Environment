@@ -31,42 +31,35 @@
   border-right: 0;
 }
 
-.addition-levels-2 {
-	.addition-1 {
-		background-color:#DDFFDD;
-	}
+.addition-levels-2 .addition-1 {
+	background-color:#DDFFDD;
 }
-.addition-levels-3 {
-	.addition-1 {
-		background-color:#DDFFDD;
-	}
-	.addition-2 {
-		background-color:#99FF99;
-	}
+.addition-levels-3 .addition-1 {
+	background-color:#DDFFDD;
 }
-.addition-levels-4 {
-	.addition-1 {
-		background-color:#DDFFDD;
-	}
-	.addition-2 {
-		background-color:#AAFFAA;
-	}
-	.addition-3 {
-		background-color:#88FF88;
-	}
+.addition-levels-3	.addition-2 {
+	background-color:#99FF99;
 }
 
-.addition-levels-5 {
-	.addition-1 {
-		background-color:#DDFFDD;
-	}
-	.addition-2 {
-		background-color:#BBFFBB;
-	}
-	.addition-3 {
-		background-color:#99FF99;
-	}
-	.addition-4 {
-		background-color:#77FF77;
-	}
+.addition-levels-4 .addition-1 {
+	background-color:#DDFFDD;
+}
+.addition-levels-4 .addition-2 {
+	background-color:#AAFFAA;
+}
+.addition-levels-4 .addition-3 {
+	background-color:#88FF88;
+}
+
+.addition-levels-5 .addition-1 {
+	background-color:#DDFFDD;
+}
+.addition-levels-5 .addition-2 {
+	background-color:#BBFFBB;
+}
+.addition-levels-5 .addition-3 {
+	background-color:#99FF99;
+}
+.addition-levels-5 .addition-4 {
+	background-color:#77FF77;
 }
