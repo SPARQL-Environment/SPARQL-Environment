@@ -86,6 +86,9 @@ sparqplug.out.table.updateUI = function (selector) {
 			resultCount++;
 		});
 	});
+
+	$(selector).removeClass('addition-levels-2 addition-levels-3 addition-levels-4 addition-levels-5');
+	$(selector).addClass('addition-levels-'+resultCount);
 }
 
 /**
