@@ -3,6 +3,9 @@
 	overflow-y:scroll;
 }
 
+.addition {
+	background-color:#DDFFDD;
+}
 
 #sparqplug-out-table table {
   border-collapse: collapse;

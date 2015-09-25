@@ -4,7 +4,6 @@
     "plugins/sparqplug.in.text.css"
   ],
   "urn:sparqplug:sparqlenvironment.out.table:0.1":[
-    "plugins/sparqplug.out.table.js",
     "plugins/sparqplug.out.table.css"
   ],
   "urn:sparqplug:sparqlenvironment.out.json:0.1":[
