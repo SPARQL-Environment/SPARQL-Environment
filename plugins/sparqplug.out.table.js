@@ -53,9 +53,11 @@ sparqplug.out.table.updateUI = function (selector) {
 								addedToResultSets.push(resultSetIndex);
 							}
 						}
-						td.data('addedTo',addedToResultSets);
+
 						if (addedToResultSets.length > 0) {
-							td.addClass('addition-'+addedToResultSets.length);
+							td.data('addedTo',addedToResultSets);
+							td.attr('title','Added compared to: '+addedToResultSets.join(' ,'));
+							td.addClass('addition addition-'+addedToResultSets.length);
 						}
 					}
 
@@ -87,6 +89,9 @@ sparqplug.out.table.updateUI = function (selector) {
 		});
 	});
 
+	$('.addition').bind('mouseOver',function () {
+
+	});
 	$(selector).removeClass('addition-levels-2 addition-levels-3 addition-levels-4 addition-levels-5');
 	$(selector).addClass('addition-levels-'+resultCount);
 }

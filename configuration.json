@@ -40,6 +40,9 @@
           },{
             "plugins":["urn:sparqplug:sparqlenvironment.in.text:0.1"],
             "datasets":["fu-folio"]
+          },{
+            "plugins":["urn:sparqplug:sparqlenvironment.in.text:0.1"],
+            "datasets":["fu-folio"]
           }
         ],
         "output":["urn:sparqplug:sparqlenvironment.out.json:0.1","urn:sparqplug:sparqlenvironment.out.table:0.1"],
