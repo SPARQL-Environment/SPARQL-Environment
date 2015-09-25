@@ -40,7 +40,7 @@ sparqplug.out.table.updateUI = function (selector) {
 					td = $('<td />',{
 						text: $.resolvePrefix(values.value,dataset)
 					}).data('obj',values.value).click(function () {
-						environment.triggerEvent('selectedObject',{'object':values.value});
+						environment.triggerEvent('selectedObject',{'object':values.value,'dataset':resultObject.dataset});
 						//environment.detailObject($(this).data('obj'));
 					});
 

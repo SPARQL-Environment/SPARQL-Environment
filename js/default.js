@@ -390,7 +390,7 @@ environment.loadView = function (view) {
 			environment.loadPlugin(pluginURN,'#output-panel');
 		});
 
-		// Output panels
+		// Detail panels
 		$.each(viewConfig.plugins.detail,function (index,pluginURN) {
 			environment.loadPlugin(pluginURN,'#detail-panel');
 		});
