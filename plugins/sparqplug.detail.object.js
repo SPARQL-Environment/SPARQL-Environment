@@ -6,9 +6,9 @@ sparqplug.detail.object.load = function () {
 	environment.bindToEvent('selectedObject', this.selected );
 }
 
-sparqplug.detail.object.selected = function (data,dataset) {
+sparqplug.detail.object.selected = function (data) {
 	obj = data.object;
-	datasetObject = environment.getDatasetObject(dataset);
+	datasetObject = environment.getDatasetObject(data.dataset);
 
 	$detail = $("#sparqplug-detail-object");
 	$detail.empty();
