@@ -418,7 +418,7 @@ environment.clearWorkspace = function () {
 
 	$('#data-input').empty();
 	$('#data-output').empty();
-	$('#detail').empty;
+	$('#detail').empty();
 
 }
 
