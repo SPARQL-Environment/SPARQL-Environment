@@ -389,7 +389,7 @@ environment.loadView = function (view) {
 
 		// Output panels
 		$('#data-output').append($('<div />',{
-			id:'output-panel'
+			id:'output-panel',
 			html: environment.panelHTML
 		}));
 		$.each(viewConfig.plugins.output,function (index,pluginURN) {
@@ -398,7 +398,7 @@ environment.loadView = function (view) {
 
 		// Detail panels
 		$('#details').append($('<div />',{
-			id:'detail-panel'
+			id:'detail-panel',
 			html: environment.panelHTML
 		}));
 		$.each(viewConfig.plugins.detail,function (index,pluginURN) {
