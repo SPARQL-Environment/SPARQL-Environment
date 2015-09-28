@@ -397,7 +397,7 @@ environment.loadView = function (view) {
 		});
 
 		// Detail panels
-		$('#details').append($('<div />',{
+		$('#detail').append($('<div />',{
 			id:'detail-panel',
 			html: environment.panelHTML
 		}));
@@ -418,7 +418,7 @@ environment.clearWorkspace = function () {
 
 	$('#data-input').empty();
 	$('#data-output').empty();
-	$('#details').empty;
+	$('#detail').empty;
 
 }
 
