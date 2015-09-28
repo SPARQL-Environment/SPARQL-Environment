@@ -38,14 +38,14 @@ sparqplug.detail.object.selected = function (data) {
 		$obj_verb.data('verb', verb.value);
 
 		$obj_verb.click(function () {
-			environment.performQuery('SELECT ?object WHERE { <'+$(this).data('obj')+'> <'+$(this).data('verb')+'> ?object }',datasetObject);
+			environment.performQuery('SELECT ?object WHERE { <'+$(this).data('obj')+'> <'+$(this).data('verb')+'> ?object }',data.dataset);
 		});
 
 		$obj_verbs.append($obj_verb);
 		$obj_verbs.append('<br/>');
 	});
 
-	return;
+	$detail.append($obj_verbs);
 
 	$obj_verbs.append("<h4>Verbs as Object</h4>");
 
@@ -67,7 +67,6 @@ sparqplug.detail.object.selected = function (data) {
 	});
 
 	$detail.append($obj_display);
-	$detail.append($obj_verbs);
 }
 
 sparqplug.detail.object.createHistoryli = function (query, index) {

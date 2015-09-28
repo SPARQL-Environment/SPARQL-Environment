@@ -13,6 +13,9 @@ var environment = {};
 environment.latestQuery = [];
 environment.latestResults = [];
 environment.currentView = "";
+environment.panelHTML = '<div class="panel-menu"><div class="panel-menu-tabs"></div>'+
+	'<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a><a class="icons panel-menu-tools" title="Save Query" href="">&#xf0c7;</a>'+
+'</div><div class="panel-plugins"></div>';
 
 var sparqplug = {};
 sparqplug.configKey = 'sparql.config';
@@ -372,25 +375,32 @@ environment.loadView = function (view) {
 			panelID = 'input-panel-'+index;
 			$panel = $('<div />',{
 				'class':'input-panel panel',
-				'id':panelID
+				'id':panelID,
+				html:environment.panelHTML
 			}).data('index',index);
 			$panel.css('width',(100/number_of_panels)+'%');
 
 			$('#data-input').append($panel);
-			$('#'+panelID).html('<div class="panel-menu"><div class="panel-menu-tabs"></div>'+
-				'<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a><a class="icons panel-menu-tools" title="Save Query" href="">&#xf0c7;</a>'+
-			'</div><div class="panel-plugins"></div>');
+
 			$.each(panel_config.plugins, function (index, pluginURN) {
 				environment.loadPlugin(pluginURN,'#'+panelID);
 			});
 		});
 
 		// Output panels
+		$('#data-output').append($('<div />',{
+			id:'output-panel'
+			html: environment.panelHTML
+		}));
 		$.each(viewConfig.plugins.output,function (index,pluginURN) {
 			environment.loadPlugin(pluginURN,'#output-panel');
 		});
 
 		// Detail panels
+		$('#details').append($('<div />',{
+			id:'detail-panel'
+			html: environment.panelHTML
+		}));
 		$.each(viewConfig.plugins.detail,function (index,pluginURN) {
 			environment.loadPlugin(pluginURN,'#detail-panel');
 		});
@@ -406,17 +416,10 @@ environment.clearWorkspace = function () {
 	this.currentInPlugins = [];
 	this.currentOutPlugin = null;
 
-	$('#inputs').children().remove();
-	$("#data-input .panel-menu a").remove();
-	$('#data-input .panel-menu-tabs').children().remove();
+	$('#data-input').empty();
+	$('#data-output').empty();
+	$('#details').empty;
 
-	$('#outputs').children().remove();
-	$("#data-output .panel-menu a").remove();
-	$('#data-output .panel-menu-tabs').children().remove();
-
-	$('#details').children().remove();
-
-	$('#detail .panel-menu-tabs').children().remove();
 }
 
 /**
