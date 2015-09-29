@@ -53,7 +53,24 @@ sparqplug.in = {};
 sparqplug.out = {};
 sparqplug.detail = {};
 
-var plugins = {};
+/** @namespace */
+environment.plugins = {
+	/**
+	 * Gets the plugin object for a given URN.
+	 */
+	get:function (urn) {
+		return this.library[urn];
+	},
+	/**
+	 * Adds the plugin object to the list of plugins.
+	 * @param {urn} string URN of plugin.
+	 * @param {object} object Object containing all the functions neccessary for a plugin.
+	 */
+	add:function (urn, object) {
+		this.library[urn] = object;
+	},
+	library:[]
+};
 
 var localStorage = window.localStorage;
 
@@ -586,25 +603,26 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 
 	this.resolver.resolvePluginURN(plugin,function (success) {
 		var pluginClass = environment.sanitizeURNForClassName(plugin);
+		var pluginObject = environment.plugins.get(plugin);
 
 		new_plugin = $("&lt;div/>",{
-			class: plugin+' plugin plugin-'+plugins[plugin].type
+			class: plugin+' plugin plugin-'+pluginObject.type
 		}).data('urn',plugin);
 		new_tab = $("&lt;a/>",{
 			class: plugin+'-tab',
-			title: plugins[plugin].description,
+			title: pluginObject.description,
 			click:function () {
 				var pluginClass = environment.sanitizeURNForClassName($(this).data('urn'));
 				environment.viewPlugin($(this).parent().data('panel')+' .'+pluginClass);
 			}
 		}).data('urn',plugin);
-		new_tab.append('&lt;span class="icons">'+plugins[plugin].icon+'&lt;/span> '+plugins[plugin].title);
+		new_tab.append('&lt;span class="icons">'+pluginObject.icon+'&lt;/span> '+pluginObject.title);
 
 		$(panel+' .panel-plugins').append(new_plugin);
 		$(panel+' .panel-menu-tabs').append(new_tab);
 		$(panel+' .panel-menu-tabs').data('panel',panel);
 
-		plugins[plugin].load(panel+' .'+pluginClass);
+		pluginObject.load(panel+' .'+pluginClass);
 	});
 }
 
@@ -630,13 +648,13 @@ environment.viewPlugin = function (selector) {
 
 	urn = $(selector).data('urn');
 
-	if (plugins[urn].type == "in") {
+	if (this.plugins.get(urn).type == "in") {
 		this.currentInPlugins[panel_index] = urn;
-		plugins[urn].updateUI(selector);
-	} else if (plugins[urn].type == "out") {
+		this.plugins.get(urn).updateUI(selector);
+	} else if (this.plugins.get(urn).type == "out") {
 		this.currentOutPlugin = urn;
-		plugins[urn].updateUI(selector);
-	} else if (plugins[urn].type == "detail") {
+		this.plugins.get(urn).updateUI(selector);
+	} else if (this.plugins.get(urn).type == "detail") {
 		this.currentDetailPlugin = urn;
 	}
 }
@@ -664,7 +682,7 @@ environment.performQuery = function (query, selector) {
 	$.each(this.currentDatasets(selector), function (index, dataset) {
 		var results = $.query(query,environment.getDatasetObject(dataset));
 		if (results.error) {
-			plugins[$(selector).data('urn')].error(results,selector);
+			this.plugins.get($(selector).data('urn')).error(results,selector);
 			return;
 		}
 		panel_results.push({'results':results,'dataset':dataset});
@@ -1162,13 +1180,13 @@ environment.detailObject = function (obj) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.resolver.html">resolver</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.plugins.html">plugins</a></li><li><a href="environment.resolver.html">resolver</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Tue Sep 29 2015 00:15:18 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Tue Sep 29 2015 00:34:13 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>

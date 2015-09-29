@@ -1,5 +1,5 @@
 sparqplug.out.table = {type:"out","title":"Table Viewer","description":"View results in a table.","icon":"&#xf0ce;","css":"sparqplug.out.table.css"};
-plugins['urn:sparqplug:sparqlenvironment.out.table:0.1'] = sparqplug.out.table;
+environment.plugins.add('urn:sparqplug:sparqlenvironment.out.table:0.1',sparqplug.out.table);
 
 sparqplug.out.table.load = function (selector) {
 	$(selector).addClass('sparqplug-out-table');

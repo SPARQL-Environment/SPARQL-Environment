@@ -1,5 +1,5 @@
 sparqplug.detail.object = {type:"detail","title":"Object","description":"View query history.","icon":"&#xf0e8;","css":"sparqplug.detail.object.css"};
-plugins['urn:sparqplug:sparqlenvironment.detail.object:0.1'] = sparqplug.detail.object;
+environment.plugins.add('urn:sparqplug:sparqlenvironment.detail.object:0.1',sparqplug.detail.object);
 
 sparqplug.detail.object.load = function (selector) {
 	$(selector).append("<ul></ul>")

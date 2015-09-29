@@ -1,5 +1,5 @@
 sparqplug.in.text = {type:"in","title":"Text Query","description":"Standard SPARQL query environment.","icon":"&#xf040;","css":"sparqplug.in.text.css"};
-plugins['urn:sparqplug:sparqlenvironment.in.text:0.1'] = sparqplug.in.text;
+environment.plugins.add('urn:sparqplug:sparqlenvironment.in.text:0.1',sparqplug.in.text);
 
 sparqplug.in.text.load = function (selector) {
 	$(selector).addClass('sparqplug-in-text');

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Namespace: resolver</title>
+    <title>JSDoc: Namespace: plugins</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Namespace: resolver</h1>
+    <h1 class="page-title">Namespace: plugins</h1>
 
     
 
@@ -31,7 +31,7 @@
         <h2>
             <span class="ancestors"><a href="environment.html">environment</a>.</span>
         
-        resolver
+        plugins
         </h2>
         
     
@@ -74,7 +74,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_resolver.js.html">js/resolver.js</a>, <a href="js_resolver.js.html#line2">line 2</a>
+        <a href="js_default.js.html">js/default.js</a>, <a href="js_default.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -110,97 +110,14 @@
 
     
 
-    <h4 class="name" id=".getLibrary"><span class="type-signature">(static) </span>getLibrary<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id=".add"><span class="type-signature">(static) </span>add<span class="signature">(string, object)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Gets the contents of the library property or if they do not exist gets them from the library file.
-</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_resolver.js.html">js/resolver.js</a>, <a href="js_resolver.js.html#line14">line 14</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    <h4 class="name" id=".resolvePluginURN"><span class="type-signature">(static) </span>resolvePluginURN<span class="signature">(string, function)</span><span class="type-signature"></span></h4>
-
-    
-
-
-
-<div class="description">
-    Loads the files necessary for a given plugin based on the URN and then calls
-the provided callback function.
+    Adds the plugin object to the list of plugins.
 </div>
 
 
@@ -252,20 +169,20 @@ the provided callback function.
 
             
 
-            <td class="description last">The URN for the plugin.</td>
+            <td class="description last">URN of plugin.</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>function</code></td>
+                <td class="name"><code>object</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">callback</span>
+<span class="param-type">object</span>
 
 
             
@@ -275,8 +192,7 @@ the provided callback function.
 
             
 
-            <td class="description last">The function called upon completion with one
-boolean parameter for success.</td>
+            <td class="description last">Object containing all the functions neccessary for a plugin.</td>
         </tr>
 
     
@@ -317,7 +233,89 @@ boolean parameter for success.</td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="js_resolver.js.html">js/resolver.js</a>, <a href="js_resolver.js.html#line38">line 38</a>
+        <a href="js_default.js.html">js/default.js</a>, <a href="js_default.js.html#line41">line 41</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id=".get"><span class="type-signature">(static) </span>get<span class="signature">()</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Gets the plugin object for a given URN.
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="js_default.js.html">js/default.js</a>, <a href="js_default.js.html#line33">line 33</a>
     </li></ul></dd>
     
 
