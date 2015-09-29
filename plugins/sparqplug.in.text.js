@@ -114,7 +114,8 @@ sparqplug.in.text.error = function (error) {
 
 sparqplug.in.text.updateUI = function () {
 	console.log("updateUI in.text");
-	this.find('.sp-in-text-textarea').val(environment.latestQuery);
+	panelIndex = this.parents('.panel').data('index');
+	this.find('.sp-in-text-textarea').val(environment.latestQuery[panelIndex]);
 	this.find('.sp-in-text-textarea').trigger('change');
 }
 

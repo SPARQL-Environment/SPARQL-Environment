@@ -407,6 +407,10 @@ environment.loadView = function (view) {
 
 			$.each(panel_config.plugins, function (index, pluginURN) {
 				environment.loadPlugin(pluginURN,'#'+panelID);
+				if (index == 0) {
+					var pluginClass = environment.sanitizeURNForClassName(pluginURN);
+					$('#'+panelID+' .'+pluginClass+'-tab').trigger('click');
+				}
 			});
 		});
 
@@ -417,6 +421,10 @@ environment.loadView = function (view) {
 		}));
 		$.each(viewConfig.plugins.output,function (index,pluginURN) {
 			environment.loadPlugin(pluginURN,'#output-panel');
+			if (index == 0) {
+				var pluginClass = environment.sanitizeURNForClassName(pluginURN);
+				$('#output-panel .'+pluginClass+'-tab').trigger('click');
+			}
 		});
 
 		// Detail panels
@@ -426,6 +434,10 @@ environment.loadView = function (view) {
 		}));
 		$.each(viewConfig.plugins.detail,function (index,pluginURN) {
 			environment.loadPlugin(pluginURN,'#detail-panel');
+			if (index == 0) {
+				var pluginClass = environment.sanitizeURNForClassName(pluginURN);
+				$('#detail-panel .'+pluginClass+'-tab').trigger('click');
+			}
 		});
 
 		this.currentView = view;
