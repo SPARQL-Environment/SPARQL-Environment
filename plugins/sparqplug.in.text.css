@@ -42,10 +42,8 @@
 }
 
 .sp-in-text-run {
-	position:relative;
-	left: calc(100% - 15px);
-	bottom: 15px;
-	cursor: pointer;
+	float: right;
+	margin-top: -20px;
 }
 
 .syntax-verb {
