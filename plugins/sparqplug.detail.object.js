@@ -1,16 +1,16 @@
 sparqplug.detail.object = {type:"detail","title":"Object","description":"View query history.","icon":"&#xf0e8;","css":"sparqplug.detail.object.css"};
 environment.plugins.add('urn:sparqplug:sparqlenvironment.detail.object:0.1',sparqplug.detail.object);
 
-sparqplug.detail.object.load = function (selector) {
-	$(selector).append("<ul></ul>")
-	environment.bindToEvent('selectedObject', this.selected, {'selector':selector} );
+sparqplug.detail.object.load = function () {
+	this.append("<ul></ul>")
+	environment.bindToEvent('selectedObject', sparqplug.detail.object.selected, {'selector':this} );
 }
 
 sparqplug.detail.object.selected = function (data) {
 	obj = data.object;
 	datasetObject = environment.getDatasetObject(data.dataset);
 
-	$detail = $(data.selector);
+	$detail = data.selector;
 	$detail.empty();
 
 	$obj_display = $('<div />',{

@@ -1,16 +1,17 @@
 sparqplug.out.table = {type:"out","title":"Table Viewer","description":"View results in a table.","icon":"&#xf0ce;","css":"sparqplug.out.table.css"};
 environment.plugins.add('urn:sparqplug:sparqlenvironment.out.table:0.1',sparqplug.out.table);
 
-sparqplug.out.table.load = function (selector) {
-	$(selector).addClass('sparqplug-out-table');
+sparqplug.out.table.load = function () {
+	this.addClass('sparqplug-out-table');
 }
 
-sparqplug.out.table.updateUI = function (selector) {
-	$(selector).empty();
+sparqplug.out.table.updateUI = function () {
+	this.empty();
 
 	var commonKeys = {};
 
 	var resultCount = 0;
+	var that = this;
 
 	$.each(environment.latestResults,function (panelIndex, panelResults) {
 		$.each(panelResults,function (resultIndex, resultObject) {
@@ -83,7 +84,7 @@ sparqplug.out.table.updateUI = function (selector) {
 				'html':'<th colspan="'+keys.length+'">Result Set #'+resultCount+'</th>'
 			});
 			table.prepend(th);
-			$(selector).append(table);
+			that.append(table);
 
 			resultCount++;
 		});
@@ -92,7 +93,7 @@ sparqplug.out.table.updateUI = function (selector) {
 	for (var key in commonKeys) {
 		for (var resultSet = 0; resultSet < commonKeys[key].length - 1;resultSet++) {
 			var columnIndex = -1;
-			$(selector+' #sparql-out-table-'+resultSet+' th').each(function (index) {
+			this.find('#sparql-out-table-'+resultSet+' th').each(function (index) {
 				if ($(this).html() == key) {
 					columnIndex = index-1;
 				}
@@ -101,7 +102,7 @@ sparqplug.out.table.updateUI = function (selector) {
 				for (var index = 0; index < commonKeys[key][resultSet].length; index++) {
 					if (commonKeys[key][compareSet].binaryIndexOf(commonKeys[key][resultSet][index]) < 0) {
 						// Doesn't exist
-						$(selector+' #sparql-out-table-'+resultSet+' tr td:nth-child('+(columnIndex+1)+')').each(function () {
+						this.find('#sparql-out-table-'+resultSet+' tr td:nth-child('+(columnIndex+1)+')').each(function () {
 							if ($(this).html() == commonKeys[key][resultSet][index]) {
 								$(this).addClass('subtraction');
 							}
@@ -116,8 +117,8 @@ sparqplug.out.table.updateUI = function (selector) {
 	$('.addition').bind('mouseOver',function () {
 		// Eventuall do something
 	});
-	$(selector).removeClass('addition-levels-2 addition-levels-3 addition-levels-4 addition-levels-5');
-	$(selector).addClass('addition-levels-'+resultCount);
+	this.removeClass('addition-levels-2 addition-levels-3 addition-levels-4 addition-levels-5');
+	this.addClass('addition-levels-'+resultCount);
 }
 
 /**

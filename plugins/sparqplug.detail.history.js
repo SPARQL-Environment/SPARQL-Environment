@@ -4,12 +4,12 @@ sparqplug.detail.history.load = function () {
 	$('#sparqplug-detail-history').append("<ul></ul>")
 	environment.bindToEvent('performedQuery', this.updateHistory );
 	this.updateHistory();
-	
+
 	// TO-Do Clear History Button
 	/*$.btn.click(function () {
 		environment.clearHistory();
 	});*/
-	
+
 }
 
 sparqplug.detail.history.updateHistory = function () {
@@ -29,4 +29,4 @@ sparqplug.detail.history.createHistoryli = function (query, index) {
 			return li;
 }
 
-plugins['sparqplug-detail-history'] = sparqplug.detail.history;
+//environment.plugins.add()['sparqplug-detail-history'] = sparqplug.detail.history;
