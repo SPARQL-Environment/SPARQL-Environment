@@ -44,6 +44,7 @@
 .sp-in-text-run {
 	float: right;
 	margin-top: -20px;
+	cursor:pointer;
 }
 
 .syntax-verb {
