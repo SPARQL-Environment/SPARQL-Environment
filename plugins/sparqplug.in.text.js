@@ -98,9 +98,8 @@ sparqplug.in.text.load = function () {
 		}
 	});
 
-	var run_button = $('<a />',{
-		id: 'sp-in-text-run',
-		class:'icons'
+	var run_button = $('<div />',{
+		class:'sp-in-text-run icons'
 	}).append("&#xf04b;").click(function () {
 		sparqplug.in.text.queryChanged.call(that);
 	});

@@ -675,7 +675,7 @@ environment.updateVisiblePlugins = function () {
 	$.each(environment.currentInPlugins, function (panelIndex,plugin) {
 		environment.plugins.get(plugin).updateUI.call($('#input-panel-'+panelIndex+' .'+environment.sanitizeURNForClassName(plugin)));
 	});
-	environment.plugins.get(environment.currentOutPlugin).updateUI.call($('#output-panel .'+environment.sanitizeURNForClassName(plugin)));
+	environment.plugins.get(environment.currentOutPlugin).updateUI.call($('#output-panel .'+environment.sanitizeURNForClassName(environment.currentOutPlugin)));
 }
 
 environment.silentQuery = function (query) {
