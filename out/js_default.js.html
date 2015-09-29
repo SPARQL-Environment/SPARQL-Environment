@@ -1,4 +1,32 @@
-// Documentation generated with jsdoc https://github.com/jsdoc3/jsdoc
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: js/default.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: js/default.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// Documentation generated with jsdoc https://github.com/jsdoc3/jsdoc
 
 $(document).ready(function (){
 	environment.load();
@@ -14,9 +42,9 @@ var environment = {};
 environment.latestQuery = [];
 environment.latestResults = [];
 environment.currentView = "";
-environment.panelHTML = '<div class="panel-menu"><div class="panel-menu-tabs"></div>'+
-	'<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a><a class="icons panel-menu-tools" title="Save Query" href="">&#xf0c7;</a>'+
-'</div><div class="panel-plugins"></div>';
+environment.panelHTML = '&lt;div class="panel-menu">&lt;div class="panel-menu-tabs">&lt;/div>'+
+	'&lt;a class="icons panel-menu-tools" title="SparqIt" href="">&amp;#xf045;&lt;/a>&lt;a class="icons panel-menu-tools" title="Save Query" href="">&amp;#xf0c7;&lt;/a>'+
+'&lt;/div>&lt;div class="panel-plugins">&lt;/div>';
 
 var sparqplug = {};
 sparqplug.configKey = 'sparql.config';
@@ -25,24 +53,7 @@ sparqplug.in = {};
 sparqplug.out = {};
 sparqplug.detail = {};
 
-/** @namespace */
-environment.plugins = {
-	/**
-	 * Gets the plugin object for a given URN.
-	 */
-	get:function (urn) {
-		return this.library[urn];
-	},
-	/**
-	 * Adds the plugin object to the list of plugins.
-	 * @param {urn} string URN of plugin.
-	 * @param {object} object Object containing all the functions neccessary for a plugin.
-	 */
-	add:function (urn, object) {
-		this.library[urn] = object;
-	},
-	library:[]
-};
+var plugins = {};
 
 var localStorage = window.localStorage;
 
@@ -138,7 +149,7 @@ environment.triggerEvent = function (event, data) {
 // Import from File
 
 environment.loadImportMethods = function () {
-	if (window.File && window.FileReader && window.FileList && window.Blob) {
+	if (window.File &amp;&amp; window.FileReader &amp;&amp; window.FileList &amp;&amp; window.Blob) {
 		var dropZone = document.getElementById('import-dataset-file');
 		dropZone.addEventListener('dragover', handleDragOver, false);
 		dropZone.addEventListener('drop', handleFileSelect, false);
@@ -312,7 +323,7 @@ environment.displayConfigurations = function () {
 	$.each(this.config.datasets,function(index,value) {
 		console.log('config: '+value.name);
 
-		li_edit = $('<span/>',{
+		li_edit = $('&lt;span/>',{
 			class:'edit',
 			text:'edit'
 		}).click(function () {
@@ -320,7 +331,7 @@ environment.displayConfigurations = function () {
 			environment.editDataset(dataset);
 		}).hide();
 
-		li = $('<li/>',{
+		li = $('&lt;li/>',{
 			text:value.name,
 			title:value.description
 		}).data('id',value.name).click(function () {
@@ -347,7 +358,7 @@ environment.displayConfigurations = function () {
 	$.each(this.config.views,function(index,value) {
 		console.log('config: '+value.name);
 
-		li_edit = $('<span/>',{
+		li_edit = $('&lt;span/>',{
 			class:'edit',
 			text:'edit'
 		}).click(function () {
@@ -355,7 +366,7 @@ environment.displayConfigurations = function () {
 			environment.editDataset(dataset);
 		}).hide();
 
-		li = $('<li/>',{
+		li = $('&lt;li/>',{
 			text:value.name,
 			title:value.description
 		}).data('id',value.name).click(function () {
@@ -396,7 +407,7 @@ environment.loadView = function (view) {
 		var number_of_panels = viewConfig.plugins.input.length;
 		$.each(viewConfig.plugins.input,function (index,panel_config) {
 			panelID = 'input-panel-'+index;
-			$panel = $('<div />',{
+			$panel = $('&lt;div />',{
 				'class':'input-panel panel',
 				'id':panelID,
 				html:environment.panelHTML
@@ -411,7 +422,7 @@ environment.loadView = function (view) {
 		});
 
 		// Output panels
-		$('#data-output').append($('<div />',{
+		$('#data-output').append($('&lt;div />',{
 			id:'output-panel',
 			html: environment.panelHTML
 		}));
@@ -420,7 +431,7 @@ environment.loadView = function (view) {
 		});
 
 		// Detail panels
-		$('#detail').append($('<div />',{
+		$('#detail').append($('&lt;div />',{
 			id:'detail-panel',
 			html: environment.panelHTML
 		}));
@@ -459,7 +470,7 @@ environment.getViewObject = function (view) {
 
 environment.loadStandAloneDataset = function (configURL) {
 	this.importConfigFromURL(configURL);
-	$('<link/>', {
+	$('&lt;link/>', {
 	   rel: 'stylesheet',
 	   type: 'text/css',
 	   href: 'css/standalone.css'
@@ -477,16 +488,16 @@ environment.editDataset = function (dataset) {
 
 	$('#config_editor_prefixes').empty();
 	$.each(edit_config.prefixes, function (key, value) {
-		var li = $('<li />');
-		li.append('<input type="text" class="config_editor_prefixes_key" value="'+key+'" />');
-		li.append('<input type="text" class="config_editor_prefixes_value" value="'+value+'" />');
+		var li = $('&lt;li />');
+		li.append('&lt;input type="text" class="config_editor_prefixes_key" value="'+key+'" />');
+		li.append('&lt;input type="text" class="config_editor_prefixes_value" value="'+value+'" />');
 		$('#config_editor_prefixes').append(li);
 	});
 
 	$('#config_editor_prefixes_add').click(function() {
-		var li = $('<li />');
-		li.append('<input type="text" class="config_editor_prefixes_key" value="" placeholder="Key" />');
-		li.append('<input type="text" class="config_editor_prefixes_value" value="" placeholder="Value" />');
+		var li = $('&lt;li />');
+		li.append('&lt;input type="text" class="config_editor_prefixes_key" value="" placeholder="Key" />');
+		li.append('&lt;input type="text" class="config_editor_prefixes_value" value="" placeholder="Value" />');
 		$('#config_editor_prefixes').append(li);
 	});
 
@@ -510,7 +521,7 @@ environment.saveDataset = function () {
 	$('#config_editor_prefixes').children().each(function (index,li) {
 		var key = $(li).find('.config_editor_prefixes_key').val();
 		var value = $(li).find('.config_editor_prefixes_value').val();
-		if (key != "" && value != "") {
+		if (key != "" &amp;&amp; value != "") {
 			prefixes_new[key] = value;
 		}
 	});
@@ -575,26 +586,25 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 
 	this.resolver.resolvePluginURN(plugin,function (success) {
 		var pluginClass = environment.sanitizeURNForClassName(plugin);
-		var pluginObject = environment.plugins.get(plugin);
 
-		new_plugin = $("<div/>",{
-			class: plugin+' plugin plugin-'+pluginObject.type
+		new_plugin = $("&lt;div/>",{
+			class: plugin+' plugin plugin-'+plugins[plugin].type
 		}).data('urn',plugin);
-		new_tab = $("<a/>",{
+		new_tab = $("&lt;a/>",{
 			class: plugin+'-tab',
-			title: pluginObject.description,
+			title: plugins[plugin].description,
 			click:function () {
 				var pluginClass = environment.sanitizeURNForClassName($(this).data('urn'));
 				environment.viewPlugin($(this).parent().data('panel')+' .'+pluginClass);
 			}
 		}).data('urn',plugin);
-		new_tab.append('<span class="icons">'+pluginObject.icon+'</span> '+pluginObject.title);
+		new_tab.append('&lt;span class="icons">'+plugins[plugin].icon+'&lt;/span> '+plugins[plugin].title);
 
 		$(panel+' .panel-plugins').append(new_plugin);
 		$(panel+' .panel-menu-tabs').append(new_tab);
 		$(panel+' .panel-menu-tabs').data('panel',panel);
 
-		pluginObject.load(panel+' .'+pluginClass);
+		plugins[plugin].load(panel+' .'+pluginClass);
 	});
 }
 
@@ -620,13 +630,13 @@ environment.viewPlugin = function (selector) {
 
 	urn = $(selector).data('urn');
 
-	if (this.plugins.get(urn).type == "in") {
+	if (plugins[urn].type == "in") {
 		this.currentInPlugins[panel_index] = urn;
-		this.plugins.get(urn).updateUI(selector);
-	} else if (this.plugins.get(urn).type == "out") {
+		plugins[urn].updateUI(selector);
+	} else if (plugins[urn].type == "out") {
 		this.currentOutPlugin = urn;
-		this.plugins.get(urn).updateUI(selector);
-	} else if (this.plugins.get(urn).type == "detail") {
+		plugins[urn].updateUI(selector);
+	} else if (plugins[urn].type == "detail") {
 		this.currentDetailPlugin = urn;
 	}
 }
@@ -654,7 +664,7 @@ environment.performQuery = function (query, selector) {
 	$.each(this.currentDatasets(selector), function (index, dataset) {
 		var results = $.query(query,environment.getDatasetObject(dataset));
 		if (results.error) {
-			this.plugins.get($(selector).data('urn')).error(results,selector);
+			plugins[$(selector).data('urn')].error(results,selector);
 			return;
 		}
 		panel_results.push({'results':results,'dataset':dataset});
@@ -1031,7 +1041,7 @@ jQuery.extend({
 
          // Attach handlers for all browsers
          script.onload = script.onreadystatechange = function(){
-            if ( !done && (!this.readyState ||
+            if ( !done &amp;&amp; (!this.readyState ||
                   this.readyState == "loaded" || this.readyState == "complete") ) {
                done = true;
                if (callback)
@@ -1057,7 +1067,7 @@ environment.setupShortCuts = function () {
 		console.log('keydown : '+e.keyCode);
 		if (e.keyCode == 18) {
 			$(this).data('alting',true);
-		} else if ($(this).data('alting') == true && e.keyCode == 79) { // alt-o
+		} else if ($(this).data('alting') == true &amp;&amp; e.keyCode == 79) { // alt-o
 			environment.detailObject(environment.getSelectedText());
 		}
 	});
@@ -1072,7 +1082,7 @@ environment.getSelectedText = function () {
     var text = "";
     if (window.getSelection) {
         text = window.getSelection().toString();
-    } else if (document.selection && document.selection.type != "Control") {
+    } else if (document.selection &amp;&amp; document.selection.type != "Control") {
         text = document.selection.createRange().text;
     }
     return text;
@@ -1085,24 +1095,24 @@ environment.detailObject = function (obj) {
 	$detail = $("#detail .content");
 	$detail.empty();
 
-	$obj_display = $('<div />',{
+	$obj_display = $('&lt;div />',{
 		text: $(document).resolvePrefix(obj),
 		class: 'header'
 	});
 
-	$obj_verbs = $('<div />',{
+	$obj_verbs = $('&lt;div />',{
 		class: 'verb-list'
 	});
 
-	obj_string = '<'+obj+'>'; // should check for prefix
+	obj_string = '&lt;'+obj+'>'; // should check for prefix
 
 	// TO-DO stop using versbForObject and verbsForDirectObject.
 	// Use custom query that retrieves both at once.
 
-	$obj_verbs.append("<h4>Verbs as Subject</h4>");
+	$obj_verbs.append("&lt;h4>Verbs as Subject&lt;/h4>");
 
 	$.each($(document).verbsForObject(obj_string),function (index, verb) {
-		$obj_verb = $('<a />',{
+		$obj_verb = $('&lt;a />',{
 			text: $(document).resolvePrefix(verb.value),
 			class: 'verb-item'
 		});
@@ -1110,18 +1120,18 @@ environment.detailObject = function (obj) {
 		$obj_verb.data('verb', verb.value);
 
 		$obj_verb.click(function () {
-			environment.performQuery('SELECT ?object WHERE { <'+$(this).data('obj')+'> <'+$(this).data('verb')+'> ?object }');
+			environment.performQuery('SELECT ?object WHERE { &lt;'+$(this).data('obj')+'> &lt;'+$(this).data('verb')+'> ?object }');
 			environment.plugins[environment.currentInPlugin].updateUI();
 		});
 
 		$obj_verbs.append($obj_verb);
-		$obj_verbs.append('<br/>');
+		$obj_verbs.append('&lt;br/>');
 	});
 
-	$obj_verbs.append("<h4>Verbs as Object</h4>");
+	$obj_verbs.append("&lt;h4>Verbs as Object&lt;/h4>");
 
 	$.each($(document).verbsForDirectObject(obj_string),function (index, verb) {
-		$obj_verb = $('<a />',{
+		$obj_verb = $('&lt;a />',{
 			text: $(document).resolvePrefix(verb.value),
 			class: 'verb-item'
 		});
@@ -1129,12 +1139,12 @@ environment.detailObject = function (obj) {
 		$obj_verb.data('verb', verb.value);
 
 		$obj_verb.click(function () {
-			environment.performQuery('SELECT ?subject WHERE { ?subject <'+$(this).data('verb')+'> <'+$(this).data('obj')+'> }');
+			environment.performQuery('SELECT ?subject WHERE { ?subject &lt;'+$(this).data('verb')+'> &lt;'+$(this).data('obj')+'> }');
 			environment.plugins[environment.currentInPlugin].updateUI();
 		});
 
 		$obj_verbs.append($obj_verb);
-		$obj_verbs.append('<br/>');
+		$obj_verbs.append('&lt;br/>');
 
 	});
 
@@ -1142,3 +1152,26 @@ environment.detailObject = function (obj) {
 	$detail.append($obj_verbs);
 
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.resolver.html">resolver</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Tue Sep 29 2015 00:15:18 GMT-0400 (EDT)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

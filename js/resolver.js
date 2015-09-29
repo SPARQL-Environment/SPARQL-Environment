@@ -1,3 +1,4 @@
+/** @namespace */
 environment.resolver = {
   libraryFile:'library.json',
   library:null,
@@ -10,7 +11,6 @@ environment.resolver = {
 /**
  * Gets the contents of the library property or if they do not exist gets them from the library file.
  */
-
 environment.resolver.getLibrary = function() {
   if (this.library == null) {
     var temp_library;
@@ -26,6 +26,14 @@ environment.resolver.getLibrary = function() {
   }
   return this.library;
 }
+
+/**
+ * Loads the files necessary for a given plugin based on the URN and then calls
+ * the provided callback function.
+ * @param {urn} string The URN for the plugin.
+ * @param {callback} function The function called upon completion with one
+ * boolean parameter for success.
+ */
 
 environment.resolver.resolvePluginURN = function (urn,callback) {
   if (this.resolved[urn]) {
