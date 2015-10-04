@@ -26,128 +26,129 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>sparqplug.out.table = {type:"out","title":"Table Viewer","description":"View results in a table.","icon":"&amp;#xf0ce;","css":"sparqplug.out.table.css"};
-environment.plugins.add('urn:sparqplug:sparqlenvironment.out.table:0.1',sparqplug.out.table);
+            <pre class="prettyprint source linenums"><code>sparqplug.create(sparqplug.type.output,'urn:sparqplug:sparqlenvironment.out.table:0.1',{
+	"title":"Table Viewer",
+	"description":"View results in a table.",
+	"icon":"&amp;#xf0ce;",
+	load:function () {
+		this.addClass('sparqplug-out-table');
+	},
+	updateUI:function () {
+		this.empty();
 
-sparqplug.out.table.load = function () {
-	this.addClass('sparqplug-out-table');
-}
+		var commonKeys = {};
 
-sparqplug.out.table.updateUI = function () {
-	this.empty();
+		var resultCount = 0;
+		var that = this;
 
-	var commonKeys = {};
-
-	var resultCount = 0;
-	var that = this;
-
-	$.each(environment.latestResults,function (panelIndex, panelResults) {
-		$.each(panelResults,function (resultIndex, resultObject) {
-			var table = $('&lt;table/>',{
-				id:'sparql-out-table-'+resultCount
-			});
-
-			var keys = Object.keys(resultObject.results[0]);
-			var comparingKeys = {};
-
-			for (var index in keys) {
-				var key = keys[index];
-				if (commonKeys[key]) {
-					comparingKeys[key] = commonKeys[keys[index]].length;
-					commonKeys[key].push([]);
-				} else {
-					comparingKeys[key] = 0;
-					commonKeys[key] = [[]];
-				}
-			}
-
-			var dataset = environment.getDatasetObject(resultObject.dataset);
-			$.each(resultObject.results,function (index, row) {
-				// Start Row
-				var tr = $('&lt;tr/>');
-				$.each(row,function (key, values) {
-					td = $('&lt;td />',{
-						text: $.resolvePrefix(values.value,dataset)
-					}).data('obj',values.value).click(function () {
-						environment.triggerEvent('selectedObject',{'object':values.value,'dataset':resultObject.dataset});
-						//environment.detailObject($(this).data('obj'));
-					});
-
-					if (comparingKeys[key] != 0) { // Has other result sets to compare to.
-						var addedToResultSets = []; // List of result sets
-						for (var resultSetIndex = 0; resultSetIndex &lt; comparingKeys[key]; resultSetIndex ++) { // iterate through result sets with key
-							var index = commonKeys[key][resultSetIndex].binaryIndexOf(values.value);
-							if (index &lt; 0) {
-								console.log('Addition '+key+' '+values.value+' index: '+index+' in resultSet '+resultSetIndex);
-								addedToResultSets.push(resultSetIndex);
-							}
-						}
-
-						if (addedToResultSets.length > 0) {
-							td.data('addedTo',addedToResultSets);
-							td.attr('title','Added compared to: '+addedToResultSets.join(' ,'));
-							td.addClass('addition addition-'+addedToResultSets.length);
-						}
-					}
-
-					// Add to it's own result set.
-					var index = commonKeys[key][comparingKeys[key]].binaryIndexOf(values.value);
-					if (index &lt; 0) {
-						commonKeys[key][comparingKeys[key]].splice(Math.abs(index)-1, 0, values.value);
-					} else {
-						// Duplicate in same result set
-					}
-					// Each Column
-
-					tr.append(td);
+		$.each(environment.latestResults,function (panelIndex, panelResults) {
+			$.each(panelResults,function (resultIndex, resultObject) {
+				var table = $('&lt;table/>',{
+					id:'sparql-out-table-'+resultCount
 				});
-				table.append(tr);
-			});
-			var th = $('&lt;tr/>');
-			$.each(keys, function (index, key) {
-				th.append('&lt;th>'+key+'&lt;/th>');
-			});
-			table.prepend(th);
-			var th = $('&lt;tr/>',{
-				'html':'&lt;th colspan="'+keys.length+'">Result Set #'+resultCount+'&lt;/th>'
-			});
-			table.prepend(th);
-			that.append(table);
 
-			resultCount++;
-		});
-	});
+				var keys = Object.keys(resultObject.results[0]);
+				var comparingKeys = {};
 
-	for (var key in commonKeys) {
-		for (var resultSet = 0; resultSet &lt; commonKeys[key].length - 1;resultSet++) {
-			var columnIndex = -1;
-			this.find('#sparql-out-table-'+resultSet+' th').each(function (index) {
-				if ($(this).html() == key) {
-					columnIndex = index-1;
+				for (var index in keys) {
+					var key = keys[index];
+					if (commonKeys[key]) {
+						comparingKeys[key] = commonKeys[keys[index]].length;
+						commonKeys[key].push([]);
+					} else {
+						comparingKeys[key] = 0;
+						commonKeys[key] = [[]];
+					}
 				}
-			});
-			for (var compareSet = 1; compareSet &lt; commonKeys[key].length;compareSet++) {
-				for (var index = 0; index &lt; commonKeys[key][resultSet].length; index++) {
-					if (commonKeys[key][compareSet].binaryIndexOf(commonKeys[key][resultSet][index]) &lt; 0) {
-						// Doesn't exist
-						this.find('#sparql-out-table-'+resultSet+' tr td:nth-child('+(columnIndex+1)+')').each(function () {
-							if ($(this).html() == commonKeys[key][resultSet][index]) {
-								$(this).addClass('subtraction');
-							}
-							console.log(commonKeys[key][compareSet][index]+' does not exist in another table '+$(this).val());
+
+				var dataset = environment.getDatasetObject(resultObject.dataset);
+				$.each(resultObject.results,function (index, row) {
+					// Start Row
+					var tr = $('&lt;tr/>');
+					$.each(row,function (key, values) {
+						td = $('&lt;td />',{
+							text: $.resolvePrefix(values.value,dataset)
+						}).data('obj',values.value).click(function () {
+							environment.triggerEvent('selectedObject',{'object':values.value,'dataset':resultObject.dataset});
+							//environment.detailObject($(this).data('obj'));
 						});
+
+						if (comparingKeys[key] != 0) { // Has other result sets to compare to.
+							var addedToResultSets = []; // List of result sets
+							for (var resultSetIndex = 0; resultSetIndex &lt; comparingKeys[key]; resultSetIndex ++) { // iterate through result sets with key
+								var index = commonKeys[key][resultSetIndex].binaryIndexOf(values.value);
+								if (index &lt; 0) {
+									console.log('Addition '+key+' '+values.value+' index: '+index+' in resultSet '+resultSetIndex);
+									addedToResultSets.push(resultSetIndex);
+								}
+							}
+
+							if (addedToResultSets.length > 0) {
+								td.data('addedTo',addedToResultSets);
+								td.attr('title','Added compared to: '+addedToResultSets.join(' ,'));
+								td.addClass('addition addition-'+addedToResultSets.length);
+							}
+						}
+
+						// Add to it's own result set.
+						var index = commonKeys[key][comparingKeys[key]].binaryIndexOf(values.value);
+						if (index &lt; 0) {
+							commonKeys[key][comparingKeys[key]].splice(Math.abs(index)-1, 0, values.value);
+						} else {
+							// Duplicate in same result set
+						}
+						// Each Column
+
+						tr.append(td);
+					});
+					table.append(tr);
+				});
+				var th = $('&lt;tr/>');
+				$.each(keys, function (index, key) {
+					th.append('&lt;th>'+key+'&lt;/th>');
+				});
+				table.prepend(th);
+				var th = $('&lt;tr/>',{
+					'html':'&lt;th colspan="'+keys.length+'">Result Set #'+resultCount+'&lt;/th>'
+				});
+				table.prepend(th);
+				that.append(table);
+
+				resultCount++;
+			});
+		});
+
+		for (var key in commonKeys) {
+			for (var resultSet = 0; resultSet &lt; commonKeys[key].length - 1;resultSet++) {
+				var columnIndex = -1;
+				this.find('#sparql-out-table-'+resultSet+' th').each(function (index) {
+					if ($(this).html() == key) {
+						columnIndex = index-1;
+					}
+				});
+				for (var compareSet = 1; compareSet &lt; commonKeys[key].length;compareSet++) {
+					for (var index = 0; index &lt; commonKeys[key][resultSet].length; index++) {
+						if (commonKeys[key][compareSet].binaryIndexOf(commonKeys[key][resultSet][index]) &lt; 0) {
+							// Doesn't exist
+							this.find('#sparql-out-table-'+resultSet+' tr td:nth-child('+(columnIndex+1)+')').each(function () {
+								if ($(this).html() == commonKeys[key][resultSet][index]) {
+									$(this).addClass('subtraction');
+								}
+								console.log(commonKeys[key][compareSet][index]+' does not exist in another table '+$(this).val());
+							});
+						}
 					}
 				}
 			}
 		}
-	}
 
-	$('.addition').bind('mouseOver',function () {
-		// Eventuall do something
-	});
-	this.removeClass('addition-levels-2 addition-levels-3 addition-levels-4 addition-levels-5');
-	this.addClass('addition-levels-'+resultCount);
-}
+		$('.addition').bind('mouseOver',function () {
+			// Eventuall do something
+		});
+		this.removeClass('addition-levels-2 addition-levels-3 addition-levels-4 addition-levels-5');
+		this.addClass('addition-levels-'+resultCount);
+	}
+});
 
 /**
  * Performs a binary search on the host array. This method can either be
@@ -187,9 +188,6 @@ function binaryIndexOf(searchElement) {
 }
 
 Array.prototype.binaryIndexOf = binaryIndexOf;
-/*var arr = [0, 1, 2, 4, 5, 6, 6.5, 7, 8, 9];
-arr.splice(Math.abs(arr.binaryIndexOf(3)), 0, 3);
-document.body.textContent = JSON.stringify(arr);*/
 </code></pre>
         </article>
     </section>
@@ -200,13 +198,13 @@ document.body.textContent = JSON.stringify(arr);*/
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.bindingAgents.html">bindingAgents</a></li><li><a href="environment.plugins.html">plugins</a></li><li><a href="environment.resolver.html">resolver</a></li><li><a href="sparqplug.html">sparqplug</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.bindingAgents.html">bindingAgents</a></li><li><a href="environment.plugins.html">plugins</a></li><li><a href="environment.resolver.html">resolver</a></li><li><a href="sparqplug.html">sparqplug</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#selected">selected</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Sat Oct 03 2015 21:25:56 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Sat Oct 03 2015 22:53:29 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>

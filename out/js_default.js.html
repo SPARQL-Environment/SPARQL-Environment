@@ -89,7 +89,9 @@ sparqplug.update = {
  */
 
 sparqplug.create = function (type,urn,object) {
-	var plugin = $.extend({},this.default,this[type],object);
+	var plugin = $.extend({
+		type:type
+	},this.default,this[type],object);
 	environment.plugins.add(urn,plugin);
 }
 
@@ -100,7 +102,7 @@ sparqplug.create = function (type,urn,object) {
  */
 
 sparqplug.get = function (context) {
-	return environment.plugins.get(context.parents('.plugin').data('urn'));
+	return environment.plugins.get(context.data('urn'));
 }
 
 /** @namespace */
@@ -185,13 +187,8 @@ environment.save = function () {
 	localStorage.setItem(this.configKey, JSON.stringify(this.config));
 	localStorage.setItem(this.currentViewKey, this.currentView);
 }
-// Environment Event Binding
 
-/*
-  Known events:
-	- performedQuery
-	- selectedObject
-*/
+// Environment Event Binding
 
 /** @namespace
  * @description Object containing all the events and arrays of callback functions and data.
@@ -717,6 +714,12 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 	});
 }
 
+/**
+ * Sanitize the plugin URN to be used as a class name.
+ * @param {string} urn Plugin URN to be sanitized.
+ * @return {string} Sanitized URN
+ */
+
 environment.sanitizeURNForClassName = function (urn) {
 	// Valid characters in a CSS identifier are:
  // - the hyphen (U+002D)
@@ -729,6 +732,11 @@ environment.sanitizeURNForClassName = function (urn) {
  return urn.replace(/\./g,"\\.").replace(/\:/g,"\\:");
 }
 
+/**
+ * Called to display the plugin in its parent panel.
+ * @param {string} selector Selector for the DOM object for the plugin.
+ */
+
 environment.viewPlugin = function (selector) {
 	//Switch views
 	var panel_index = $(selector).parents('.panel').data('index');
@@ -739,23 +747,35 @@ environment.viewPlugin = function (selector) {
 
 	urn = $(selector).data('urn');
 
-	if (this.plugins.get(urn).type == "in") {
+	if (this.plugins.get(urn).type == sparqplug.type.input) {
 		this.currentInPlugins[panel_index] = urn;
 		this.plugins.get(urn).updateUI.call($(selector));
-	} else if (this.plugins.get(urn).type == "out") {
+	} else if (this.plugins.get(urn).type == sparqplug.type.output) {
 		this.currentOutPlugin = urn;
 		this.plugins.get(urn).updateUI.call($(selector));
-	} else if (this.plugins.get(urn).type == "detail") {
+	} else if (this.plugins.get(urn).type == sparqplug.type.detail) {
 		this.currentDetailPlugin = urn;
 	}
 }
 
 // Plugin Functions for Querying
 
+/**
+ * Gets the current datasets for the panel the plugin calling current datasets
+ * is in.
+ * @return {array} Array of names of the datasets for the panel.
+ */
+
 environment.currentDatasets = function () {
 	var panel_index = this.parents('.panel').data('index');
 	return environment.getViewObject(environment.currentView).plugins.input[panel_index].datasets;
 }
+
+/**
+ * Get the dataset object by name.
+ * @param {string} dataset The name of the dataset.
+ * @return {object} Dataset object.
+ */
 
 environment.getDatasetObject = function (dataset) {
 	for (var index in this.config.datasets) {
@@ -764,6 +784,12 @@ environment.getDatasetObject = function (dataset) {
 		}
 	}
 }
+
+/**
+ * Perform the given query on the datasets for the panel and runs updateUI for
+ * each of the output plugins.
+ * @param {string} query SPARQL query strings.
+ */
 
 environment.performQuery = function (query) {
 	console.log('Query: '+query);
@@ -797,8 +823,15 @@ environment.updateVisiblePlugins = function () {
 	environment.plugins.get(environment.currentOutPlugin).updateUI.call($('#output-panel .'+environment.sanitizeURNForClassName(environment.currentOutPlugin)));
 }
 
+/**
+ * Perform a query without calling the
+ * @param {string} query SPARQL query string.
+ * @return {object} Results object.
+ */
+
 environment.silentQuery = function (query) {
 	console.log('Query: '+query);
+	// TO-DO modify to handle multiple datasets.
 	var results = $(document).query(query,this.currentDataset());
 	if (results.error) {
 		plugins[this.currentInPlugin].error(results.response);
@@ -1276,13 +1309,13 @@ environment.detailObject = function (obj) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.bindingAgents.html">bindingAgents</a></li><li><a href="environment.plugins.html">plugins</a></li><li><a href="environment.resolver.html">resolver</a></li><li><a href="sparqplug.html">sparqplug</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.bindingAgents.html">bindingAgents</a></li><li><a href="environment.plugins.html">plugins</a></li><li><a href="environment.resolver.html">resolver</a></li><li><a href="sparqplug.html">sparqplug</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#selected">selected</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Sat Oct 03 2015 21:25:56 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Sat Oct 03 2015 22:53:29 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>

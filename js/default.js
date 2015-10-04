@@ -686,6 +686,12 @@ environment.loadPlugin = function (plugin, panel) { // sparqplug.in.objectbased
 	});
 }
 
+/**
+ * Sanitize the plugin URN to be used as a class name.
+ * @param {string} urn Plugin URN to be sanitized.
+ * @return {string} Sanitized URN
+ */
+
 environment.sanitizeURNForClassName = function (urn) {
 	// Valid characters in a CSS identifier are:
  // - the hyphen (U+002D)
@@ -726,10 +732,22 @@ environment.viewPlugin = function (selector) {
 
 // Plugin Functions for Querying
 
+/**
+ * Gets the current datasets for the panel the plugin calling current datasets
+ * is in.
+ * @return {array} Array of names of the datasets for the panel.
+ */
+
 environment.currentDatasets = function () {
 	var panel_index = this.parents('.panel').data('index');
 	return environment.getViewObject(environment.currentView).plugins.input[panel_index].datasets;
 }
+
+/**
+ * Get the dataset object by name.
+ * @param {string} dataset The name of the dataset.
+ * @return {object} Dataset object.
+ */
 
 environment.getDatasetObject = function (dataset) {
 	for (var index in this.config.datasets) {
@@ -777,8 +795,15 @@ environment.updateVisiblePlugins = function () {
 	environment.plugins.get(environment.currentOutPlugin).updateUI.call($('#output-panel .'+environment.sanitizeURNForClassName(environment.currentOutPlugin)));
 }
 
+/**
+ * Perform a query without calling the
+ * @param {string} query SPARQL query string.
+ * @return {object} Results object.
+ */
+
 environment.silentQuery = function (query) {
 	console.log('Query: '+query);
+	// TO-DO modify to handle multiple datasets.
 	var results = $(document).query(query,this.currentDataset());
 	if (results.error) {
 		plugins[this.currentInPlugin].error(results.response);
