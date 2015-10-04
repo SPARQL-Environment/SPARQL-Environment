@@ -1,7 +1,9 @@
 {
   "urn:sparqplug:sparqlenvironment.in.text:0.1":[
     "plugins/sparqplug.in.text.js",
-    "plugins/sparqplug.in.text.css"
+    "plugins/sparqplug.in.text.css",
+    "plugins/jquery.textoverlay.js",
+    "plugins/jquery.textcomplete.js"
   ],
   "urn:sparqplug:sparqlenvironment.out.table:0.1":[
     "plugins/sparqplug.out.table.css"

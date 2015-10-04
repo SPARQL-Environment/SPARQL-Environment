@@ -7,3 +7,5 @@
 !sparqplug.out.json.*
 !sparqplug.out.table.*
 !jquery-jsonview.js
+!jquery.textoverlay.js
+!jquery.textcomplete.js
