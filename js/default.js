@@ -61,7 +61,9 @@ sparqplug.update = {
  */
 
 sparqplug.create = function (type,urn,object) {
-	var plugin = $.extend({},this.default,this[type],object);
+	var plugin = $.extend({
+		type:type
+	},this.default,this[type],object);
 	environment.plugins.add(urn,plugin);
 }
 
@@ -696,6 +698,11 @@ environment.sanitizeURNForClassName = function (urn) {
  return urn.replace(/\./g,"\\.").replace(/\:/g,"\\:");
 }
 
+/**
+ * Called to display the plugin in its parent panel.
+ * @param {string} selector Selector for the DOM object for the plugin.
+ */
+
 environment.viewPlugin = function (selector) {
 	//Switch views
 	var panel_index = $(selector).parents('.panel').data('index');
@@ -706,13 +713,13 @@ environment.viewPlugin = function (selector) {
 
 	urn = $(selector).data('urn');
 
-	if (this.plugins.get(urn).type == "in") {
+	if (this.plugins.get(urn).type == sparqplug.type.input) {
 		this.currentInPlugins[panel_index] = urn;
 		this.plugins.get(urn).updateUI.call($(selector));
-	} else if (this.plugins.get(urn).type == "out") {
+	} else if (this.plugins.get(urn).type == sparqplug.type.output) {
 		this.currentOutPlugin = urn;
 		this.plugins.get(urn).updateUI.call($(selector));
-	} else if (this.plugins.get(urn).type == "detail") {
+	} else if (this.plugins.get(urn).type == sparqplug.type.detail) {
 		this.currentDetailPlugin = urn;
 	}
 }

@@ -1,4 +1,4 @@
-sparqplug.create(sparqplug.type.out,'urn:sparqplug:sparqlenvironment.out.table:0.1',{
+sparqplug.create(sparqplug.type.output,'urn:sparqplug:sparqlenvironment.out.table:0.1',{
 	"title":"Table Viewer",
 	"description":"View results in a table.",
 	"icon":"&#xf0ce;",
