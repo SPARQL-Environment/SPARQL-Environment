@@ -18,17 +18,68 @@ environment.panelHTML = '<div class="panel-menu"><div class="panel-menu-tabs"></
 	'<a class="icons panel-menu-tools" title="SparqIt" href="">&#xf045;</a><a class="icons panel-menu-tools" title="Save Query" href="">&#xf0c7;</a>'+
 '</div><div class="panel-plugins"></div>';
 
+/** @namespace */
 var sparqplug = {};
-sparqplug.configKey = 'sparql.config';
-sparqplug.currentViewKey = 'sparql.currentView';
-sparqplug.in = {};
-sparqplug.out = {};
-sparqplug.detail = {};
+/** Object to contain any input plugins. */
+sparqplug.type = {
+	input:'input',
+	output:'output',
+	detail:'detail',
+	update:'update'
+}
+/** Default object for an input plugin. */
+sparqplug.default = {
+	"title":"Default Title",
+	"description":"Default description.",
+	"icon":"",
+	load:function () {
+
+	}
+}
+sparqplug.input = {
+	updateUI:function () {
+	}
+}
+/** Default object for an output plugin. */
+sparqplug.output = {
+	updateUI:function () {
+	}
+}
+/** Default object for a detail plugin. */
+sparqplug.detail = {
+}
+/** Default object for an update plugin. */
+sparqplug.update = {
+}
+
+/**
+ * Method used to create new plugin objects.
+ * @param {string} type The
+ * @param {string} urn URN of the plugin.
+ * @param {object} object The object of the plugin containing all nessesary
+ * methods.
+ */
+
+sparqplug.create = function (type,urn,object) {
+	var plugin = $.extend({},this.default,this[type],object);
+	environment.plugins.add(urn,plugin);
+}
+
+/**
+ * Function called from within a plugin function to get the plugin object.
+ * @param {object} context The jQuery DOM object for the plugin. Always *this*
+ * in a function called with the context set.
+ */
+
+sparqplug.get = function (context) {
+	return environment.plugins.get(context.data('urn'));
+}
 
 /** @namespace */
 environment.plugins = {
 	/**
 	 * Gets the plugin object for a given URN.
+	 * @param {urn} string URN of plugin.
 	 */
 	get:function (urn) {
 		return this.library[urn];
@@ -92,7 +143,7 @@ environment.loadConfigurations = function () {
 
 /**
  * Called upon completion of setting environment.config or called upon failure.
- * @param {Bool} success Was loading the configurations successful.
+ * @param {bool} success Was loading the configurations successful.
  */
 environment.didLoadConfigurations = function (success) {
 	if (success) {
@@ -106,21 +157,37 @@ environment.save = function () {
 	localStorage.setItem(this.configKey, JSON.stringify(this.config));
 	localStorage.setItem(this.currentViewKey, this.currentView);
 }
+
 // Environment Event Binding
 
-/*
-  Known events:
-	- performedQuery
-	- selectedObject
-*/
+/** @namespace
+ * @description Object containing all the events and arrays of callback functions and data.
+ * To add an event call *environment.bindToEvent()* with any event name. To
+ * trigger an event call *environment.triggerEvent()*
+ */
+environment.bindingAgents = {
+	/** Array of callback functions and data for the performed query event.  */
+	performedQuery: [],
+	/** Array of callback functions and data for selected object event.  */
+	selectedObject: []
+};
 
-environment.bindingAgents = {};
-environment.bindingAgents.performedQuery = [];
-environment.bindingAgents.selectedObject = [];
-
+/**
+ * Setup initial binded events.
+ * - performedQuery to environment.updateVisiblePlugins()
+ */
 environment.bindEvents = function () {
 	this.bindToEvent('performedQuery', this.updateVisiblePlugins);
 }
+
+/**
+ * Binds the callback function to trigger upon the given event and offers a data
+ * object to be sent to the callback function.
+ * @param {string} event Name of the event that should trigger the callback
+ * function.
+ * @param {function} callback Function called on event.
+ * @param {object} data Object sent along with the callback function.
+ */
 
 environment.bindToEvent = function (event, callback, data) {
 	this.bindingAgents[event].push({
@@ -128,6 +195,13 @@ environment.bindToEvent = function (event, callback, data) {
 		"data": data
 	});
 }
+
+/**
+ * Triggers the callback functions that have been bound to the event and passes
+ * the data object along to the callback function.
+ * @param {string} event Name of the event being triggered.
+ * @param {object} data Data being passed to the callback functions.
+ */
 
 environment.triggerEvent = function (event, data) {
 	$.each(this.bindingAgents[event], function (index, agent) {
@@ -657,6 +731,12 @@ environment.getDatasetObject = function (dataset) {
 		}
 	}
 }
+
+/**
+ * Perform the given query on the datasets for the panel and runs updateUI for
+ * each of the output plugins.
+ * @param {string} query SPARQL query strings.
+ */
 
 environment.performQuery = function (query) {
 	console.log('Query: '+query);

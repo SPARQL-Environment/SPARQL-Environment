@@ -27,18 +27,19 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>sparqplug.out.table = {type:"out","title":"Table Viewer","description":"View results in a table.","icon":"&amp;#xf0ce;","css":"sparqplug.out.table.css"};
-plugins['urn:sparqplug:sparqlenvironment.out.table:0.1'] = sparqplug.out.table;
+environment.plugins.add('urn:sparqplug:sparqlenvironment.out.table:0.1',sparqplug.out.table);
 
-sparqplug.out.table.load = function (selector) {
-	$(selector).addClass('sparqplug-out-table');
+sparqplug.out.table.load = function () {
+	this.addClass('sparqplug-out-table');
 }
 
-sparqplug.out.table.updateUI = function (selector) {
-	$(selector).empty();
+sparqplug.out.table.updateUI = function () {
+	this.empty();
 
 	var commonKeys = {};
 
 	var resultCount = 0;
+	var that = this;
 
 	$.each(environment.latestResults,function (panelIndex, panelResults) {
 		$.each(panelResults,function (resultIndex, resultObject) {
@@ -111,7 +112,7 @@ sparqplug.out.table.updateUI = function (selector) {
 				'html':'&lt;th colspan="'+keys.length+'">Result Set #'+resultCount+'&lt;/th>'
 			});
 			table.prepend(th);
-			$(selector).append(table);
+			that.append(table);
 
 			resultCount++;
 		});
@@ -120,7 +121,7 @@ sparqplug.out.table.updateUI = function (selector) {
 	for (var key in commonKeys) {
 		for (var resultSet = 0; resultSet &lt; commonKeys[key].length - 1;resultSet++) {
 			var columnIndex = -1;
-			$(selector+' #sparql-out-table-'+resultSet+' th').each(function (index) {
+			this.find('#sparql-out-table-'+resultSet+' th').each(function (index) {
 				if ($(this).html() == key) {
 					columnIndex = index-1;
 				}
@@ -129,7 +130,7 @@ sparqplug.out.table.updateUI = function (selector) {
 				for (var index = 0; index &lt; commonKeys[key][resultSet].length; index++) {
 					if (commonKeys[key][compareSet].binaryIndexOf(commonKeys[key][resultSet][index]) &lt; 0) {
 						// Doesn't exist
-						$(selector+' #sparql-out-table-'+resultSet+' tr td:nth-child('+(columnIndex+1)+')').each(function () {
+						this.find('#sparql-out-table-'+resultSet+' tr td:nth-child('+(columnIndex+1)+')').each(function () {
 							if ($(this).html() == commonKeys[key][resultSet][index]) {
 								$(this).addClass('subtraction');
 							}
@@ -144,8 +145,8 @@ sparqplug.out.table.updateUI = function (selector) {
 	$('.addition').bind('mouseOver',function () {
 		// Eventuall do something
 	});
-	$(selector).removeClass('addition-levels-2 addition-levels-3 addition-levels-4 addition-levels-5');
-	$(selector).addClass('addition-levels-'+resultCount);
+	this.removeClass('addition-levels-2 addition-levels-3 addition-levels-4 addition-levels-5');
+	this.addClass('addition-levels-'+resultCount);
 }
 
 /**
@@ -199,13 +200,13 @@ document.body.textContent = JSON.stringify(arr);*/
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.plugins.html">plugins</a></li><li><a href="environment.resolver.html">resolver</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.bindingAgents.html">bindingAgents</a></li><li><a href="environment.plugins.html">plugins</a></li><li><a href="environment.resolver.html">resolver</a></li><li><a href="sparqplug.html">sparqplug</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Tue Sep 29 2015 00:34:13 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Sat Oct 03 2015 21:25:56 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -26,147 +26,142 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>sparqplug.in.text = {type:"in","title":"Text Query","description":"Standard SPARQL query environment.","icon":"&amp;#xf040;","css":"sparqplug.in.text.css"};
-plugins['urn:sparqplug:sparqlenvironment.in.text:0.1'] = sparqplug.in.text;
+            <pre class="prettyprint source linenums"><code>sparqplug.create(sparqplug.type.input,'urn:sparqplug:sparqlenvironment.in.text:0.1',{
+	"title":"Text Query",
+	"description":"Standard SPARQL query environment.",
+	"icon":"&amp;#xf040;",
+	load:function () {
+		$(this).addClass('sparqplug-in-text');
+		var textarea = $('&lt;textarea />',{
+			class: 'sp-in-text-textarea'
+		});//.change(sparqplug.in.text.queryChanged);
+		$(this).append(textarea);
 
-sparqplug.in.text.load = function (selector) {
-	$(selector).addClass('sparqplug-in-text');
-	var textarea = $('&lt;textarea />',{
-		class: 'sp-in-text-textarea'
-	});//.change(sparqplug.in.text.queryChanged);
-	$(selector).append(textarea);
+		var elements = {"SELECT":{'complete-before':'SELECT ','complete-after':'','class':'kw-main'},"LIMIT":{'complete-before':'LIMIT ','complete-after':'','class':'kw-main'},"WHERE":{'complete-before':'WHERE { \n  ','complete-after':'\n}','class':'kw-main'},"DISTINCT":{'class':'kw-submain','complete-before':'DISTINCT ','complete-after':''},"FILTER":{'complete-before':'FILTER ( ','complete-after':' )','class':'kw-main'},"FILTER-REGEX":{'complete-before':'FILTER regex( ?','complete-after':' , \'^regex\' , \'i\' )','class':'kw-main'}}
+		var terms = ["BASE","SELECT","ORDER BY","FROM","GRAPH","STR","isURI","PREFIX","CONSTRUCT","LIMIT","FROM NAMED","OPTIONAL","LANG","isIRI","DESCRIBE","OFFSET","WHERE","UNION","LANGMATCHES","isLITERAL","ASK","DISTINCT","FILTER","FILTER-REGEX","DATATYPE","REGEX","REDUCED","a","BOUND","true","sameTERM","false"];
 
-	var elements = {"SELECT":{'complete-before':'SELECT ','complete-after':'','class':'kw-main'},"LIMIT":{'complete-before':'LIMIT ','complete-after':'','class':'kw-main'},"WHERE":{'complete-before':'WHERE { \n  ','complete-after':'\n}','class':'kw-main'},"DISTINCT":{'class':'kw-submain','complete-before':'DISTINCT ','complete-after':''},"FILTER":{'complete-before':'FILTER ( ','complete-after':' )','class':'kw-main'},"FILTER-REGEX":{'complete-before':'FILTER regex( ?','complete-after':' , \'^regex\' , \'i\' )','class':'kw-main'}}
-	var terms = ["BASE","SELECT","ORDER BY","FROM","GRAPH","STR","isURI","PREFIX","CONSTRUCT","LIMIT","FROM NAMED","OPTIONAL","LANG","isIRI","DESCRIBE","OFFSET","WHERE","UNION","LANGMATCHES","isLITERAL","ASK","DISTINCT","FILTER","FILTER-REGEX","DATATYPE","REGEX","REDUCED","a","BOUND","true","sameTERM","false"];
+		var variables = [];
+		var prefixes = [];
+		$.each(environment.currentDatasets.call(this),function (index, dataset) {
+			variables = Object.keys(environment.getDatasetObject(dataset).variables);
+			prefixes = Object.keys(environment.getDatasetObject(dataset).prefixes);
+		});
+		variables.push("?subject");
+		variables.push("?verb");
+		variables.push("?object");
 
-	var variables = [];
-	var prefixes = [];
-	$.each(environment.currentDatasets(selector),function (index, dataset) {
-		variables.push(Object.keys(environment.getDatasetObject(dataset).variables));
-		prefixes.push(Object.keys(environment.getDatasetObject(dataset).prefixes));
-	});
-	variables.push("?subject");
-	variables.push("?verb");
-	variables.push("?object");
-
-	$(selector+' .sp-in-text-textarea').textcomplete([
-		{ // Prefixes
-	        match: /(?:^|\s)(\w+)$/im,
-	        search: function (term, callback) {
-	            callback($.map(prefixes, function (element) {
-	                return element.indexOf(term) === 0 ? element : null;
-	            }));
-	        },
-	        index: 0,
-	        replace: function (element) {
-				$('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'prefix');
-				return element;
-	        },
-			 header: "Prefixes"
-		},
-	    { // Keywords
-	        match: /(?:^|\s)(\w+)$/im ,
-	        search: function (term, callback) {
-	            callback($.map(terms, function (element) {
-	                return element.indexOf(term.toUpperCase()) === 0 ? element : null;
-	            }));
-	        },
-	        index: 0,
-	        replace: function (element) {
-				if (elements[element]) {
-	            	return [elements[element]['complete-before'], elements[element]['complete-after']];
-				} else {
+		this.find('.sp-in-text-textarea').textcomplete([
+			{ // Prefixes
+		        match: /(?:^|\s)(\w+)$/im,
+		        search: function (term, callback) {
+		            callback($.map(prefixes, function (element) {
+		                return element.indexOf(term) === 0 ? element : null;
+		            }));
+		        },
+		        index: 0,
+		        replace: function (element) {
+					$('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'prefix');
+					return element;
+		        },
+				 header: "Prefixes"
+			},
+		    { // Keywords
+		        match: /(?:^|\s)(\w+)$/im ,
+		        search: function (term, callback) {
+		            callback($.map(terms, function (element) {
+		                return element.indexOf(term.toUpperCase()) === 0 ? element : null;
+		            }));
+		        },
+		        index: 0,
+		        replace: function (element) {
+					if (elements[element]) {
+		            	return [elements[element]['complete-before'], elements[element]['complete-after']];
+					} else {
+						return element + " ";
+					}
+		        },
+				 header: "Keywords"
+			},{ // Variables
+		        match: /(\?\w*)$/im ,
+		        search: function (term, callback) {
+		            callback($.map(variables, function (element) {
+		                return element.indexOf(term) === 0 ? element : null;
+		            }));
+		        },
+		        index: 0,
+		        replace: function (element) {
+					$('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'verb');
 					return element + " ";
-				}
-	        },
-			 header: "Keywords"
-		},{ // Variables
-	        match: /(\?\w*)$/im ,
-	        search: function (term, callback) {
-	            callback($.map(variables, function (element) {
-	                return element.indexOf(term) === 0 ? element : null;
-	            }));
-	        },
-	        index: 0,
-	        replace: function (element) {
-				$('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'verb');
-				return element + " ";
-	        },
-			 header: "Variables"
-		}
-	]);
+		        },
+				 header: "Variables"
+			}
+		]);
+		var that = this;
+		$.each(variables, function(index, value) {
+			that.find('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'verb');
+		});
+		$.each(prefixes, function(index, value) {
+			that.find('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'prefix');
+		});
+		$.each(elements, function(key, value) {
+			that.find('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(key,value.class);
+		});
+		this.find('.sp-in-text-textarea').data('alting',false);
+		//this.find('.sp-in-text-textarea').data('selector',selector);
+		this.find('.sp-in-text-textarea').keydown(function(e) {
+			console.log('keydown : '+e.keyCode);
+			if (e.keyCode == 18) {
+				$(this).data('alting',true);
+			} else if ($(this).data('alting') == true &amp;&amp; e.keyCode == 13) { //R?
+				sparqplug.get(that).queryChanged.call(that);
+			}
+		});
+		this.find('.sp-in-text-textarea').keyup(function(e) {
+			if (e.keyCode == 18) {
+				$(this).data('alting',false);
+			}
+		});
 
-	$.each(variables, function(index, value) {
-		$(selector+' .sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'verb');
-	});
-	$.each(prefixes, function(index, value) {
-		$(selector+' .sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'prefix');
-	});
-	$.each(elements, function(key, value) {
-		$(selector+' .sp-in-text-textarea').overlay().data('overlay').addTermAndColor(key,value.class);
-	});
-	$(selector+' .sp-in-text-textarea').data('alting',false);
-	$(selector+' .sp-in-text-textarea').data('selector',selector);
-	$(selector+' .sp-in-text-textarea').keydown(function(e) {
-		console.log('keydown : '+e.keyCode);
-		if (e.keyCode == 18) {
-			$(this).data('alting',true);
-		} else if ($(this).data('alting') == true &amp;&amp; e.keyCode == 13) { //R?
-			sparqplug.in.text.queryChanged($(this).data('selector'));
-		}
-	});
-	$(selector+' .sp-in-text-textarea').keyup(function(e) {
-		if (e.keyCode == 18) {
-			$(this).data('alting',false);
-		}
-	});
+		var run_button = $('&lt;div />',{
+			class:'sp-in-text-run icons'
+		}).append("&amp;#xf04b;").click(function () {
+			sparqplug.get(that).queryChanged.call(that);
+		});
 
-	var run_button = $('&lt;a />',{
-		id: 'sp-in-text-run',
-		class:'icons'
-	}).append("&amp;#xf04b;").click(function () {sparqplug.in.text.queryChanged($(this).parent().data('selector'))});
+		this.append(run_button);
+		//self.loadDetailView();
+	},
+	error: function (error) {
+		//alert('There was an Error!');
+	},
+	updateUI: function () {
+		console.log("updateUI in.text");
+		panelIndex = this.parents('.panel').data('index');
+		this.find('.sp-in-text-textarea').val(environment.latestQuery[panelIndex]);
+		this.find('.sp-in-text-textarea').trigger('change');
+	},
+	sparqit: function (selector) {
+		return $(selector+' .sp-in-text-textarea').val();
+	},
+	queryChanged: function () {
+		var query = this.find('.sp-in-text-textarea').val();
+		environment.performQuery.call(this,query);
+	},
+	loadDetailView: function () {
+		/*$('#detail.content').empty();
+		var verb_search = $('&lt;input/>',{
+			type:'text'
+		}).change(function () {
+			var urn = $(this).val();
 
-	$(selector).append(run_button);
-	$(selector).data('selector',selector);
-	//self.loadDetailView();
-}
+			environment.silentQuery("SELECT distinct ?v WHERE { &lt;"+urn+"> ?v ?o }")
 
-sparqplug.in.text.error = function (error,selector) {
-	//alert('There was an Error!');
-}
+			$('#detail-verb-search-results').append();
+		})
 
-sparqplug.in.text.updateUI = function (selector) {
-	console.log("updateUI in.text");
-	$(selector+' .sp-in-text-textarea').val(environment.latestQuery);
-	$(selector+' .sp-in-text-textarea').trigger('change');
-}
-
-sparqplug.in.text.sparqit = function (selector) {
-	return $(selector+' .sp-in-text-textarea').val();
-}
-
-//Plugin Specific
-
-sparqplug.in.text.queryChanged = function (selector) {
-	var query = $(selector+' .sp-in-text-textarea').val();
-	environment.performQuery(query, selector);
-}
-
-sparqplug.in.text.loadDetailView = function () {
-	/*$('#detail.content').empty();
-	var verb_search = $('&lt;input/>',{
-		type:'text'
-	}).change(function () {
-		var urn = $(this).val();
-
-		environment.silentQuery("SELECT distinct ?v WHERE { &lt;"+urn+"> ?v ?o }")
-
-		$('#detail-verb-search-results').append();
-	})
-
-	$('#detail.content').append(verb_search);*/
-}
-
+		$('#detail.content').append(verb_search);*/
+	}
+});
 
 
 /*!
@@ -1129,13 +1124,13 @@ RegExp.escape = function(text) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.plugins.html">plugins</a></li><li><a href="environment.resolver.html">resolver</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Namespaces</h3><ul><li><a href="environment.html">environment</a></li><li><a href="environment.bindingAgents.html">bindingAgents</a></li><li><a href="environment.plugins.html">plugins</a></li><li><a href="environment.resolver.html">resolver</a></li><li><a href="sparqplug.html">sparqplug</a></li></ul><h3>Global</h3><ul><li><a href="global.html#binaryIndexOf">binaryIndexOf</a></li><li><a href="global.html#destroy">destroy</a></li><li><a href="global.html#extractSearchQuery">extractSearchQuery</a></li><li><a href="global.html#getCaretRelativePosition">getCaretRelativePosition</a></li><li><a href="global.html#initialize">initialize</a></li><li><a href="global.html#jQueryFullScreenPlugin">jQuery FullScreen Plugin</a></li><li><a href="global.html#onClickDocument">onClickDocument</a></li><li><a href="global.html#onKeyup">onKeyup</a></li><li><a href="global.html#onKeyupDocument">onKeyupDocument</a></li><li><a href="global.html#register">register</a></li><li><a href="global.html#renderList">renderList</a></li><li><a href="global.html#skipSearch">skipSearch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Tue Sep 29 2015 00:34:13 GMT-0400 (EDT)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.3.3</a> on Sat Oct 03 2015 21:25:56 GMT-0400 (EDT)
 </footer>
 
 <script> prettyPrint(); </script>

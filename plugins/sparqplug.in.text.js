@@ -1,150 +1,139 @@
-sparqplug.in.text = {type:"in","title":"Text Query","description":"Standard SPARQL query environment.","icon":"&#xf040;","css":"sparqplug.in.text.css"};
-environment.plugins.add('urn:sparqplug:sparqlenvironment.in.text:0.1',sparqplug.in.text);
+sparqplug.create(sparqplug.type.input,'urn:sparqplug:sparqlenvironment.in.text:0.1',{
+	"title":"Text Query",
+	"description":"Standard SPARQL query environment.",
+	"icon":"&#xf040;",
+	load:function () {
+		$(this).addClass('sparqplug-in-text');
+		var textarea = $('<textarea />',{
+			class: 'sp-in-text-textarea'
+		});//.change(sparqplug.in.text.queryChanged);
+		$(this).append(textarea);
 
-/**
- * @namespace
- * Loads the neccessary elements for the input text plugin.
- */
+		var elements = {"SELECT":{'complete-before':'SELECT ','complete-after':'','class':'kw-main'},"LIMIT":{'complete-before':'LIMIT ','complete-after':'','class':'kw-main'},"WHERE":{'complete-before':'WHERE { \n  ','complete-after':'\n}','class':'kw-main'},"DISTINCT":{'class':'kw-submain','complete-before':'DISTINCT ','complete-after':''},"FILTER":{'complete-before':'FILTER ( ','complete-after':' )','class':'kw-main'},"FILTER-REGEX":{'complete-before':'FILTER regex( ?','complete-after':' , \'^regex\' , \'i\' )','class':'kw-main'}}
+		var terms = ["BASE","SELECT","ORDER BY","FROM","GRAPH","STR","isURI","PREFIX","CONSTRUCT","LIMIT","FROM NAMED","OPTIONAL","LANG","isIRI","DESCRIBE","OFFSET","WHERE","UNION","LANGMATCHES","isLITERAL","ASK","DISTINCT","FILTER","FILTER-REGEX","DATATYPE","REGEX","REDUCED","a","BOUND","true","sameTERM","false"];
 
-sparqplug.in.text.load = function () {
-	$(this).addClass('sparqplug-in-text');
-	var textarea = $('<textarea />',{
-		class: 'sp-in-text-textarea'
-	});//.change(sparqplug.in.text.queryChanged);
-	$(this).append(textarea);
+		var variables = [];
+		var prefixes = [];
+		$.each(environment.currentDatasets.call(this),function (index, dataset) {
+			variables = Object.keys(environment.getDatasetObject(dataset).variables);
+			prefixes = Object.keys(environment.getDatasetObject(dataset).prefixes);
+		});
+		variables.push("?subject");
+		variables.push("?verb");
+		variables.push("?object");
 
-	var elements = {"SELECT":{'complete-before':'SELECT ','complete-after':'','class':'kw-main'},"LIMIT":{'complete-before':'LIMIT ','complete-after':'','class':'kw-main'},"WHERE":{'complete-before':'WHERE { \n  ','complete-after':'\n}','class':'kw-main'},"DISTINCT":{'class':'kw-submain','complete-before':'DISTINCT ','complete-after':''},"FILTER":{'complete-before':'FILTER ( ','complete-after':' )','class':'kw-main'},"FILTER-REGEX":{'complete-before':'FILTER regex( ?','complete-after':' , \'^regex\' , \'i\' )','class':'kw-main'}}
-	var terms = ["BASE","SELECT","ORDER BY","FROM","GRAPH","STR","isURI","PREFIX","CONSTRUCT","LIMIT","FROM NAMED","OPTIONAL","LANG","isIRI","DESCRIBE","OFFSET","WHERE","UNION","LANGMATCHES","isLITERAL","ASK","DISTINCT","FILTER","FILTER-REGEX","DATATYPE","REGEX","REDUCED","a","BOUND","true","sameTERM","false"];
-
-	var variables = [];
-	var prefixes = [];
-	$.each(environment.currentDatasets.call(this),function (index, dataset) {
-		variables = Object.keys(environment.getDatasetObject(dataset).variables);
-		prefixes = Object.keys(environment.getDatasetObject(dataset).prefixes);
-	});
-	variables.push("?subject");
-	variables.push("?verb");
-	variables.push("?object");
-
-	this.find('.sp-in-text-textarea').textcomplete([
-		{ // Prefixes
-	        match: /(?:^|\s)(\w+)$/im,
-	        search: function (term, callback) {
-	            callback($.map(prefixes, function (element) {
-	                return element.indexOf(term) === 0 ? element : null;
-	            }));
-	        },
-	        index: 0,
-	        replace: function (element) {
-				$('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'prefix');
-				return element;
-	        },
-			 header: "Prefixes"
-		},
-	    { // Keywords
-	        match: /(?:^|\s)(\w+)$/im ,
-	        search: function (term, callback) {
-	            callback($.map(terms, function (element) {
-	                return element.indexOf(term.toUpperCase()) === 0 ? element : null;
-	            }));
-	        },
-	        index: 0,
-	        replace: function (element) {
-				if (elements[element]) {
-	            	return [elements[element]['complete-before'], elements[element]['complete-after']];
-				} else {
+		this.find('.sp-in-text-textarea').textcomplete([
+			{ // Prefixes
+		        match: /(?:^|\s)(\w+)$/im,
+		        search: function (term, callback) {
+		            callback($.map(prefixes, function (element) {
+		                return element.indexOf(term) === 0 ? element : null;
+		            }));
+		        },
+		        index: 0,
+		        replace: function (element) {
+					$('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'prefix');
+					return element;
+		        },
+				 header: "Prefixes"
+			},
+		    { // Keywords
+		        match: /(?:^|\s)(\w+)$/im ,
+		        search: function (term, callback) {
+		            callback($.map(terms, function (element) {
+		                return element.indexOf(term.toUpperCase()) === 0 ? element : null;
+		            }));
+		        },
+		        index: 0,
+		        replace: function (element) {
+					if (elements[element]) {
+		            	return [elements[element]['complete-before'], elements[element]['complete-after']];
+					} else {
+						return element + " ";
+					}
+		        },
+				 header: "Keywords"
+			},{ // Variables
+		        match: /(\?\w*)$/im ,
+		        search: function (term, callback) {
+		            callback($.map(variables, function (element) {
+		                return element.indexOf(term) === 0 ? element : null;
+		            }));
+		        },
+		        index: 0,
+		        replace: function (element) {
+					$('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'verb');
 					return element + " ";
-				}
-	        },
-			 header: "Keywords"
-		},{ // Variables
-	        match: /(\?\w*)$/im ,
-	        search: function (term, callback) {
-	            callback($.map(variables, function (element) {
-	                return element.indexOf(term) === 0 ? element : null;
-	            }));
-	        },
-	        index: 0,
-	        replace: function (element) {
-				$('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(element,'verb');
-				return element + " ";
-	        },
-			 header: "Variables"
-		}
-	]);
-	var that = this;
-	$.each(variables, function(index, value) {
-		that.find('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'verb');
-	});
-	$.each(prefixes, function(index, value) {
-		that.find('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'prefix');
-	});
-	$.each(elements, function(key, value) {
-		that.find('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(key,value.class);
-	});
-	this.find('.sp-in-text-textarea').data('alting',false);
-	//this.find('.sp-in-text-textarea').data('selector',selector);
-	this.find('.sp-in-text-textarea').keydown(function(e) {
-		console.log('keydown : '+e.keyCode);
-		if (e.keyCode == 18) {
-			$(this).data('alting',true);
-		} else if ($(this).data('alting') == true && e.keyCode == 13) { //R?
-			sparqplug.in.text.queryChanged.call(that);
-		}
-	});
-	this.find('.sp-in-text-textarea').keyup(function(e) {
-		if (e.keyCode == 18) {
-			$(this).data('alting',false);
-		}
-	});
+		        },
+				 header: "Variables"
+			}
+		]);
+		var that = this;
+		$.each(variables, function(index, value) {
+			that.find('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'verb');
+		});
+		$.each(prefixes, function(index, value) {
+			that.find('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(value,'prefix');
+		});
+		$.each(elements, function(key, value) {
+			that.find('.sp-in-text-textarea').overlay().data('overlay').addTermAndColor(key,value.class);
+		});
+		this.find('.sp-in-text-textarea').data('alting',false);
+		//this.find('.sp-in-text-textarea').data('selector',selector);
+		this.find('.sp-in-text-textarea').keydown(function(e) {
+			console.log('keydown : '+e.keyCode);
+			if (e.keyCode == 18) {
+				$(this).data('alting',true);
+			} else if ($(this).data('alting') == true && e.keyCode == 13) { //R?
+				sparqplug.get(that).queryChanged.call(that);
+			}
+		});
+		this.find('.sp-in-text-textarea').keyup(function(e) {
+			if (e.keyCode == 18) {
+				$(this).data('alting',false);
+			}
+		});
 
-	var run_button = $('<div />',{
-		class:'sp-in-text-run icons'
-	}).append("&#xf04b;").click(function () {
-		sparqplug.in.text.queryChanged.call(that);
-	});
+		var run_button = $('<div />',{
+			class:'sp-in-text-run icons'
+		}).append("&#xf04b;").click(function () {
+			sparqplug.get(that).queryChanged.call(that);
+		});
 
-	this.append(run_button);
-	//self.loadDetailView();
-}
+		this.append(run_button);
+		//self.loadDetailView();
+	},
+	error: function (error) {
+		//alert('There was an Error!');
+	},
+	updateUI: function () {
+		console.log("updateUI in.text");
+		panelIndex = this.parents('.panel').data('index');
+		this.find('.sp-in-text-textarea').val(environment.latestQuery[panelIndex]);
+		this.find('.sp-in-text-textarea').trigger('change');
+	},
+	sparqit: function (selector) {
+		return $(selector+' .sp-in-text-textarea').val();
+	},
+	queryChanged: function () {
+		var query = this.find('.sp-in-text-textarea').val();
+		environment.performQuery.call(this,query);
+	},
+	loadDetailView: function () {
+		/*$('#detail.content').empty();
+		var verb_search = $('<input/>',{
+			type:'text'
+		}).change(function () {
+			var urn = $(this).val();
 
-sparqplug.in.text.error = function (error) {
-	//alert('There was an Error!');
-}
+			environment.silentQuery("SELECT distinct ?v WHERE { <"+urn+"> ?v ?o }")
 
-sparqplug.in.text.updateUI = function () {
-	console.log("updateUI in.text");
-	panelIndex = this.parents('.panel').data('index');
-	this.find('.sp-in-text-textarea').val(environment.latestQuery[panelIndex]);
-	this.find('.sp-in-text-textarea').trigger('change');
-}
+			$('#detail-verb-search-results').append();
+		})
 
-sparqplug.in.text.sparqit = function (selector) {
-	return $(selector+' .sp-in-text-textarea').val();
-}
-
-//Plugin Specific
-
-sparqplug.in.text.queryChanged = function () {
-	var query = this.find('.sp-in-text-textarea').val();
-	environment.performQuery.call(this,query);
-}
-
-sparqplug.in.text.loadDetailView = function () {
-	/*$('#detail.content').empty();
-	var verb_search = $('<input/>',{
-		type:'text'
-	}).change(function () {
-		var urn = $(this).val();
-
-		environment.silentQuery("SELECT distinct ?v WHERE { <"+urn+"> ?v ?o }")
-
-		$('#detail-verb-search-results').append();
-	})
-
-	$('#detail.content').append(verb_search);*/
-}
-
+		$('#detail.content').append(verb_search);*/
+	}
+});
 
 
 /*!
