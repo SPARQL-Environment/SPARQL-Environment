@@ -42,11 +42,9 @@ The **description object** contains the basic information the SPARQL Environment
 
 ```
 {
-	"type":"in", // "in" "out" or "detail" depending on the type of plugin.
 	"title": "Text Query", // String used to identify your plugin in plain text (tab bar).
 	"description":"Basic SPARQL query box.", // String used to describe your plugin in plain text (tooltip).
 	"icon":"&#xf040;", // Icon used to identify your plugin. Font-Awesome is included.
-	"css":"sparqplug.in.*.css" // The CSS file which goes along with your plugin.
 };
 ```
 
@@ -103,7 +101,7 @@ For your custom functions be sure to stay in your namespace.
 To continue with example above we'll create the *queryChanged* function. For input plugins these functions often will submit the query to the environment.
 
 ```
-sparqplug.in.*.queryChanged = function () {
+queryChanged: function () {
 	var query = $("#query_box").val();
 	environment.performQuery(query);
 }
