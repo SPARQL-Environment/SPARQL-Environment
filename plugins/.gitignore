@@ -1,5 +1,6 @@
 # White List Native Plugins
 *
+!README.md
 !.gitignore
 !sparqplug.detail.history.*
 !sparqplug.detail.object.*

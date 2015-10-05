@@ -7,8 +7,8 @@
 Responsibilities of an input SparqPlug are:
 
 - Take user input.
-- Create a SPARQL Query object.
-- Take a SPARQL Query and update the UI without changing the original query.
+- Create a SPARQL Query string.
+- Take a SPARQL Query and update the UI without changing the intent of the original given query.
 
 ## Output
 
@@ -16,6 +16,9 @@ Responsibilities of an output SparqPlug are:
 
 - Take query results.
 - Display results.
+
+*optional*
+- Call selected object on some of the resulting objects and subjects.
 
 ## Detail
 
@@ -25,16 +28,20 @@ Assists input and/or output plugins and has no responsibilities other than to be
 - Provide extra information about objects or verbs. *(i.e. The objects plugin looks up verbs for an object)*
 - Provide lists of verbs, objects, elements or data specific information.
 
+## Update
+
+Responsibilities of an update SparqPlug are the same as an input plugin but can
+
 ## Contributing
 
 To contribue to the SPARQL Environment repository itself plugins must be data agnostic. If you're creating data-specific plugins you should create your own GIT repository and name it *sparqplug-{name}* or if you're creating a suite of plugins for your data *sparqplugs-{namespace}*. Examples are *sparqplugs-hmt* or *sparqplugs-cts*.
 
 ### Required Functions
 
-The **discription object** contains the basic information the SPARQL Environment uses to distinquish and setup your plugin.
+The **description object** contains the basic information the SPARQL Environment uses to distinquish and setup your plugin.
 
 ```
-sparqplug.in.* = {
+{
 	"type":"in", // "in" "out" or "detail" depending on the type of plugin.
 	"title": "Text Query", // String used to identify your plugin in plain text (tab bar).
 	"description":"Basic SPARQL query box.", // String used to describe your plugin in plain text (tooltip).
@@ -46,12 +53,12 @@ sparqplug.in.* = {
 **load** is called *once* when the plugin is first created. This is where you setup your plugins DOM structure. The element containing your plugin is always your plugins dashed identifier.
 
 ```
-sparqplug.in.*.load = function () {
+load:function () {
 	// Create element for plugin
 	$input = $('<input />',{
 		id: 'query_box'
 	}).change(this.queryChanged);
-	
+
 	// Add it to the plugin element
 	$("#sparqplug-in-*").append($input);
 }
@@ -59,20 +66,24 @@ sparqplug.in.*.load = function () {
 
 **Add** your plugin to the plugins array.
 
-`plugins['sparqplug-in-*'] = sparqplug.in.*;`
+```
+sparqplug.create(sparqplug.type.*,"urn",{
+	// Code
+})
+```
 
 #### Input and Output Plugins Only
 
 **updateUI** is called whenever the *environment.latestQuery* changes. This is rare for input plugins but output plugins use this function to update their UI to reflect the *environment.latestResults*.
 
 ```
-sparqplug.in.*.updateUI = function () {
+updateUI: function () {
 	$('#query_box').val(environment.latestQuery);
 }
 ```
 *for output plugins*
 ```
-sparqplug.out.*.updateUI = function () {
+updateUI: function () {
 	$('#results_box').html(environment.latestResults);
 }
 ```
@@ -80,7 +91,7 @@ sparqplug.out.*.updateUI = function () {
 **error** is called whenever there was an error from the last query.
 
 ```
-sparqplug.in.*.error = function () {
+error: function () {
 	$('#query_box').css('color':'red');
 }
 ```
@@ -89,7 +100,7 @@ sparqplug.in.*.error = function () {
 
 For your custom functions be sure to stay in your namespace.
 
-To continue with example above we'll create the *queryChanged* function. For input plugins these functions often will submit the query to the environment. 
+To continue with example above we'll create the *queryChanged* function. For input plugins these functions often will submit the query to the environment.
 
 ```
 sparqplug.in.*.queryChanged = function () {
@@ -116,4 +127,3 @@ You can also register your own events if your suite of plugins wants to communic
 As with other frameworks names are on a first come first serve bases and the internet is the only regulatory device. The convention for naming the files is sparqplug.in.\*.{js,css} or sparqplug.out.\*.{js,css}.
 
 If you are creating a suite of plugins for a specific dataset please use a second namespace. For Example the Homer Multi-Text uses sparqplug.in.**hmt**.\*.{js,css} for their suite of specific plugins.
-
